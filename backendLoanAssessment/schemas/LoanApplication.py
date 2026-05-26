@@ -76,7 +76,7 @@ class SavingsAccountStatus(str, Enum):
     }
 
 
-class LoanApplication:
+class LoanApplication(BaseModel):
     age: int
     sex: Sex
     job: EmploymentStatus
@@ -86,3 +86,8 @@ class LoanApplication:
     creditAmount: int
     duration: int
     purpose: LoanPurpose
+    @field_validator("age", "duration", "creditAmount")
+    def must_be_positive(cls, v):
+        if v <= 0:
+            raise ValueError("Must be greater than zero")
+        return v
