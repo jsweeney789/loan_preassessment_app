@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 from backendLoanAssessment.schemas.LoanApplication import LoanApplication
 from backendLoanAssessment.services import LoanApplicationService
 
