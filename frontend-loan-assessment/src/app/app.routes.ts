@@ -1,3 +1,5 @@
 import { Routes } from '@angular/router';
-
-export const routes: Routes = [];
+import { LoanApplicationPage } from './pages/loan-application-page/loan-application-page';
+export const routes: Routes = [
+    { path: '', component: LoanApplicationPage}
+];

@@ -1,0 +1,374 @@
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+:host {
+  --navy-950:   #060b14;
+  --navy-900:   #0d1526;
+  --navy-800:   #111d35;
+  --navy-700:   #162244;
+  --navy-600:   #1e3060;
+  --navy-400:   #3a5a9a;
+  --navy-200:   #8ba8d4;
+  --navy-100:   #c4d4eb;
+
+  --input-bg:   #1c2d4f;       // noticeably lighter than page bg
+  --input-border: #2e4878;     // visible border
+  --input-border-hover: #4a6aaa;
+
+  --gold-500:   #c9a84c;
+  --gold-400:   #d4b86a;
+  --gold-300:   #e2cc97;
+  --gold-glow:  rgba(201, 168, 76, 0.2);
+
+  --text-primary:   #eef2f9;
+  --text-secondary: #94aac8;
+  --text-muted:     #5a7aaa;
+
+  --error:      #e05c5c;
+  --border:     rgba(255,255,255,0.08);
+  --radius:     8px;
+
+  --font-display: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body:    'DM Sans', 'Segoe UI', sans-serif;
+}
+
+// ─── Page Wrapper ─────────────────────────────────────────────────────────────
+.page-wrapper {
+  font-family: var(--font-body);
+  background: var(--navy-900);
+  min-height: 100vh;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+  color: var(--text-primary);
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+.form-header {
+  position: relative;
+  padding: 52px 48px 40px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-900) 60%);
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+    z-index: 0;
+  }
+}
+
+.header-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--gold-500), transparent);
+  z-index: 1;
+}
+
+.header-content { position: relative; z-index: 1; }
+
+.header-eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-400);
+  margin-bottom: 12px;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+// ─── Sections ─────────────────────────────────────────────────────────────────
+.form-section { padding: 36px 48px 24px; }
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.section-number {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-500);
+  letter-spacing: 0.1em;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 48px;
+}
+
+// ─── Field Grid ───────────────────────────────────────────────────────────────
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+.field-block {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  &--full { grid-column: 1 / -1; }
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.required { color: var(--gold-500); margin-left: 2px; }
+
+.field-error {
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 2px;
+}
+
+// ─── PrimeNG Overrides ────────────────────────────────────────────────────────
+:host ::ng-deep {
+
+  // ── InputNumber ──────────────────────────────────────────────────────────
+  .p-inputnumber {
+    width: 100%;
+
+    .p-inputtext {
+      width: 100% !important;
+      background: var(--input-bg) !important;
+      border: 1.5px solid var(--input-border) !important;
+      border-radius: var(--radius) !important;
+      color: var(--text-primary) !important;
+      font-family: var(--font-body) !important;
+      font-size: 14px !important;
+      padding: 11px 14px !important;
+      box-shadow: none !important;
+      transition: border-color 0.2s, box-shadow 0.2s !important;
+
+      &::placeholder { color: var(--text-muted) !important; }
+
+      &:hover {
+        border-color: var(--input-border-hover) !important;
+      }
+
+      &:focus {
+        border-color: var(--gold-500) !important;
+        box-shadow: 0 0 0 3px var(--gold-glow) !important;
+        outline: none !important;
+      }
+    }
+
+    &.ng-invalid.ng-dirty .p-inputtext {
+      border-color: var(--error) !important;
+    }
+  }
+
+  // ── Select (replaces Dropdown in PrimeNG v18+) ────────────────────────────
+  .p-select {
+    width: 100% !important;
+    background: var(--input-bg) !important;
+    border: 1.5px solid var(--input-border) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: none !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+
+    &:hover {
+      border-color: var(--input-border-hover) !important;
+    }
+
+    &.p-focus {
+      border-color: var(--gold-500) !important;
+      box-shadow: 0 0 0 3px var(--gold-glow) !important;
+      outline: none !important;
+    }
+
+    &.ng-invalid.ng-dirty {
+      border-color: var(--error) !important;
+    }
+
+    .p-select-label {
+      color: var(--text-primary) !important;
+      font-family: var(--font-body) !important;
+      font-size: 14px !important;
+      padding: 11px 14px !important;
+      background: transparent !important;
+
+      &.p-placeholder { color: var(--text-muted) !important; }
+    }
+
+    .p-select-dropdown,
+    .p-select-trigger {
+      color: var(--text-muted) !important;
+      background: transparent !important;
+      width: 36px !important;
+    }
+  }
+
+  // ── Select overlay/panel ──────────────────────────────────────────────────
+  .p-select-overlay,
+  .p-select-panel {
+    background: var(--navy-800) !important;
+    border: 1.5px solid var(--input-border) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+    margin-top: 4px !important;
+
+    .p-select-list-container,
+    .p-select-items-wrapper {
+      background: var(--navy-800) !important;
+      border-radius: var(--radius) !important;
+    }
+
+    .p-select-list,
+    .p-select-items {
+      padding: 6px !important;
+      background: transparent !important;
+    }
+
+    .p-select-option,
+    .p-select-item {
+      color: var(--text-primary) !important;
+      font-family: var(--font-body) !important;
+      font-size: 14px !important;
+      padding: 9px 12px !important;
+      border-radius: 6px !important;
+      transition: background 0.15s !important;
+      background: transparent !important;
+
+      &:hover,
+      &.p-select-option-selected {
+        background: var(--navy-700) !important;
+        color: var(--text-primary) !important;
+      }
+
+      &.p-highlight,
+      &[aria-selected="true"] {
+        background: var(--gold-glow) !important;
+        color: var(--gold-300) !important;
+      }
+    }
+  }
+
+  // ── Buttons ───────────────────────────────────────────────────────────────
+  .btn-reset.p-button {
+    background: transparent !important;
+    border: 1.5px solid var(--input-border) !important;
+    color: var(--text-secondary) !important;
+    font-family: var(--font-body) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.04em !important;
+    padding: 10px 22px !important;
+    border-radius: var(--radius) !important;
+    transition: all 0.2s !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background: var(--input-bg) !important;
+      border-color: var(--input-border-hover) !important;
+      color: var(--text-primary) !important;
+    }
+  }
+
+  .btn-submit.p-button {
+    background: linear-gradient(135deg, var(--gold-500), #b8923e) !important;
+    border: none !important;
+    color: var(--navy-950) !important;
+    font-family: var(--font-body) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    padding: 10px 28px !important;
+    border-radius: var(--radius) !important;
+    transition: all 0.2s !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500)) !important;
+      box-shadow: 0 4px 20px var(--gold-glow) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    &:active { transform: translateY(0) !important; }
+
+    .p-button-icon { font-size: 12px !important; }
+  }
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  padding: 32px 48px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+@media (max-width: 600px) {
+  .form-header,
+  .form-section {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .section-divider { margin: 0 24px; }
+
+  .field-grid { grid-template-columns: 1fr; }
+  .field-block--full { grid-column: 1; }
+
+  .form-actions {
+    padding: 24px 24px 0;
+    flex-direction: column-reverse;
+
+    :host ::ng-deep .p-button {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+  }
+}
