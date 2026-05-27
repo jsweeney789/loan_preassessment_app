@@ -1,0 +1,17 @@
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+*.tfplan
+tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+
+
+# ── Terraform sensitive vars (never commit these) ────────────────────────────
+*.tfvars
+*.tfvars.json
