@@ -3,10 +3,15 @@ variable "environment" {
   type        = string
 }
 
+variable "project_name" {
+  description = "Project name prefix"
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)
-  default     = {BatchID = "20260316" }
+  default     = {BatchID = "20260316"}
 }
 
 variable "vpc_id" {
@@ -32,12 +37,6 @@ variable "db_name" {
 variable "db_username" {
   description = "Master username for the database"
   type        = string
-}
-
-variable "db_password" {
-  description = "Master password for the database — passed in from Secrets Manager via CI/CD"
-  type        = string
-  sensitive   = true
 }
 
 variable "db_instance_class" {

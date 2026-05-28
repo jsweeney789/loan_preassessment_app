@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
   }
 
   # S3 backend for remote state — create the bucket and DynamoDB table manually first
@@ -65,6 +69,25 @@ module "app" {
 
 
 
+module "database" {
+  source = "../../modules/database"
+
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
+
+  # Networking — from networking module outputs
+  vpc_id     = module.networking.vpc_id
+  subnet_ids = module.networking.private_subnet_ids
+  rds_sg_id  = module.networking.rds_sg_id
+
+  # DB config
+  db_name  = var.db_name
+  db_username = var.db_username
+
+  # Sizing defaults are fine for dev (db.t3.micro, 5GB, no multi-az)
+}
+
 module "frontend" {
   source = "../../modules/frontend"
 
@@ -91,4 +114,30 @@ module "sagemaker" {
   # Set after first training run: terraform apply -var="model_artifact_s3_uri=s3://..."
   model_artifact_s3_uri = var.model_artifact_s3_uri
   inference_image_uri   = var.inference_image_uri
+}
+
+module "cicd" {
+  source = "../../modules/cicd"
+
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
+
+  # GitHub
+  github_owner  = var.github_owner
+  github_repo   = var.github_repo
+  deploy_branch = "main"
+
+  # Backend pipeline — from app module outputs
+  ecr_repository_url = module.app.ecr_repository_url
+  ecs_cluster_name   = module.app.ecs_cluster_name
+  ecs_service_name   = module.app.ecs_service_name
+
+  # Frontend pipeline — from frontend module outputs
+  frontend_bucket_name       = module.frontend.s3_bucket_name
+  cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
+
+  # Terraform pipeline
+  tf_state_bucket   = "loan-preassessment-state"
+  terraform_version = var.terraform_version
 }
