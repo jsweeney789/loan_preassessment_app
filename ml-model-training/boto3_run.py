@@ -41,7 +41,7 @@ sm.create_training_job(
             "DataSource": {
                 "S3DataSource": {
                     "S3DataType": "S3Prefix",
-                    "S3Uri": "s3://minh-loan-preassessment/training-data/german_credit_data_truncated_categorical.csv",
+                    "S3Uri": "s3://minh-loan-preassessment/training-data/german_credit_data_onehot.csv",
                     "S3DataDistributionType": "FullyReplicated"
                 }
             },
