@@ -119,29 +119,27 @@ module "sagemaker" {
   inference_image_uri   = var.inference_image_uri
 }
 
-# module "cicd" {
-#   source = "../../cicd"
+module "cicd" {
+  source = "../../cicd"
 
-#   environment  = var.environment
-#   project_name = var.project_name
-#   tags         = local.tags
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
 
-#   # GitHub
-#   github_owner                   = var.github_owner
-#   github_repo                    = var.github_repo
-#   deploy_branch                  = "main"
-#   existing_github_connection_arn = var.existing_github_connection_arn
+  # CodeCommit
+  codecommit_repo_name = var.codecommit_repo_name
+  deploy_branch        = "main"
 
-#   # Backend pipeline — from app module outputs
-#   ecr_repository_url = module.app.ecr_repository_url
-#   ecs_cluster_name   = module.app.ecs_cluster_name
-#   ecs_service_name   = module.app.ecs_service_name
+  # # Backend pipeline — from app module outputs
+  # ecr_repository_url = module.app.ecr_repository_url
+  # ecs_cluster_name   = module.app.ecs_cluster_name
+  # ecs_service_name   = module.app.ecs_service_name
 
-#   # Frontend pipeline — from frontend module outputs
-#   frontend_bucket_name       = module.frontend.s3_bucket_name
-#   cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
+  # Frontend pipeline — from frontend module outputs
+  frontend_bucket_name       = module.frontend.s3_bucket_name
+  cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
 
-#   # Terraform pipeline
-#   tf_state_bucket   = "loan-preassessment-state"
-#   terraform_version = var.terraform_version
-# }
+  # Terraform pipeline
+  tf_state_bucket   = "loan-preassessment-state"
+  terraform_version = var.terraform_version
+}
