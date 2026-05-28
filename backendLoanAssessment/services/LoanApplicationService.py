@@ -69,4 +69,4 @@ class LoanApplicationService:
         elif prediction < 0.8:
             return LoanDecision.likely_disapproval
         else:
-            return LoanDecision.confident_approval
+            return LoanDecision.confident_disapproval
