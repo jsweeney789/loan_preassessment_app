@@ -1,5 +1,6 @@
 import time
 import boto3
+import json
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -32,7 +33,6 @@ sm.create_training_job(
         "num_round": "50",
         "eta": "0.1",
         "scale_pos_weight": "11.515151515151515",
-        # "enable_categorical": "true" 
     },
 
     InputDataConfig=[
@@ -115,6 +115,10 @@ print("Model created")
 
 endpoint_config_name = f"loan-xgboost-config-{timestamp}"
 
+# Hardcoded SHAP baseline values calculated from training data (feature means)
+# print(",".join([str(x) for x in df.drop(columns=['Credit Risk']).mean().values]))
+shap_baseline = "35.501048218029354,1.909853249475891,1.6027253668763102,1.1907756813417192,1.0576519916142557,3279.1121593291405,20.78092243186583,0.6876310272536688,0.33752620545073375,0.012578616352201259,0.06079664570230608,0.18343815513626835,0.2746331236897275,0.020964360587002098,0.012578616352201259"
+
 sm.create_endpoint_config(
     EndpointConfigName=endpoint_config_name,
     ProductionVariants=[
@@ -124,7 +128,23 @@ sm.create_endpoint_config(
             "InitialInstanceCount": 1,
             "InstanceType": "ml.m5.large"
         }
-    ]
+    ],
+    ExplainerConfig={
+        "ClarifyExplainerConfig": {
+            "InferenceConfig": {
+                "MaxPayloadInMB": 6,
+                "MaxRecordCount": 200,
+                "ProbabilityAttribute": "predictions.data"
+            },
+            "ShapConfig": {
+                "ShapBaselineConfig": {
+                    "ShapBaseline": shap_baseline
+                },
+                "NumberOfSamples": 100,
+                "UseLogit": True
+            }
+        }
+    }
 )
 
 print("Endpoint config created")
@@ -133,7 +153,7 @@ print("Endpoint config created")
 # CREATE ENDPOINT
 # -------------------------
 
-endpoint_name = f"loan-xgboost-endpoint-{timestamp}"
+endpoint_name = f"loan-xgboost-endpoint"
 
 sm.create_endpoint(
     EndpointName=endpoint_name,
@@ -143,9 +163,6 @@ sm.create_endpoint(
 print("Endpoint deployment started")
 
 ### Watch endpoint go live
-
-import time
-
 
 while True:
     response = sm.describe_endpoint(
