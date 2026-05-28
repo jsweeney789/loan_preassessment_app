@@ -70,7 +70,7 @@ export class LoanApplicationPage {
       housing:      [null, Validators.required],
       // Financial
       checkingAcc:  [null, Validators.required],
-      savingsAcc:    [null, Validators.required],
+      savingAcc:    [null, Validators.required],
       // Loan
       creditAmount: [null, [Validators.required, Validators.min(1)]],
       duration:     [null, [Validators.required, Validators.min(1)]],

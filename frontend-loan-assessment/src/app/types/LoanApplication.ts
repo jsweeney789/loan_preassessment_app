@@ -6,7 +6,7 @@ export interface LoanApplication {
     job: EmploymentStatus,
     housing: HousingStatus,
     checkingAcc: number,
-    savingsAcc: number,
+    savingAcc: number,
     creditAmount: number,
     duration: number,
     purpose: LoanPurpose

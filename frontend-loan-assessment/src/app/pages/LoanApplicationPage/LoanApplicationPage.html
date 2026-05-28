@@ -114,17 +114,17 @@
 
         <!-- Savings Account -->
         <div class="field-block">
-          <label class="field-label" for="savingsAcc">Savings in Savings account(s) <span class="required">*</span></label>
+          <label class="field-label" for="savingAcc">Savings in Savings account(s) <span class="required">*</span></label>
           <p-inputNumber
-            inputId="savingsAcc"
-            formControlName="savingsAcc"
+            inputId="savingAcc"
+            formControlName="savingAcc"
             mode="currency"
             currency="USD"
             locale="en-US"
             placeholder="$0"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('savingsAcc') }"
+            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('savingAcc') }"
           />
-          <small class="field-error" *ngIf="isInvalid('savingsAcc')">Please enter a value.</small>
+          <small class="field-error" *ngIf="isInvalid('savingAcc')">Please enter a value.</small>
         </div>
 
       </div>
