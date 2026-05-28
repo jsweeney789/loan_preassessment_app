@@ -4,7 +4,7 @@ class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService):
         self.sagemaker = sagemakerService
 
-    def processApplication(self, application: LoanApplication) -> LoanDecision:
+    def processApplication(self, application: LoanApplication) -> ApplicationResult:
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
         print(application)
         # age can be untouched
@@ -52,10 +52,14 @@ class LoanApplicationService:
         # calling our SageMaker Endpoint
         prediction, explanations = self.sagemaker.predictWithExplanations(mlApplication)
         print(prediction)
-        print(explanations)
 
+        result = ApplicationResult(
+            prediction = self.processPrediction(prediction),
+            explanations = explanations
+        )
+        print(result)
 
-        return self.processPrediction(prediction)
+        return result
     
     def processPrediction(self, prediction) -> LoanDecision:
         # some kind of logic to return the prediction as a meaningful value

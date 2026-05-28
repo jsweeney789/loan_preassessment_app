@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
   styleUrl: './ApplicationResultsPage.css',
 })
 export class ApplicationResultsPage {
-  decision: string;
+  prediction: string;
 
   constructor(private router: Router) {
-    this.decision = this.router.getCurrentNavigation()?.extras.state?.['decision'];
+    this.prediction = this.router.getCurrentNavigation()?.extras.state?.['decision'];
   }
 
   goBack(): void {
-    this.router.navigate(['/loan-application']);
+    this.router.navigate(['/loanapplication']);
   }
 }

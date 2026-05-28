@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from backendLoanAssessment.schemas import LoanApplication, LoanDecision
+from backendLoanAssessment.schemas import LoanApplication, ApplicationResult
 from backendLoanAssessment.services import LoanApplicationService
 from backendLoanAssessment.services import SageMakerService
 
@@ -16,6 +16,6 @@ def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerSer
 def submit_application(
     application: LoanApplication,
     service: LoanApplicationService = Depends(getLoanService)
-) -> LoanDecision:
+) -> ApplicationResult:
     result = service.processApplication(application)
     return result

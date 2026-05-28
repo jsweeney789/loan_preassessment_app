@@ -14,7 +14,10 @@ import { MessageService } from 'primeng/api';
 import { LoanApplication } from '../../types/LoanApplication';
 import * as LoanEnums from '../../types/LoanApplication.enums';
 import { LoanApplicationService } from '../../services/LoanApplicationService';
+import { ApplicationResultService } from '../../services/ApplicationResultService';
 import { Router } from '@angular/router';
+import { ApplicationResult } from '../../types/ApplicationResult';
+
 
 interface SelectOption {
   label: string;
@@ -66,7 +69,8 @@ export class LoanApplicationPage {
     private fb: FormBuilder, 
     private messageService: MessageService, 
     private loanApplicationService: LoanApplicationService,
-    private router: Router
+    private applicationResultService: ApplicationResultService,
+    private router: Router,
   ) {
     this.form = this.fb.group({
       // Personal
@@ -114,9 +118,11 @@ export class LoanApplicationPage {
 
   handleSubmitLoanApplication(loanApp: LoanApplication) {
     this.loanApplicationService.submitLoanApplication(loanApp).subscribe({
-        next: (data) => {
+        next: (data: ApplicationResult) => {
           console.log("Payload sent: ", loanApp)
-          // this.router.navigate(['/results'], { state: { data } });
+          this.applicationResultService.applicationResult = data;
+          console.log("Response: ", data)
+          this.router.navigate(['/results']);
           this.messageService.add({
             severity: 'success',
             summary: 'Application Submitted',
