@@ -29,3 +29,17 @@ variable "log_retention_days" {
   type    = number
   default = 30
 }
+
+# ── SageMaker ─────────────────────────────────────────────────────────────────
+
+variable "model_artifact_s3_uri" {
+  description = "S3 URI of the trained model artifact. Leave empty until after the first training run."
+  type        = string
+  default     = ""
+}
+
+variable "inference_image_uri" {
+  description = "Inference container image URI (AWS-managed or custom ECR)."
+  type        = string
+  default     = ""
+}
