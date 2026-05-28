@@ -64,24 +64,14 @@ variable "training_data_s3" {
 
 # ── CI/CD ─────────────────────────────────────────────────────────────────────
 
-variable "github_owner" {
-  description = "GitHub username or org"
+variable "codecommit_repo_name" {
+  description = "Name of the CodeCommit repository (created by the cicd module)"
   type        = string
-}
-
-variable "github_repo" {
-  description = "GitHub repository name"
-  type        = string
+  default     = "loan_preassessment_app"
 }
 
 variable "terraform_version" {
   description = "Terraform version for the pipeline build container"
   type        = string
   default     = "1.9.8"
-}
-
-variable "existing_github_connection_arn" {
-  description = "ARN of a pre-existing CodeStar connection to GitHub. When set, skips creating a new one (use when codeconnections:CreateConnection is not permitted)."
-  type        = string
-  default     = ""
 }

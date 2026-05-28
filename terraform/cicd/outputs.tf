@@ -1,16 +1,16 @@
-output "github_connection_arn" {
-  description = "Activate this connection in the AWS Console before the pipelines can trigger: Developer Tools → Connections"
-  value       = local.github_connection_arn
+output "codecommit_clone_url_http" {
+  description = "HTTPS clone URL — use this to push code to CodeCommit"
+  value       = aws_codecommit_repository.app.clone_url_http
 }
 
-output "github_connection_status" {
-  description = "Must be AVAILABLE (not PENDING) before pipelines will trigger"
-  value       = var.existing_github_connection_arn == "" ? aws_codestarconnections_connection.github[0].connection_status : "AVAILABLE"
+output "codecommit_clone_url_ssh" {
+  description = "SSH clone URL for CodeCommit"
+  value       = aws_codecommit_repository.app.clone_url_ssh
 }
 
-output "backend_pipeline_name" {
-  value = aws_codepipeline.backend.name
-}
+# output "backend_pipeline_name" {
+#   value = aws_codepipeline.backend.name
+# }
 
 output "frontend_pipeline_name" {
   value = aws_codepipeline.frontend.name

@@ -14,15 +14,10 @@ variable "tags" {
   default     = {}
 }
 
-# ── GitHub ────────────────────────────────────────────────────────────────────
+# ── CodeCommit ────────────────────────────────────────────────────────────────
 
-variable "github_owner" {
-  description = "GitHub username or org that owns the repo"
-  type        = string
-}
-
-variable "github_repo" {
-  description = "GitHub repository name"
+variable "codecommit_repo_name" {
+  description = "Name of the CodeCommit repository to create and use as pipeline source"
   type        = string
 }
 
@@ -34,20 +29,20 @@ variable "deploy_branch" {
 
 # ── Backend pipeline inputs ───────────────────────────────────────────────────
 
-variable "ecr_repository_url" {
-  description = "ECR repository URL for the backend image"
-  type        = string
-}
+# variable "ecr_repository_url" {
+#   description = "ECR repository URL for the backend image"
+#   type        = string
+# }
 
-variable "ecs_cluster_name" {
-  description = "ECS cluster name"
-  type        = string
-}
+# variable "ecs_cluster_name" {
+#   description = "ECS cluster name"
+#   type        = string
+# }
 
-variable "ecs_service_name" {
-  description = "ECS service name"
-  type        = string
-}
+# variable "ecs_service_name" {
+#   description = "ECS service name"
+#   type        = string
+# }
 
 # ── Frontend pipeline inputs ──────────────────────────────────────────────────
 
@@ -74,8 +69,3 @@ variable "terraform_version" {
   default     = "1.9.8"
 }
 
-variable "existing_github_connection_arn" {
-  description = "ARN of a pre-existing CodeStar/CodeConnections connection to GitHub. When set, no new connection is created (useful when codeconnections:CreateConnection is not permitted)."
-  type        = string
-  default     = ""
-}
