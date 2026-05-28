@@ -8,9 +8,9 @@ runtime = boto3.client(
     region_name="us-east-1"
 )
 
-endpoint_name = "loan-xgboost-endpoint"
+endpoint_name = "loan-xgboost-endpoint-052820260622"
 
-payload = "67,2,2,0,1,1169,6"
+payload = "67,male,2,2,0,1,1169,6,radio/TV"
 
 response = runtime.invoke_endpoint(
     EndpointName=endpoint_name,

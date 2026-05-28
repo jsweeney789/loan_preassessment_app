@@ -1,6 +1,7 @@
 import time
 import boto3
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -8,7 +9,9 @@ sm = boto3.client("sagemaker", region_name="us-east-1")
 
 role_arn = "arn:aws:iam::397345411365:role/dev-sagemaker-execution-role"
 
-training_job_name = "loan-xgboost-job-006"
+# Unique timestamp in MMDDYYYYHHMM format
+timestamp = datetime.now().strftime("%m%d%Y%H%M")
+training_job_name = f"loan-xgboost-job-{timestamp}"
 
 # -------------------------
 # START TRAINING
@@ -26,7 +29,10 @@ sm.create_training_job(
 
     HyperParameters={
         "objective": "binary:logistic",
-        "num_round": "50"
+        "num_round": "50",
+        "eta": "0.1",
+        "scale_pos_weight": "11.515151515151515",
+        # "enable_categorical": "true" 
     },
 
     InputDataConfig=[
@@ -35,7 +41,7 @@ sm.create_training_job(
             "DataSource": {
                 "S3DataSource": {
                     "S3DataType": "S3Prefix",
-                    "S3Uri": "s3://minh-loan-preassessment/training-data/german_credit_data_truncated_numerical.csv",
+                    "S3Uri": "s3://minh-loan-preassessment/training-data/german_credit_data_truncated_categorical.csv",
                     "S3DataDistributionType": "FullyReplicated"
                 }
             },
@@ -85,7 +91,7 @@ while True:
 # CREATE MODEL
 # -------------------------
 
-model_name = "loan-xgboost-model"
+model_name = f"loan-xgboost-model-{timestamp}"
 
 model_data_url = (
     f"s3://minh-loan-preassessment/output/"
@@ -107,7 +113,7 @@ print("Model created")
 # CREATE ENDPOINT CONFIG
 # -------------------------
 
-endpoint_config_name = "loan-xgboost-config"
+endpoint_config_name = f"loan-xgboost-config-{timestamp}"
 
 sm.create_endpoint_config(
     EndpointConfigName=endpoint_config_name,
@@ -127,7 +133,7 @@ print("Endpoint config created")
 # CREATE ENDPOINT
 # -------------------------
 
-endpoint_name = "loan-xgboost-endpoint"
+endpoint_name = f"loan-xgboost-endpoint-{timestamp}"
 
 sm.create_endpoint(
     EndpointName=endpoint_name,
@@ -141,7 +147,6 @@ print("Endpoint deployment started")
 import time
 
 
-
 while True:
     response = sm.describe_endpoint(
         EndpointName=endpoint_name
@@ -152,7 +157,7 @@ while True:
     print("Endpoint status:", status)
 
     if status == "InService":
-        print("Endpoint is live!")
+        print(f"Endpoint is live at:\n{endpoint_name}")
         break
 
     if status == "Failed":
