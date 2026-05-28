@@ -64,31 +64,31 @@ resource "aws_security_group" "ecs" {
 
 # ── RDS Security Group (only accepts traffic from ECS) ───────────────────────
 
-# resource "aws_security_group" "rds" {
-#   name        = "${var.environment}-rds-sg"
-#   description = "Allow inbound PostgreSQL from ECS only"
-#   vpc_id      = aws_vpc.main.id
+resource "aws_security_group" "rds" {
+  name        = "${var.environment}-rds-sg"
+  description = "Allow inbound PostgreSQL from ECS only"
+  vpc_id      = aws_vpc.main.id
 
-#   ingress {
-#     description     = "PostgreSQL from ECS"
-#     from_port       = 5432
-#     to_port         = 5432
-#     protocol        = "tcp"
-#     security_groups = [aws_security_group.ecs.id]
-#   }
+  ingress {
+    description     = "PostgreSQL from ECS"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ecs.id]
+  }
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   tags = merge(var.tags, {
-#     Name        = "${var.environment}-rds-sg"
-#     Environment = var.environment
-#   })
-# }
+  tags = merge(var.tags, {
+    Name        = "${var.environment}-rds-sg"
+    Environment = var.environment
+  })
+}
 
 # ── SageMaker Security Group (only accepts traffic from ECS) ─────────────────
 

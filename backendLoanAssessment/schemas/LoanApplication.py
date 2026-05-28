@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 from enum import Enum
 
 class LoanPurpose(str, Enum):
@@ -10,19 +10,30 @@ class LoanPurpose(str, Enum):
     education = "education"
     business = "business"
     vacation_others = "vacation/others"
+    @staticmethod
+    def encodePurpose(purpose: LoanPurpose) -> dict:
+        return {
+        "Purpose_car":                  1 if purpose == LoanPurpose.auto else 0,
+        "Purpose_domestic appliances":  1 if purpose == LoanPurpose.domestic_appliances else 0,
+        "Purpose_education":            1 if purpose == LoanPurpose.education else 0,
+        "Purpose_furniture/equipment":  1 if purpose == LoanPurpose.furniture_equipment else 0,
+        "Purpose_radio/TV":             1 if purpose == LoanPurpose.radio_tv else 0,
+        "Purpose_repairs":              1 if purpose == LoanPurpose.repairs else 0,
+        "Purpose_vacation/others":      1 if purpose == LoanPurpose.vacation_others else 0,
+    }
 
 class EmploymentStatus(str, Enum):
     unemployed = "unemployed" 
-    employed = "unskilled - employed"
+    employed = "unskilled"
     highlyEmployed = "skilled employee / official"
     veryHighlyEmployed = "management / self-employed / highly qualified employee / officer"
 
-    employmentNumericMap = {
-        "unemployed":           0,                                             # A171
-        "unskilled":            1,                                             # A172
-        "skilled employee / official": 2,                                      # A173
-        "management / self-employed / highly qualified employee / officer": 3  # A174
-    }
+employmentNumericMap = {
+    "unemployed":           0,                                             # A171
+    "unskilled":            1,                                             # A172
+    "skilled employee / official": 2,                                      # A173
+    "management / self-employed / highly qualified employee / officer": 3  # A174
+}
 # the original dataset has resident/non-resident of germany, removed as this would run into fair lending law issues in the US and still maps to a reasonable understanding of a person maybe
 
 
@@ -31,49 +42,56 @@ class HomeOwnership(str, Enum):
     own = "own"
     free = "free"
 
-    homeOwnershipNumericMap = {
-        "rent": 1,  # A151
-        "own": 2,   # A152
-        "free": 0   # A153
-    }
+homeOwnershipNumericMap = {
+    "rent": 1,  # A151
+    "own": 2,   # A152
+    "free": 0   # A153
+}
 
 class Sex(str, Enum):
     male = "male"
     female = "female"
 
-    sexNumericMap = {
-        "male": 1,
-        "female": 2
-    }
+sexNumericMap = {
+    "male": 1,
+    "female": 0
+}
 
-class CheckingAccountStatus(str, Enum):
-    overdraft = "negative_balance"
-    low = "less_than_200"          # under $200
-    moderate = "200_to_2000"       # $200-$2000, or has direct deposit
-    none = "no_checking_account"
+class CheckingAccountStatus(int, Enum):
+    NA = 0
+    little = 1          
+    moderate = 2    
+    rich = 3
+    @staticmethod
+    def classify(amount: float) -> CheckingAccountStatus:
+        if amount < 0:
+            return CheckingAccountStatus.little
+        elif amount < 200:
+            return CheckingAccountStatus.moderate
+        elif amount <= 2000:
+            return CheckingAccountStatus.rich
+        else:
+            return CheckingAccountStatus.NA  # no checking account bucket doesn't apply here, consider renaming
 
-    checkingAcctNumericMap = {
-        "negative_balance": 1,      # A11
-        "less_than_250": 2,         # A12
-        "250_to_2000": 3,           # A13
-        "no_checking_account": 0    # A14
-    }
 
-
-class SavingsAccountStatus(str, Enum):
-    none = "no_savings_account"
-    little = "less_than_500"       # under $500 — below the "one emergency away from crisis" line
-    moderate = "500_to_2500"       # $500-$2,500
-    quite_rich = "2500_to_10k"     # $2,500-$10,000
-    rich = "over_10k"              # $10,000+
-
-    savingsAcctNumericMap = {
-        "less_than_500": 1,        # A61
-        "500_to_2500": 2,          # A62
-        "2500_to_10k": 3,          # A63
-        "over_10k": 4,             # A64
-        "no_savings_account": 0,   # A65
-    }
+class SavingsAccountStatus(int, Enum):
+    NA = 0
+    little = 1
+    moderate = 2
+    quite_rich = 3
+    rich = 4
+    @staticmethod
+    def classify(amount: float) -> SavingsAccountStatus:
+        if amount <= 0:
+            return SavingsAccountStatus.NA
+        elif amount < 500:
+            return SavingsAccountStatus.little
+        elif amount < 2500:
+            return SavingsAccountStatus.moderate
+        elif amount < 10000:
+            return SavingsAccountStatus.quite_rich
+        else:
+            return SavingsAccountStatus.rich
 
 
 class LoanApplication(BaseModel):
@@ -81,8 +99,8 @@ class LoanApplication(BaseModel):
     sex: Sex
     job: EmploymentStatus
     housing: HomeOwnership
-    checkingAcc: CheckingAccountStatus
-    savingAcc: SavingsAccountStatus
+    checkingAcc: int
+    savingAcc: int
     creditAmount: int
     duration: int
     purpose: LoanPurpose
@@ -91,3 +109,23 @@ class LoanApplication(BaseModel):
         if v <= 0:
             raise ValueError("Must be greater than zero")
         return v
+
+# Field allows us to alias the python properties exactly to what the ML expects by our one-hot encoding, which had spaces occasionally
+class MLLoanApplication(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    age: int = Field(alias="Age")
+    job: int = Field(alias="Job")
+    housing: int = Field(alias="Housing")
+    savingAcc: int = Field(alias="Saving accounts")
+    checkingAcc: int = Field(alias="Checking account")
+    creditAmount: int = Field(alias="Credit amount")
+    duration: int = Field(alias="Duration")
+    sex_male: int = Field(alias="Sex_male")
+    purpose_car: int = Field(alias="Purpose_car")
+    purpose_domestic_appliances: int = Field(alias="Purpose_domestic appliances")
+    purpose_education: int = Field(alias="Purpose_education")
+    purpose_furniture_equipment: int = Field(alias="Purpose_furniture/equipment")
+    purpose_radio_tv: int = Field(alias="Purpose_radio/TV")
+    purpose_repairs: int = Field(alias="Purpose_repairs")
+    purpose_vacation_others: int = Field(alias="Purpose_vacation/others")

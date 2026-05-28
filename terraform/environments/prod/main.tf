@@ -62,3 +62,26 @@ module "app" {
   ecs_desired_count  = var.ecs_desired_count
   log_retention_days = var.log_retention_days
 }
+
+module "frontend" {
+  source = "../../modules/frontend"
+
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
+}
+
+# module "sagemaker" {
+#   source = "../../modules/sagemaker"
+
+#   environment  = var.environment
+#   project_name = var.project_name
+#   tags         = local.tags
+
+#   # Set after first training run: terraform apply -var="model_artifact_s3_uri=s3://..."
+#   model_artifact_s3_uri = var.model_artifact_s3_uri
+#   inference_image_uri   = var.inference_image_uri
+
+#   instance_type  = "ml.m5.large"
+#   instance_count = 1
+# }

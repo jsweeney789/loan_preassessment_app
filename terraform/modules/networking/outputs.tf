@@ -23,10 +23,10 @@ output "ecs_sg_id" {
   value       = aws_security_group.ecs.id
 }
 
-# output "rds_sg_id" {
-#   description = "Security group ID for RDS"
-#   value       = aws_security_group.rds.id
-# }
+output "rds_sg_id" {
+  description = "Security group ID for RDS"
+  value       = aws_security_group.rds.id
+}
 
 # output "sagemaker_sg_id" {
 #   description = "Security group ID for SageMaker"

@@ -139,9 +139,6 @@ resource "aws_lb" "app" {
   security_groups    = [var.alb_sg_id]
   subnets            = var.public_subnet_ids
 
-  # Recommended: enable deletion protection in prod via a variable override
-  enable_deletion_protection = var.environment == "prod" ? true : false
-
   tags = merge(var.tags, {
     Name        = "${var.environment}-alb"
     Environment = var.environment
@@ -156,7 +153,9 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip" # required for Fargate
 
   health_check {
-    path                = "/health"
+    # FastAPI exposes /openapi.json automatically.
+    # Update to /health once the backend team adds a dedicated health route.
+    path                = "/openapi.json"
     protocol            = "HTTP"
     matcher             = "200"
     interval            = 30

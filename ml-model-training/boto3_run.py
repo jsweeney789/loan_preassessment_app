@@ -125,8 +125,12 @@ sm.create_endpoint_config(
         {
             "VariantName": "AllTraffic",
             "ModelName": model_name,
-            "InitialInstanceCount": 1,
-            "InstanceType": "ml.m5.large"
+            "ServerlessConfig": {      
+                # these are the values that specify how our Serverless endpoint works and Claude gave me these knowing this was a
+                # small app for learning, be aware that these are small. Also be aware that as this is serverless there is a cold start delay of a few seconds
+                "MemorySizeInMB": 2048, 
+                "MaxConcurrency": 5
+            }
         }
     ],
     ExplainerConfig={

@@ -6,7 +6,7 @@ export enum LoanPurpose {
     Repairs = "repairs",
     Education = "education",
     Business = "business",
-    VacationOther = "vacation/other"
+    VacationOthers = "vacation/others"
 }
 
 export const LoanPurposeLabels: Record<LoanPurpose, string> = {
@@ -17,7 +17,7 @@ export const LoanPurposeLabels: Record<LoanPurpose, string> = {
   [LoanPurpose.Repairs]: 'Home Repairs',
   [LoanPurpose.Education]: 'Education',
   [LoanPurpose.Business]: 'Business',
-  [LoanPurpose.VacationOther]: 'Vacation / Other',
+  [LoanPurpose.VacationOthers]: 'Vacation / Others',
 };
 
 export enum Sex {

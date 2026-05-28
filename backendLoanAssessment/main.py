@@ -1,6 +1,14 @@
 from fastapi import FastAPI
-from backendLoanAssessment.routers import loan_applications
+from fastapi.middleware.cors import CORSMiddleware
+from backendLoanAssessment.routers.LoanApplicationRouter import router
 
 app = FastAPI(title="Loan Risk Portal")
 
-app.include_router(loan_applications.router, prefix="/applications", tags=["Applications"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(router, prefix="/api", tags=["Applications"])
