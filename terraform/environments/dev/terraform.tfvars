@@ -5,6 +5,6 @@ training_data_s3 = "minh-loan-preassessment"
 
 inference_image_uri   = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:1.2-1-cpu-py3"
 model_artifact_s3_uri = "s3://minh-loan-preassessment/output/loan-xgboost-job-005/output/model.tar.gz" # leave empty until after first training run
-# docdb_master_username = ""
-# github_org            = "YOUR_GITHUB_USERNAME_OR_ORG"
-# github_repo           = "Loan_preassessment_app"
+github_owner          = "jsweeney789"
+github_repo           = "loan_preassessment_app"
+
