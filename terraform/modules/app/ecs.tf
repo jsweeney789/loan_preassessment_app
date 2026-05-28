@@ -100,10 +100,13 @@ resource "aws_ecs_task_definition" "app" {
         { name = "PORT",        value = tostring(var.app_port) }
       ]
 
-      # Secrets are injected at runtime by the ECS agent via Secrets Manager
-      # secrets = [
-      #   { name = "DB_PASSWORD", valueFrom = "arn:aws:secretsmanager:...:secret:${var.environment}/db-password" }
-      # ]
+      secrets = [
+        { name = "DB_HOST",     valueFrom = "${var.db_secret_arn}:host::" },
+        { name = "DB_PORT",     valueFrom = "${var.db_secret_arn}:port::" },
+        { name = "DB_NAME",     valueFrom = "${var.db_secret_arn}:dbname::" },
+        { name = "DB_USERNAME", valueFrom = "${var.db_secret_arn}:username::" },
+        { name = "DB_PASSWORD", valueFrom = "${var.db_secret_arn}:password::" }
+      ]
 
       logConfiguration = {
         logDriver = "awslogs"

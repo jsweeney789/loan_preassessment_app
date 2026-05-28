@@ -79,3 +79,9 @@ variable "terraform_version" {
   type        = string
   default     = "1.9.8"
 }
+
+variable "existing_github_connection_arn" {
+  description = "ARN of a pre-existing CodeStar connection to GitHub. When set, skips creating a new one (use when codeconnections:CreateConnection is not permitted)."
+  type        = string
+  default     = ""
+}

@@ -43,9 +43,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "artifacts" {
 
 # ── GitHub Connection ─────────────────────────────────────────────────────────
 # Created in PENDING state — must be activated manually in the AWS Console:
-# Developer Tools → Settings → Connections → activate this connection
+# Developer Tools → Settings → Connections → activate this connection.
+#
+# If codeconnections:CreateConnection is not permitted, create the connection
+# manually in the Console and pass its ARN via existing_github_connection_arn.
+
+locals {
+  github_connection_arn = var.existing_github_connection_arn != "" ? var.existing_github_connection_arn : aws_codestarconnections_connection.github[0].arn
+}
 
 resource "aws_codestarconnections_connection" "github" {
+  count         = var.existing_github_connection_arn == "" ? 1 : 0
   name          = "${var.project_name}-github"
   provider_type = "GitHub"
 

@@ -67,3 +67,8 @@ variable "log_retention_days" {
   type        = number
   default     = 7
 }
+
+variable "db_secret_arn" {
+  description = "Secrets Manager ARN for DB credentials — injected into the container as DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD"
+  type        = string
+}

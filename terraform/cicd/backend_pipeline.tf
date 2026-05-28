@@ -79,7 +79,7 @@ resource "aws_codepipeline" "backend" {
       version          = "1"
       output_artifacts = ["source"]
       configuration = {
-        ConnectionArn        = aws_codestarconnections_connection.github.arn
+        ConnectionArn        = local.github_connection_arn
         FullRepositoryId     = "${var.github_owner}/${var.github_repo}"
         BranchName           = var.deploy_branch
         OutputArtifactFormat = "CODE_ZIP"

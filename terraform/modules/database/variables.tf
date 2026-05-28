@@ -48,7 +48,7 @@ variable "db_instance_class" {
 variable "db_allocated_storage" {
   description = "Initial storage in GB"
   type        = number
-  default     = 5
+  default     = 20
 }
 
 variable "db_max_allocated_storage" {
@@ -60,13 +60,13 @@ variable "db_max_allocated_storage" {
 variable "db_engine_version" {
   description = "PostgreSQL engine version"
   type        = string
-  default     = "16.3"
+  default     = "16.6"
 }
 
 variable "backup_retention_days" {
   description = "Number of days to retain automated backups"
   type        = number
-  default     = 7
+  default     = 0
 }
 
 variable "multi_az" {
