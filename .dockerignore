@@ -1,0 +1,23 @@
+.git/
+.github/
+terraform/
+frontend-loan-assessment/
+ml-model-training/
+
+# Python artifacts
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.venv/
+**/*.egg-info/
+
+# ML artifacts
+**/*.pkl
+**/*.joblib
+
+# Dev / OS noise
+.env
+*.log
+.DS_Store
+Thumbs.db
