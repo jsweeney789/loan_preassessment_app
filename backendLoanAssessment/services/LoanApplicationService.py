@@ -1,5 +1,8 @@
 from backendLoanAssessment.schemas.LoanApplication import *
+from backendLoanAssessment.services import SageMakerService
 class LoanApplicationService:
+    def __init__(self, sagemakerService: SageMakerService):
+        self.sagemaker = sagemakerService
 
     def processApplication(self, application: LoanApplication):
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
@@ -45,5 +48,11 @@ class LoanApplicationService:
             **mlPurpose
         )
         print(mlApplication)
-        # need to call sagemaker api endpoint after we have some of those set up
-        # will likely make a service for that
+
+        # calling our SageMaker Endpoint
+        # note that 0 is a good credit score and 1 is a poor one
+        prediction = self.sagemaker.predict(mlApplication)
+        print(prediction)
+
+
+        return prediction
