@@ -126,9 +126,9 @@ module "sagemaker" {
 module "cicd" {
   source = "../../cicd"
 
-#   environment  = var.environment
-#   project_name = var.project_name
-#   tags         = local.tags
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
 
   # CodeCommit
   codecommit_repo_name = var.codecommit_repo_name
@@ -139,11 +139,11 @@ module "cicd" {
   # ecs_cluster_name   = module.app.ecs_cluster_name
   # ecs_service_name   = module.app.ecs_service_name
 
-#   # Frontend pipeline — from frontend module outputs
-#   frontend_bucket_name       = module.frontend.s3_bucket_name
-#   cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
+  # Frontend pipeline — from frontend module outputs
+  frontend_bucket_name       = module.frontend.s3_bucket_name
+  cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
 
-#   # Terraform pipeline
-#   tf_state_bucket   = "loan-preassessment-state"
-#   terraform_version = var.terraform_version
-# }
+  # Terraform pipeline
+  tf_state_bucket   = "loan-preassessment-state"
+  terraform_version = var.terraform_version
+}

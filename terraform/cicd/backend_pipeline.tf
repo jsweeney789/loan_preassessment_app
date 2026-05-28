@@ -64,24 +64,26 @@
 #   pipeline_type  = "V2"
 #   execution_mode = "SUPERSEDED"
 
-#   artifact_store {
-#     location = aws_s3_bucket.artifacts.bucket
-#     type     = "S3"
-#   }
-#   stage {
-#     name = "Build"
-#     action {
-#       name            = "BuildAndDeploy"
-#       category        = "Build"
-#       owner           = "AWS"
-#       provider        = "CodeBuild"
-#       version         = "1"
-#       input_artifacts = ["source"]
-#       configuration = {
-#         ProjectName = aws_codebuild_project.backend.name
-#       }
-#     }
-#   }
+  artifact_store {
+    location = aws_s3_bucket.artifacts.bucket
+    type     = "S3"
+  }
+
+
+  stage {
+    name = "Build"
+    action {
+      name            = "BuildAndDeploy"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source"]
+      configuration = {
+        ProjectName = aws_codebuild_project.backend.name
+      }
+    }
+  }
 
 #   # Only triggers when backend-related files change
 #   trigger {
