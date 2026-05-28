@@ -68,25 +68,6 @@
 #     location = aws_s3_bucket.artifacts.bucket
 #     type     = "S3"
 #   }
-
-#   stage {
-#     name = "Source"
-#     action {
-#       name             = "Source"
-#       category         = "Source"
-#       owner            = "AWS"
-#       provider         = "CodeStarSourceConnection"
-#       version          = "1"
-#       output_artifacts = ["source"]
-#       configuration = {
-#         ConnectionArn        = local.github_connection_arn
-#         FullRepositoryId     = "${var.github_owner}/${var.github_repo}"
-#         BranchName           = var.deploy_branch
-#         OutputArtifactFormat = "CODE_ZIP"
-#       }
-#     }
-#   }
-
 #   stage {
 #     name = "Build"
 #     action {
