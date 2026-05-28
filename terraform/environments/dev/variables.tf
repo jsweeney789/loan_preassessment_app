@@ -45,7 +45,37 @@ variable "inference_image_uri" {
   default     = ""
 }
 
+variable "db_name" {
+  description = "Name of the database to create"
+  type        = string
+  default     = "loandb"
+}
+
+variable "db_username" {
+  description = "Master username for the RDS instance"
+  type        = string
+  default     = "loanadmin"
+}
+
 variable "training_data_s3" {
   description = "Name of existing s3 bucket containing training data"
   type        = string
+}
+
+# ── CI/CD ─────────────────────────────────────────────────────────────────────
+
+variable "github_owner" {
+  description = "GitHub username or org"
+  type        = string
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+}
+
+variable "terraform_version" {
+  description = "Terraform version for the pipeline build container"
+  type        = string
+  default     = "1.9.8"
 }
