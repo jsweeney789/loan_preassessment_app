@@ -4,7 +4,7 @@ class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService):
         self.sagemaker = sagemakerService
 
-    def processApplication(self, application: LoanApplication):
+    def processApplication(self, application: LoanApplication) -> LoanDecision:
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
         print(application)
         # age can be untouched
@@ -50,9 +50,23 @@ class LoanApplicationService:
         print(mlApplication)
 
         # calling our SageMaker Endpoint
-        # note that 0 is a good credit score and 1 is a poor one
-        prediction = self.sagemaker.predict(mlApplication)
+        prediction, explanations = self.sagemaker.predictWithExplanations(mlApplication)
         print(prediction)
+        print(explanations)
 
 
-        return prediction
+        return self.processPrediction(prediction)
+    
+    def processPrediction(self, prediction) -> LoanDecision:
+        # some kind of logic to return the prediction as a meaningful value
+        # note that 0 is a good credit score and 1 is a poor one
+        if prediction < 0.2:
+            return LoanDecision.confident_approval
+        elif prediction < 0.4:
+            return LoanDecision.likely_approval
+        elif prediction < 0.6:
+            return LoanDecision.unsure
+        elif prediction < 0.8:
+            return LoanDecision.likely_disapproval
+        else:
+            return LoanDecision.confident_approval

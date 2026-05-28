@@ -55,3 +55,11 @@ export const HousingStatusLabels: Record<HousingStatus, string> = {
   [HousingStatus.Rent]: 'Renting',
   [HousingStatus.Own]: 'Own Home',
 };
+
+export enum LoanDecision {
+    ConfidentApproval = "Confident Approval",
+    LikelyApproval = "Likely Approval",
+    Unsure = "Unsure",
+    LikelyDisapproval = "Likely Disapproval",
+    ConfidentDisapproval = "Confident Disapproval"
+}

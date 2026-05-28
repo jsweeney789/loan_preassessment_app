@@ -129,3 +129,10 @@ class MLLoanApplication(BaseModel):
     purpose_radio_tv: int = Field(alias="Purpose_radio/TV")
     purpose_repairs: int = Field(alias="Purpose_repairs")
     purpose_vacation_others: int = Field(alias="Purpose_vacation/others")
+
+class LoanDecision(str, Enum):
+    confident_approval = "Confident Approval"
+    likely_approval = "Likely Approval"
+    unsure = "Unsure"
+    likely_disapproval = "Likely Disapproval"
+    confident_disapproval = "Confident Disapproval"

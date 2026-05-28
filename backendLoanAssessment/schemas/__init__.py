@@ -7,4 +7,5 @@ from .LoanApplication import (
     SavingsAccountStatus,
     LoanApplication,
     MLLoanApplication,
+    LoanDecision
 )
