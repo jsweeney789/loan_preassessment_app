@@ -1,4 +1,5 @@
 export interface ApplicationResult {
-    prediction: String,
+    prediction: number,
+    decision: string,
     explanations: Record<string, number>;
 }

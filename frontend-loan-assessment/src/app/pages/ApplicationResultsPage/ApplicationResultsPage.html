@@ -1,1 +1,66 @@
-<p>application-results-page works!</p>
+<div class="page-wrapper">
+  @if (result) {
+
+    <!-- Header -->
+    <div class="form-header">
+      <div class="header-accent"></div>
+      <div class="header-content">
+        <span class="header-eyebrow">Loan Assessment Portal</span>
+        <h1 class="header-title">Congratulations!</h1>
+        <p class="header-subtitle">Your application has been assessed. Here's what we found.</p>
+      </div>
+    </div>
+
+    <!-- Score Section -->
+    <div class="result-section">
+      <p class="score-label">Your Score Is...</p>
+      <app-hexagon [score]="((1 - result.prediction) * 100).toFixed(1)" />
+      <p class="score-summary">
+        This means you are <span class="highlight">{{ ((1 - result.prediction) * 100).toFixed(1) }}%</span> likely to be approved for your loan.
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Decision -->
+    <div class="result-section">
+      <div class="section-label">
+        <span class="section-title">Our Decision</span>
+      </div>
+      <p class="result-body">
+        Based on your profile, our model has returned a decision of
+        <span class="highlight">{{ result.decision }}</span>.
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SHAP Explanations -->
+    <div class="result-section">
+      <div class="section-label">
+        <span class="section-title">Factors Affecting Your Score</span>
+      </div>
+      <p class="result-body">
+        The following factors had the most influence on your result.
+        Positive values increased your likelihood of approval, negative values reduced it.
+      </p>
+      <div class="shap-list">
+        @for (explanation of result.explanations | keyvalue; track explanation.key) {
+          <div class="shap-item" [class.shap-positive]="explanation.value < 0" [class.shap-negative]="explanation.value > 0">
+            <span class="shap-feature">{{ explanation.key }}</span>
+            <span class="shap-value">{{ explanation.value > 0 ? '+' : '' }}{{ explanation.value.toFixed(3) }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+  } @else {
+    <div class="form-header">
+      <div class="header-accent"></div>
+      <div class="header-content">
+        <h1 class="header-title">No Results Yet</h1>
+        <p class="header-subtitle">Please submit an application first.</p>
+      </div>
+    </div>
+  }
+</div>

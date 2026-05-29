@@ -138,5 +138,6 @@ class LoanDecision(str, Enum):
     confident_disapproval = "Confident Disapproval"
 
 class ApplicationResult(BaseModel):
-    prediction: str
+    prediction: float
+    decision: str
     explanations: dict[str, float]
