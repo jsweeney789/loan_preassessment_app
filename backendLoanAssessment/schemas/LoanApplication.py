@@ -34,6 +34,10 @@ employmentNumericMap = {
     "skilled employee / official": 2,                                      # A173
     "management / self-employed / highly qualified employee / officer": 3  # A174
 }
+
+# Reverse stringmap
+employmentStringMap = {v: k for k, v in employmentNumericMap.items()}
+
 # the original dataset has resident/non-resident of germany, removed as this would run into fair lending law issues in the US and still maps to a reasonable understanding of a person maybe
 
 
@@ -140,4 +144,5 @@ class LoanDecision(str, Enum):
 class ApplicationResult(BaseModel):
     prediction: float
     decision: str
+    userAdvice: dict[str, list[tuple[float, str]]]
     explanations: dict[str, float]
