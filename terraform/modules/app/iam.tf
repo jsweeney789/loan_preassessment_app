@@ -132,10 +132,10 @@ resource "aws_iam_role_policy" "ecs_task" {
       },
       {
         # Allows the app to call the SageMaker inference endpoint for loan assessment
-        Sid    = "SageMakerInvoke"
-        Effect = "Allow"
-        Action = ["sagemaker:InvokeEndpoint"]
-        Resource = "arn:aws:sagemaker:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:endpoint/${var.environment}-*"
+        Sid      = "SageMakerInvoke"
+        Effect   = "Allow"
+        Action   = ["sagemaker:InvokeEndpoint"]
+        Resource = "arn:aws:sagemaker:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:endpoint/*"
       }
     ]
   })
