@@ -14,11 +14,10 @@ terraform {
 
   # S3 backend for remote state — create the bucket and DynamoDB table manually first
   backend "s3" {
-    bucket       = "loan-preassessment-state"
-    key          = "loan-preassessment/terraform.tfstate"
-    region       = "us-east-1"
-    use_lockfile = true
-    encrypt      = true
+    bucket  = "loan-preassessment-state"
+    key     = "loan-preassessment/terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
   }
 }
 
@@ -69,8 +68,8 @@ module "app" {
   # Database credentials
   db_secret_arn = module.database.db_secret_arn
 
-  # Database credentials
-  db_secret_arn = module.database.db_secret_arn
+  # CORS — allow the CloudFront distribution to call the backend
+  cors_origin = module.frontend.cloudfront_domain_name
 }
 
 
@@ -88,7 +87,6 @@ module "database" {
   rds_sg_id  = module.networking.rds_sg_id
 
   # DB config
-  db_name     = var.db_name
   db_name     = var.db_name
   db_username = var.db_username
 
@@ -139,7 +137,8 @@ module "cicd" {
   ecs_cluster_name   = module.app.ecs_cluster_name
   ecs_service_name   = module.app.ecs_service_name
 
-  # Frontend pipeline — from frontend module outputs
+  # Frontend pipeline — from app + frontend module outputs
+  alb_dns_name               = module.app.alb_dns_name
   frontend_bucket_name       = module.frontend.s3_bucket_name
   cloudfront_distribution_id = module.frontend.cloudfront_distribution_id
 

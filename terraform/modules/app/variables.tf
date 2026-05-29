@@ -72,3 +72,9 @@ variable "db_secret_arn" {
   description = "Secrets Manager ARN for DB credentials — injected into the container as DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD"
   type        = string
 }
+
+variable "cors_origin" {
+  description = "Allowed CORS origin injected into the container as CORS_ORIGIN (e.g. the CloudFront domain)"
+  type        = string
+  default     = "http://localhost:4200"
+}

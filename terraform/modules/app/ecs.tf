@@ -97,7 +97,8 @@ resource "aws_ecs_task_definition" "app" {
 
       environment = [
         { name = "ENVIRONMENT", value = var.environment },
-        { name = "PORT",        value = tostring(var.app_port) }
+        { name = "PORT",        value = tostring(var.app_port) },
+        { name = "CORS_ORIGIN", value = var.cors_origin }
       ]
 
       secrets = [

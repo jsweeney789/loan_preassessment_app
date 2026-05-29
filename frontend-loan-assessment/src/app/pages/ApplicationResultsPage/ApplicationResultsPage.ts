@@ -4,9 +4,11 @@ import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
 import { Hexagon } from '../../componenets/hexagon/hexagon';
 import { KeyValuePipe } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+
 @Component({
   selector: 'application-results-page',
-  imports: [ Hexagon, KeyValuePipe ],
+  imports: [ Hexagon, KeyValuePipe, ButtonModule ],
   templateUrl: './ApplicationResultsPage.html',
   styleUrl: './ApplicationResultsPage.scss',
 })
