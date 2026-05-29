@@ -26,8 +26,10 @@ class LoanApplicationService:
         # Savings Accounts need to be mapped to the same values as above essentially
         mlSavings = SavingsAccountStatus.classify(application.savingAcc).value
 
-        # Credit amount needs to be converted to numeric ints, may also need to be contextualized for modern USD
-        mlCreditAmount = application.creditAmount
+        # Credit amount needs to be converted to numeric ints, may also need to be contextualized from modern USD -> 1974 DM
+        usd1974Credit = application.creditAmount / 6.57 # found using https://aier.org/cost-of-living-calculator/?utm_source=Google%20Ads&utm_medium=Google%20CPC&utm_campaign=COLA&gad_source=1&gad_campaignid=1488531787&gbraid=0AAAAADn50P7ebwdhCoiMyZNdUwXjFQmro&gclid=CjwKCAjw8uTQBhAdEiwAVvtJyk9YZh5MIeetYo6r5tmVxlTFuN0DnPixiAoGKtSrmJqumcVm4mNflBoC76IQAvD_BwE
+        dm1974Credit = 2.758 * usd1974Credit # found here https://marcuse.faculty.history.ucsb.edu/projects/currency.htm
+        mlCreditAmount = round(dm1974Credit)
 
         # Duration - is already numeric in months, can be untouched
         mlDuration = application.duration

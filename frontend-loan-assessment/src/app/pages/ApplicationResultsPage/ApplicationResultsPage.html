@@ -48,7 +48,7 @@
         @for (explanation of result.explanations | keyvalue; track explanation.key) {
           <div class="shap-item" [class.shap-positive]="explanation.value < 0" [class.shap-negative]="explanation.value > 0">
             <span class="shap-feature">{{ explanation.key }}</span>
-            <span class="shap-value">{{ explanation.value > 0 ? '+' : '' }}{{ explanation.value.toFixed(3) }}</span>
+            <span class="shap-value">{{ explanation.value < 0 ? '+' : '' }}{{ (explanation.value * -1).toFixed(3) }}</span>
           </div>
         }
       </div>
@@ -63,4 +63,14 @@
       </div>
     </div>
   }
+
+    <div class="form-actions form-actions--centered">
+    <p-button
+        label="← Go Back"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="goBack()"
+        styleClass="btn-reset"
+    />
+    </div>
 </div>
