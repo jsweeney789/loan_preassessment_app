@@ -17,7 +17,6 @@ terraform {
     bucket       = "loan-preassessment-state"
     key          = "loan-preassessment/terraform.tfstate"
     region       = "us-east-1"
-    use_lockfile = true
     encrypt      = true
   }
 }
@@ -68,9 +67,6 @@ module "app" {
 
   # Database credentials
   db_secret_arn = module.database.db_secret_arn
-
-  # Database credentials
-  db_secret_arn = module.database.db_secret_arn
 }
 
 
@@ -88,7 +84,6 @@ module "database" {
   rds_sg_id  = module.networking.rds_sg_id
 
   # DB config
-  db_name     = var.db_name
   db_name     = var.db_name
   db_username = var.db_username
 
