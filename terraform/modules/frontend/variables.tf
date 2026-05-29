@@ -13,3 +13,8 @@ variable "tags" {
   type        = map(string)
   default     = {"BatchID" = "20260316"}
 }
+
+variable "alb_dns_name" {
+  description = "ALB DNS name — added as a CloudFront origin so /api/* is proxied over HTTPS"
+  type        = string
+}

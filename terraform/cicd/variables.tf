@@ -46,11 +46,6 @@ variable "ecs_service_name" {
 
 # ── Frontend pipeline inputs ──────────────────────────────────────────────────
 
-variable "alb_dns_name" {
-  description = "ALB DNS name injected into the Angular production build as the backend API URL"
-  type        = string
-}
-
 variable "frontend_bucket_name" {
   description = "S3 bucket name for the Angular build output"
   type        = string
