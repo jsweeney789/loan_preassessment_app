@@ -193,3 +193,31 @@
     padding-right: 24px;
   }
 }
+
+// Bottom Button 
+:host ::ng-deep .btn-reset.p-button {
+  background: transparent !important;
+  border: 1.5px solid #2e4878 !important;
+  color: #94aac8 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+  padding: 10px 22px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .btn-reset.p-button:hover {
+  background: #1c2d4f !important;
+  border-color: #4a6aaa !important;
+  color: #eef2f9 !important;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  padding: 32px 48px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 12px;
+}

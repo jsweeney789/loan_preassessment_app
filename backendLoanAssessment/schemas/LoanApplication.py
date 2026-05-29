@@ -61,17 +61,17 @@ class CheckingAccountStatus(int, Enum):
     NA = 0
     little = 1          
     moderate = 2    
-    rich = 3
+    rich = 4
     @staticmethod
     def classify(amount: float) -> CheckingAccountStatus:
-        if amount < 0:
+        if amount < 1000:
             return CheckingAccountStatus.little
-        elif amount < 200:
+        elif amount < 5000:
             return CheckingAccountStatus.moderate
-        elif amount <= 2000:
-            return CheckingAccountStatus.rich
         else:
-            return CheckingAccountStatus.NA  # no checking account bucket doesn't apply here, consider renaming
+            return CheckingAccountStatus.rich
+        # else:
+        #     return CheckingAccountStatus.NA  # no checking account bucket doesn't apply here, consider renaming
 
 
 class SavingsAccountStatus(int, Enum):
@@ -84,11 +84,11 @@ class SavingsAccountStatus(int, Enum):
     def classify(amount: float) -> SavingsAccountStatus:
         if amount <= 0:
             return SavingsAccountStatus.NA
-        elif amount < 500:
+        elif amount < 1000:
             return SavingsAccountStatus.little
-        elif amount < 2500:
-            return SavingsAccountStatus.moderate
-        elif amount < 10000:
+        elif amount < 10000: # a noteworthy target for moderate is that the median savings account balance for all families was 8,000 in 2022
+            return SavingsAccountStatus.moderate # https://www.usnews.com/banking/articles/the-average-savings-account-balance
+        elif amount < 50000:
             return SavingsAccountStatus.quite_rich
         else:
             return SavingsAccountStatus.rich
