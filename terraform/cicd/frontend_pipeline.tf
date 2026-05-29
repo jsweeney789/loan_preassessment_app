@@ -22,10 +22,6 @@ resource "aws_codebuild_project" "frontend" {
       name  = "CLOUDFRONT_DIST_ID"
       value = var.cloudfront_distribution_id
     }
-    environment_variable {
-      name  = "ALB_URL"
-      value = var.alb_dns_name
-    }
   }
 
   source {
@@ -40,7 +36,7 @@ resource "aws_codebuild_project" "frontend" {
             - cd frontend-loan-assessment && npm ci
         build:
           commands:
-            - sed -i "s|BACKEND_API_URL_PLACEHOLDER|http://$ALB_URL|g" $CODEBUILD_SRC_DIR/frontend-loan-assessment/src/environments/environment.ts
+            - sed -i "s|BACKEND_API_URL_PLACEHOLDER||g" $CODEBUILD_SRC_DIR/frontend-loan-assessment/src/environments/environment.ts
             - cd $CODEBUILD_SRC_DIR/frontend-loan-assessment && npm run build -- --configuration production
         post_build:
           commands:
