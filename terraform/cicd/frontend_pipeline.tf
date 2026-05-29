@@ -22,6 +22,10 @@ resource "aws_codebuild_project" "frontend" {
       name  = "CLOUDFRONT_DIST_ID"
       value = var.cloudfront_distribution_id
     }
+    environment_variable {
+      name  = "ALB_URL"
+      value = var.alb_dns_name
+    }
   }
 
   source {
@@ -36,11 +40,12 @@ resource "aws_codebuild_project" "frontend" {
             - cd frontend-loan-assessment && npm ci
         build:
           commands:
-            - cd frontend-loan-assessment && npm run build -- --configuration production
+            - sed -i "s|BACKEND_API_URL_PLACEHOLDER|http://$ALB_URL|g" $CODEBUILD_SRC_DIR/frontend-loan-assessment/src/environments/environment.ts
+            - cd $CODEBUILD_SRC_DIR/frontend-loan-assessment && npm run build -- --configuration production
         post_build:
           commands:
-            - aws s3 sync frontend-loan-assessment/dist/frontend-loan-assessment/browser/ s3://$FRONTEND_BUCKET --delete
-            - aws s3 cp frontend-loan-assessment/dist/frontend-loan-assessment/browser/index.html s3://$FRONTEND_BUCKET/index.html --cache-control "no-cache, no-store, must-revalidate" --content-type "text/html"
+            - aws s3 sync $CODEBUILD_SRC_DIR/frontend-loan-assessment/dist/frontend-loan-assessment/browser/ s3://$FRONTEND_BUCKET --delete
+            - aws s3 cp $CODEBUILD_SRC_DIR/frontend-loan-assessment/dist/frontend-loan-assessment/browser/index.html s3://$FRONTEND_BUCKET/index.html --cache-control "no-cache, no-store, must-revalidate" --content-type "text/html"
             - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
     YAML
   }
