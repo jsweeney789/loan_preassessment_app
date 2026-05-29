@@ -29,20 +29,20 @@ variable "deploy_branch" {
 
 # ── Backend pipeline inputs ───────────────────────────────────────────────────
 
-# variable "ecr_repository_url" {
-#   description = "ECR repository URL for the backend image"
-#   type        = string
-# }
+variable "ecr_repository_url" {
+  description = "ECR repository URL for the backend image"
+  type        = string
+}
 
-# variable "ecs_cluster_name" {
-#   description = "ECS cluster name"
-#   type        = string
-# }
+variable "ecs_cluster_name" {
+  description = "ECS cluster name"
+  type        = string
+}
 
-# variable "ecs_service_name" {
-#   description = "ECS service name"
-#   type        = string
-# }
+variable "ecs_service_name" {
+  description = "ECS service name"
+  type        = string
+}
 
 # ── Frontend pipeline inputs ──────────────────────────────────────────────────
 

@@ -69,65 +69,65 @@ resource "aws_iam_role_policy" "codepipeline" {
 
 # ── CodeBuild Role — Backend ──────────────────────────────────────────────────
 
-# resource "aws_iam_role" "codebuild_backend" {
-#   name = "${var.environment}-codebuild-backend-role"
+resource "aws_iam_role" "codebuild_backend" {
+  name = "${var.environment}-codebuild-backend-role"
 
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [{
-#       Effect    = "Allow"
-#       Principal = { Service = "codebuild.amazonaws.com" }
-#       Action    = "sts:AssumeRole"
-#     }]
-#   })
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "codebuild.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
 
-#   tags = merge(var.tags, { Environment = var.environment })
-# }
+  tags = merge(var.tags, { Environment = var.environment })
+}
 
-# resource "aws_iam_role_policy" "codebuild_backend" {
-#   name = "${var.environment}-codebuild-backend-policy"
-#   role = aws_iam_role.codebuild_backend.id
+resource "aws_iam_role_policy" "codebuild_backend" {
+  name = "${var.environment}-codebuild-backend-policy"
+  role = aws_iam_role.codebuild_backend.id
 
-#   policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Sid      = "ECRAuth"
-#         Effect   = "Allow"
-#         Action   = ["ecr:GetAuthorizationToken"]
-#         Resource = "*"
-#       },
-#       {
-#         Sid    = "ECRPush"
-#         Effect = "Allow"
-#         Action = [
-#           "ecr:BatchCheckLayerAvailability", "ecr:GetDownloadUrlForLayer",
-#           "ecr:BatchGetImage", "ecr:PutImage", "ecr:InitiateLayerUpload",
-#           "ecr:UploadLayerPart", "ecr:CompleteLayerUpload"
-#         ]
-#         Resource = "arn:aws:ecr:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:repository/${var.environment}-*"
-#       },
-#       {
-#         Sid      = "ECSUpdate"
-#         Effect   = "Allow"
-#         Action   = ["ecs:UpdateService", "ecs:DescribeServices", "ecs:RegisterTaskDefinition", "ecs:DescribeTaskDefinition"]
-#         Resource = "*"
-#       },
-#       {
-#         Sid    = "ArtifactBucket"
-#         Effect = "Allow"
-#         Action = ["s3:GetObject", "s3:PutObject", "s3:GetBucketVersioning"]
-#         Resource = [aws_s3_bucket.artifacts.arn, "${aws_s3_bucket.artifacts.arn}/*"]
-#       },
-#       {
-#         Sid      = "Logs"
-#         Effect   = "Allow"
-#         Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
-#         Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/codebuild/*"
-#       }
-#     ]
-#   })
-# }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid      = "ECRAuth"
+        Effect   = "Allow"
+        Action   = ["ecr:GetAuthorizationToken"]
+        Resource = "*"
+      },
+      {
+        Sid    = "ECRPush"
+        Effect = "Allow"
+        Action = [
+          "ecr:BatchCheckLayerAvailability", "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage", "ecr:PutImage", "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart", "ecr:CompleteLayerUpload"
+        ]
+        Resource = "arn:aws:ecr:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:repository/${var.environment}-*"
+      },
+      {
+        Sid      = "ECSUpdate"
+        Effect   = "Allow"
+        Action   = ["ecs:UpdateService", "ecs:DescribeServices", "ecs:RegisterTaskDefinition", "ecs:DescribeTaskDefinition"]
+        Resource = "*"
+      },
+      {
+        Sid    = "ArtifactBucket"
+        Effect = "Allow"
+        Action = ["s3:GetObject", "s3:PutObject", "s3:GetBucketVersioning"]
+        Resource = [aws_s3_bucket.artifacts.arn, "${aws_s3_bucket.artifacts.arn}/*"]
+      },
+      {
+        Sid      = "Logs"
+        Effect   = "Allow"
+        Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
+        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/codebuild/*"
+      }
+    ]
+  })
+}
 
 # ── CodeBuild Role — Frontend ─────────────────────────────────────────────────
 

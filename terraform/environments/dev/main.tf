@@ -134,10 +134,10 @@ module "cicd" {
   codecommit_repo_name = var.codecommit_repo_name
   deploy_branch        = "main"
 
-  # # Backend pipeline — from app module outputs
-  # ecr_repository_url = module.app.ecr_repository_url
-  # ecs_cluster_name   = module.app.ecs_cluster_name
-  # ecs_service_name   = module.app.ecs_service_name
+  # Backend pipeline — from app module outputs
+  ecr_repository_url = module.app.ecr_repository_url
+  ecs_cluster_name   = module.app.ecs_cluster_name
+  ecs_service_name   = module.app.ecs_service_name
 
   # Frontend pipeline — from frontend module outputs
   frontend_bucket_name       = module.frontend.s3_bucket_name
