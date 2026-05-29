@@ -41,16 +41,14 @@ resource "aws_s3_bucket_lifecycle_configuration" "artifacts" {
   }
 }
 
-# ── GitHub Connection ─────────────────────────────────────────────────────────
-# Created in PENDING state — must be activated manually in the AWS Console:
-# Developer Tools → Settings → Connections → activate this connection
+# ── CodeCommit Repository ─────────────────────────────────────────────────────
 
-resource "aws_codestarconnections_connection" "github" {
-  name          = "${var.project_name}-github"
-  provider_type = "GitHub"
+resource "aws_codecommit_repository" "app" {
+  repository_name = var.codecommit_repo_name
+  description     = "Source repository for ${var.project_name}"
 
   tags = merge(var.tags, {
-    Name        = "${var.project_name}-github"
+    Name        = var.codecommit_repo_name
     Environment = var.environment
   })
 }

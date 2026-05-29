@@ -14,15 +14,10 @@ variable "tags" {
   default     = {}
 }
 
-# ── GitHub ────────────────────────────────────────────────────────────────────
+# ── CodeCommit ────────────────────────────────────────────────────────────────
 
-variable "github_owner" {
-  description = "GitHub username or org that owns the repo"
-  type        = string
-}
-
-variable "github_repo" {
-  description = "GitHub repository name"
+variable "codecommit_repo_name" {
+  description = "Name of the CodeCommit repository to create and use as pipeline source"
   type        = string
 }
 
@@ -73,3 +68,4 @@ variable "terraform_version" {
   type        = string
   default     = "1.9.8"
 }
+

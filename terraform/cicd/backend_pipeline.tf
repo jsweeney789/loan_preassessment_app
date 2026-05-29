@@ -75,13 +75,13 @@ resource "aws_codepipeline" "backend" {
       name             = "Source"
       category         = "Source"
       owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
+      provider         = "CodeCommit"
       version          = "1"
       output_artifacts = ["source"]
       configuration = {
-        ConnectionArn        = aws_codestarconnections_connection.github.arn
-        FullRepositoryId     = "${var.github_owner}/${var.github_repo}"
+        RepositoryName       = var.codecommit_repo_name
         BranchName           = var.deploy_branch
+        PollForSourceChanges = "true"
         OutputArtifactFormat = "CODE_ZIP"
       }
     }
@@ -98,18 +98,6 @@ resource "aws_codepipeline" "backend" {
       input_artifacts = ["source"]
       configuration = {
         ProjectName = aws_codebuild_project.backend.name
-      }
-    }
-  }
-
-  # Only triggers when backend-related files change
-  trigger {
-    provider_type = "CodeStarSourceConnection"
-    git_configuration {
-      source_action_name = "Source"
-      push {
-        branches { includes = [var.deploy_branch] }
-        file_paths { includes = ["backendLoanAssessment/**"] }
       }
     }
   }

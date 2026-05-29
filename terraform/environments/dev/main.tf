@@ -65,6 +65,12 @@ module "app" {
   ecs_memory         = var.ecs_memory
   ecs_desired_count  = var.ecs_desired_count
   log_retention_days = var.log_retention_days
+
+  # Database credentials
+  db_secret_arn = module.database.db_secret_arn
+
+  # Database credentials
+  db_secret_arn = module.database.db_secret_arn
 }
 
 
@@ -82,7 +88,8 @@ module "database" {
   rds_sg_id  = module.networking.rds_sg_id
 
   # DB config
-  db_name  = var.db_name
+  db_name     = var.db_name
+  db_name     = var.db_name
   db_username = var.db_username
 
   # Sizing defaults are fine for dev (db.t3.micro, 5GB, no multi-az)
@@ -117,16 +124,15 @@ module "sagemaker" {
 }
 
 module "cicd" {
-  source = "../../modules/cicd"
+  source = "../../cicd"
 
   environment  = var.environment
   project_name = var.project_name
   tags         = local.tags
 
-  # GitHub
-  github_owner  = var.github_owner
-  github_repo   = var.github_repo
-  deploy_branch = "main"
+  # CodeCommit
+  codecommit_repo_name = var.codecommit_repo_name
+  deploy_branch        = "main"
 
   # Backend pipeline — from app module outputs
   ecr_repository_url = module.app.ecr_repository_url

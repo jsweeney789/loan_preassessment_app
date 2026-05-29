@@ -64,14 +64,10 @@ variable "training_data_s3" {
 
 # ── CI/CD ─────────────────────────────────────────────────────────────────────
 
-variable "github_owner" {
-  description = "GitHub username or org"
+variable "codecommit_repo_name" {
+  description = "Name of the CodeCommit repository (created by the cicd module)"
   type        = string
-}
-
-variable "github_repo" {
-  description = "GitHub repository name"
-  type        = string
+  default     = "loan_preassessment_app"
 }
 
 variable "terraform_version" {

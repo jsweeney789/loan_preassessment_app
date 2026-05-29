@@ -41,10 +41,16 @@ resource "aws_iam_role_policy" "codepipeline" {
         Resource = "*"
       },
       {
-        Sid      = "GitHubConnection"
-        Effect   = "Allow"
-        Action   = ["codestar-connections:UseConnection"]
-        Resource = aws_codestarconnections_connection.github.arn
+        Sid    = "CodeCommit"
+        Effect = "Allow"
+        Action = [
+          "codecommit:GetBranch",
+          "codecommit:GetCommit",
+          "codecommit:UploadArchive",
+          "codecommit:GetUploadArchiveStatus",
+          "codecommit:CancelUploadArchive"
+        ]
+        Resource = aws_codecommit_repository.app.arn
       },
       {
         Sid      = "PassRole"
@@ -179,7 +185,8 @@ resource "aws_iam_role_policy" "codebuild_frontend" {
 }
 
 # ── CodeBuild Role — Terraform ────────────────────────────────────────────────
-# AdministratorAccess is intentional — Terraform creates/destroys arbitrary resources.
+# Broad inline policy — Terraform creates/destroys arbitrary resources.
+# Inline avoids iam:AttachRolePolicy (which SSO Java-Full-Stack lacks).
 # Scope this down once the infrastructure stabilizes.
 
 resource "aws_iam_role" "codebuild_terraform" {
@@ -197,7 +204,17 @@ resource "aws_iam_role" "codebuild_terraform" {
   tags = merge(var.tags, { Environment = var.environment })
 }
 
-resource "aws_iam_role_policy_attachment" "codebuild_terraform_admin" {
-  role       = aws_iam_role.codebuild_terraform.name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+resource "aws_iam_role_policy" "codebuild_terraform_admin" {
+  name = "${var.environment}-codebuild-terraform-policy"
+  role = aws_iam_role.codebuild_terraform.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid      = "Admin"
+      Effect   = "Allow"
+      Action   = "*"
+      Resource = "*"
+    }]
+  })
 }
