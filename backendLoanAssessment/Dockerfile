@@ -1,5 +1,5 @@
 # ── Stage 1: install dependencies into a venv ────────────────────────────────
-FROM python:3.12-slim AS builder
+FROM public.ecr.aws/docker/library/python:3.12-slim AS builder
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ RUN python -m venv /build/venv \
 
 
 # ── Stage 2: lean runtime image ───────────────────────────────────────────────
-FROM python:3.12-slim
+FROM public.ecr.aws/docker/library/python:3.12-slim
 
 # curl is needed for the HEALTHCHECK command
 RUN apt-get update \
@@ -21,11 +21,8 @@ RUN apt-get update \
 
 WORKDIR /app
 
-# Copy the venv from the builder — no build tools in the final image
 COPY --from=builder /build/venv /venv
 
-# Copy only the application package
-# Build context must be the repo root: docker build -f backendLoanAssessment/Dockerfile .
 COPY backendLoanAssessment/ backendLoanAssessment/
 
 ENV PATH="/venv/bin:$PATH"
@@ -34,8 +31,6 @@ USER appuser
 
 EXPOSE 8000
 
-# FastAPI exposes /openapi.json automatically — used as the liveness probe
-# NOTE: ask the backend team to add a dedicated GET /health → 200 route
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8000/openapi.json || exit 1
 
