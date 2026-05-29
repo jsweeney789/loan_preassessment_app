@@ -11,5 +11,5 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'dev-alb-833559820.us-east-1.elb.amazonaws.com'
+  apiUrl: 'BACKEND_API_URL_PLACEHOLDER'
 };

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 from enum import Enum
 
