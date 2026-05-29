@@ -54,7 +54,8 @@ class LoanApplicationService:
         print(prediction)
 
         result = ApplicationResult(
-            prediction = self.processPrediction(prediction),
+            decision = self.processPrediction(prediction),
+            prediction = prediction,
             explanations = explanations
         )
         print(result)
