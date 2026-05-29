@@ -8,9 +8,9 @@ output "codecommit_clone_url_ssh" {
   value       = aws_codecommit_repository.app.clone_url_ssh
 }
 
-# output "backend_pipeline_name" {
-#   value = aws_codepipeline.backend.name
-# }
+output "backend_pipeline_name" {
+  value = aws_codepipeline.backend.name
+}
 
 output "frontend_pipeline_name" {
   value = aws_codepipeline.frontend.name
