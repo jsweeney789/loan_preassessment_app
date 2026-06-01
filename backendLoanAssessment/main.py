@@ -6,12 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from backendLoanAssessment.routers.LoanApplicationRouter import router
 from backendLoanAssessment.database import Base, engine
 from backendLoanAssessment import models
+from backendLoanAssessment.routers.AuthRouter import router as auth_router
+from backendLoanAssessment.routers.UserRouter import router as user_router
+from starlette.middleware.sessions import SessionMiddleware
+
+
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Loan Risk Portal")
 
-_cors_origins = os.getenv("CORS_ORIGIN", "http://localhost:4200", "https://d1u5g6nu2nj7p1.cloudfront.net").split(",")
+_cors_origins = os.getenv("CORS_ORIGIN", "http://localhost:4200,https://d1u5g6nu2nj7p1.cloudfront.net").split(",")
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,7 +25,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# apparently this is used when authlib generaetes a state value and wants a place to store it while oauth does some stuff
+app.add_middleware(SessionMiddleware, secret_key=os.getenv("SESSION_SECRET"))
+
 app.include_router(router, prefix="/api", tags=["Applications"])
+app.include_router(auth_router)
+app.include_router(user_router)
 
 @app.get("/health", tags=["Health"])
 def health():

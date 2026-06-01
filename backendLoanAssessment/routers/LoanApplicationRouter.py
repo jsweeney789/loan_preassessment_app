@@ -4,7 +4,7 @@ from backendLoanAssessment.services.LoanApplicationService import LoanApplicatio
 from backendLoanAssessment.services import SageMakerService
 
 
-router = APIRouter()
+router = APIRouter(prefix="/loans", tags=["loans"])
 
 def getSageMakerService():
     return SageMakerService()
@@ -12,7 +12,7 @@ def getSageMakerService():
 def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerService)):
     return LoanApplicationService(sagemaker_service)
 
-@router.post("/loan-application",  status_code=201)
+@router.post("/application",  status_code=201)
 def submit_application(
     application: LoanApplication,
     service: LoanApplicationService = Depends(getLoanService)
