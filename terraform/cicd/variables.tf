@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "notification_email" {
+  description = "Email address that receives pipeline failure alerts via SNS"
+  type        = string
+}
+
 variable "project_name" {
   description = "Project name — used for naming pipeline resources"
   type        = string
