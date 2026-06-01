@@ -35,7 +35,6 @@ employmentNumericMap = {
     "skilled employee / official": 2,                                      # A173
     "management / self-employed / highly qualified employee / officer": 3  # A174
 }
-
 # Reverse stringmap
 employmentStringMap = {v: k for k, v in employmentNumericMap.items()}
 
@@ -52,6 +51,8 @@ homeOwnershipNumericMap = {
     "own": 2,   # A152
     "free": 0   # A153
 }
+# Reverse stringmap
+homeOwnershipStringMap = {v: k for k, v in homeOwnershipNumericMap.items()}
 
 class Sex(str, Enum):
     male = "male"
@@ -78,6 +79,13 @@ class CheckingAccountStatus(int, Enum):
         # else:
         #     return CheckingAccountStatus.NA  # no checking account bucket doesn't apply here, consider renaming
 
+checkingAccStringMap = {
+    0: "0",
+    1: "0",
+    2: "1,000",
+    4: "5,000"
+}
+
 
 class SavingsAccountStatus(int, Enum):
     NA = 0
@@ -98,6 +106,13 @@ class SavingsAccountStatus(int, Enum):
         else:
             return SavingsAccountStatus.rich
 
+savingAccStringMap = {
+    0: "0",
+    1: "100",
+    2: "1,000",
+    3: "10,000",
+    4: "50,000"
+}
 
 class LoanApplication(BaseModel):
     age: int

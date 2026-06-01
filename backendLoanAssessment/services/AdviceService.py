@@ -65,35 +65,154 @@ class AdviceService:
                 
                 if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
                     appendAdvice(userAdvice, "BAD", jobScore,
-                            JOB_RISK_POINTS.format(
-                                jobPlus1=employmentStringMap[mlApplication.job + 1],
+                            RISK_POINTS.format(
+                                field='employment',
+                                plus1=employmentStringMap[mlApplication.job + 1],
                                 diff=scoreDiff,
                             ))
                    
                 else:
-                    appendAdvice(userAdvice, "BAD", jobScore, JOB_RISK.format(job=employmentStringMap[mlApplication.job]))
+                    appendAdvice(userAdvice, "BAD", jobScore, RISK.format(field='employment', current=employmentStringMap[mlApplication.job]))
 
             case x if x <= BIG_SAFE_THRESHOLD:
-                appendAdvice(userAdvice, "GOOD", jobScore, JOB_BIG_SAFE.format(job=employmentStringMap[mlApplication.job]))
+                appendAdvice(userAdvice, "GOOD", jobScore, BIG_SAFE.format(field='employment', current=employmentStringMap[mlApplication.job]))
             case x if x <= SAFE_THRESHOLD:
-                appendAdvice(userAdvice, "GOOD", jobScore, JOB_SAFE.format(job=employmentStringMap[mlApplication.job]))
+                appendAdvice(userAdvice, "GOOD", jobScore, SAFE.format(field='employment', current=employmentStringMap[mlApplication.job]))
 
         '''
         HOUSING
         '''
+        housingScore = explanations["Housing"]
+        match housingScore:
+            case x if x >= RISK_THRESHOLD:
+                scoreDiff = 0
 
+                if mlApplication.housing < 2:
+                    scoreDiff = self.computeScoreDiffWithModification(
+                        originalLoanApp=mlApplication,
+                        prediction=prediction,
+                        fieldToModify='housing',
+                        modificationOperation=lambda x: x + 1
+                    )
+                
+                if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
+                    appendAdvice(userAdvice, "BAD", housingScore,
+                            RISK_POINTS.format(
+                                field='housing',
+                                plus1=homeOwnershipStringMap[mlApplication.housing + 1],
+                                diff=scoreDiff,
+                            ))
+                   
+                else:
+                    appendAdvice(userAdvice, "BAD", housingScore, RISK.format(field='housing',current=homeOwnershipStringMap[mlApplication.housing]))
+
+            case x if x <= BIG_SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", housingScore, BIG_SAFE.format(field='housing',current=homeOwnershipStringMap[mlApplication.housing]))
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", housingScore, SAFE.format(field='housing',current=homeOwnershipStringMap[mlApplication.housing]))
+        
         '''
         SAVING ACCOUNTS
         '''
+        savingScore = explanations["Saving accounts"]
+        match savingScore:
+            case x if x >= RISK_THRESHOLD:
+                scoreDiff = 0
+
+                if mlApplication.savingAcc < 4:
+                    scoreDiff = self.computeScoreDiffWithModification(
+                        originalLoanApp=mlApplication,
+                        prediction=prediction,
+                        fieldToModify='savingAcc',
+                        modificationOperation=lambda x: x + 1
+                    )
+                
+                if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
+                    appendAdvice(userAdvice, "BAD", savingScore,
+                            ACCOUNT_RISK_POINTS.format(
+                                field='savings account',
+                                plus1=savingAccStringMap[mlApplication.savingAcc + 1],
+                                diff=scoreDiff,
+                            ))
+                   
+                else:
+                    appendAdvice(userAdvice, "BAD", savingScore, ACCOUNT_RISK.format(field='savings account'))
+
+            case x if x <= BIG_SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", savingScore, ACCOUNT_BIG_SAFE.format(field='savings account'))
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", savingScore, ACCOUNT_SAFE.format(field='savings account'))
 
         '''
         CHECKING ACCOUNTS
         '''
+        checkingScore = explanations["Checking accounts"]
+        match checkingScore:
+            case x if x >= RISK_THRESHOLD:
+                scoreDiff = 0
+                plusOne = 4
+                checkingAccVal = mlApplication.checkingAcc
+
+                if checkingAccVal < 4:
+                    if checkingAccVal != 2:
+                        plusOne = checkingAccVal + 1
+                    # Else plusOne  = 4
+                    scoreDiff = self.computeScoreDiffWithModification(
+                        originalLoanApp=mlApplication,
+                        prediction=prediction,
+                        fieldToModify='checkingAcc',
+                        modificationOperation = lambda x: plusOne
+                    )
+                
+                if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
+                    appendAdvice(userAdvice, "BAD", checkingScore,
+                            ACCOUNT_RISK_POINTS.format(
+                                field='checking account',
+                                plus1=checkingAccStringMap[plusOne],
+                                diff=scoreDiff,
+                            ))
+                   
+                else:
+                    appendAdvice(userAdvice, "BAD", checkingScore, ACCOUNT_RISK.format(field='checking account'))
+
+            case x if x <= BIG_SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", checkingScore, ACCOUNT_BIG_SAFE.format(field='checking account'))
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", checkingScore, ACCOUNT_SAFE.format(field='checking account'))
 
         '''
         CREDIT AMOUNT
         '''
+        amountScore = explanations["Credit amount"]
         
+        match amountScore:
+            
+            case x if x >= RISK_THRESHOLD:
+                    scoreDiff = 0 
+                    scoreDiff = self.computeScoreDiffWithModification(
+                        originalLoanApp=mlApplication,
+                        prediction=prediction,
+                        fieldToModify='creditAmount',
+                        modificationOperation = lambda x: x * 0.9
+                    )
+                
+                    if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
+                        roundedAmount = round(mlApplication.creditAmount * 0.9)
+                        formattedAmount = "{:,}".format(roundedAmount)
+                        appendAdvice(userAdvice, "BAD", amountScore,
+                                LOAN_RISK_POINTS.format(
+                                    tenOff=formattedAmount,
+                                    diff=scoreDiff,
+                                ))
+                    
+                    else:
+                        appendAdvice(userAdvice, "BAD", amountScore, LOAN_RISK)
+
+            case x if x <= BIG_SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", amountScore, LOAN_BIG_SAFE)
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", amountScore, LOAN_SAFE)
+
         '''
         DURATION
         '''
