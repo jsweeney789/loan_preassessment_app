@@ -4,6 +4,7 @@ from backendLoanAssessment.services import AdviceService, SageMakerService
 class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService):
         self.sagemaker = sagemakerService
+        self.advice_service = AdviceService(sagemakerService)
 
     def processApplication(self, application: LoanApplication) -> ApplicationResult:
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
@@ -56,7 +57,7 @@ class LoanApplicationService:
         prediction, explanations = self.sagemaker.predictWithExplanations(mlApplication)
         print(prediction)
 
-        userAdvice = AdviceService.generateUserAdvice(mlApplication, prediction, explanations)
+        userAdvice = self.advice_service.generateUserAdvice(mlApplication, prediction, explanations)
 
         result = ApplicationResult(
             decision = self.processPrediction(prediction),
