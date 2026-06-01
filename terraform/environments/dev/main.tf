@@ -126,9 +126,10 @@ module "sagemaker" {
 module "cicd" {
   source = "../../cicd"
 
-  environment  = var.environment
-  project_name = var.project_name
-  tags         = local.tags
+  environment        = var.environment
+  project_name       = var.project_name
+  tags               = local.tags
+  notification_email = var.notification_email
 
   # CodeCommit
   codecommit_repo_name = var.codecommit_repo_name
