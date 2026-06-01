@@ -59,4 +59,31 @@ class AdviceService:
                 userAdvice["GOOD"].append(
                     (jobScore, JOB_SAFE.format(job=employmentStringMap[mlApplication.job]))
                 )
+        '''
+        HOUSING
+        '''
+
+        '''
+        SAVING ACCOUNTS
+        '''
+
+        '''
+        CHECKING ACCOUNTS
+        '''
+
+        '''
+        CREDIT AMOUNT
+        '''
+        
+        '''
+        DURATION
+        '''
+
+        '''
+        SEX
+        '''
+
+        '''
+        PURPOSE
+        '''
         return userAdvice

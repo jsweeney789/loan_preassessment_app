@@ -123,14 +123,10 @@ sm.create_endpoint_config(
     EndpointConfigName=endpoint_config_name,
     ProductionVariants=[
         {
-            "VariantName": "AllTraffic",
+            "VariantName": "variant1",
             "ModelName": model_name,
-            "ServerlessConfig": {      
-                # these are the values that specify how our Serverless endpoint works and Claude gave me these knowing this was a
-                # small app for learning, be aware that these are small. Also be aware that as this is serverless there is a cold start delay of a few seconds
-                "MemorySizeInMB": 2048, 
-                "MaxConcurrency": 5
-            }
+            "InstanceType": "ml.m5.large",
+            "InitialInstanceCount": 1,
         }
     ],
     ExplainerConfig={
@@ -145,7 +141,8 @@ sm.create_endpoint_config(
                     "ShapBaseline": shap_baseline
                 },
                 "NumberOfSamples": 100,
-                "UseLogit": True
+                "UseLogit": True,
+                "Seed": 7777777
             }
         }
     }
