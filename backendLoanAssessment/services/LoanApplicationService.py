@@ -1,5 +1,5 @@
 from backendLoanAssessment.schemas.LoanApplication import *
-from backendLoanAssessment.services import SageMakerService, UserAdviceHelper
+from backendLoanAssessment.services import AdviceService, SageMakerService
 
 class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService):
@@ -56,7 +56,7 @@ class LoanApplicationService:
         prediction, explanations = self.sagemaker.predictWithExplanations(mlApplication)
         print(prediction)
 
-        userAdvice = UserAdviceHelper.generateUserAdvice(mlApplication, prediction, explanations)
+        userAdvice = AdviceService.generateUserAdvice(mlApplication, prediction, explanations)
 
         result = ApplicationResult(
             decision = self.processPrediction(prediction),
