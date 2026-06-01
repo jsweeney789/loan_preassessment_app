@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from backendLoanAssessment.schemas import LoanApplication, ApplicationResult
-from backendLoanAssessment.services import LoanApplicationService
+from backendLoanAssessment.services.LoanApplicationService import LoanApplicationService
 from backendLoanAssessment.services import SageMakerService
 
 
