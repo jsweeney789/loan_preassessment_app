@@ -1,5 +1,6 @@
 from backendLoanAssessment.schemas.LoanApplication import *
-from backendLoanAssessment.services import AdviceService, SageMakerService
+from backendLoanAssessment.services.AdviceService import AdviceService
+from backendLoanAssessment.services.SageMakerService import SageMakerService
 
 class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService):
