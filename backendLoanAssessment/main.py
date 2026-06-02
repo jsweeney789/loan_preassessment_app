@@ -18,6 +18,9 @@ app = FastAPI(title="Loan Risk Portal")
 
 _cors_origins = os.getenv("CORS_ORIGIN", "http://localhost:4200,https://d1u5g6nu2nj7p1.cloudfront.net").split(",")
 
+# apparently this is used when authlib generaetes a state value and wants a place to store it while oauth does some stuff
+app.add_middleware(SessionMiddleware, secret_key=os.getenv("SESSION_SECRET"))
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins,
@@ -25,8 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# apparently this is used when authlib generaetes a state value and wants a place to store it while oauth does some stuff
-app.add_middleware(SessionMiddleware, secret_key=os.getenv("SESSION_SECRET"))
+
 
 app.include_router(router, prefix="/api", tags=["Applications"])
 app.include_router(auth_router)
