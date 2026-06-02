@@ -11,23 +11,23 @@ router = APIRouter(prefix="/loans", tags=["loans"])
 def getSageMakerService():
     return SageMakerService()
 
-def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerService)):
-    return LoanApplicationService(sagemaker_service)
+def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerService), 
+                   db: Session = Depends(get_db)):
+    return LoanApplicationService(sagemaker_service, db)
 
 @router.post("/application",  status_code=201)
 def submitApplication(
     application: LoanApplication,
     service: LoanApplicationService = Depends(getLoanService),
-    db: Session = Depends(get_db)
+    user = Depends(getCurrentUser)
 ) -> ApplicationResult:
-    result = service.processApplication(application)
+    result = service.processApplication(application, user)
     return result
 
 @router.get("/my-applications", status_code=200)
 def getUserApplications(
     user = Depends(getCurrentUser),
-    service: LoanApplicationService = Depends(getLoanService),
-    db: Session = Depends(get_db)
+    service: LoanApplicationService = Depends(getLoanService)
 ):
     result = service.getUserApplications(user)
     return result

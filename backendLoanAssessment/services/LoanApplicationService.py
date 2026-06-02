@@ -1,6 +1,7 @@
 from backendLoanAssessment.schemas.LoanApplicationSchema import *
 from backendLoanAssessment.services.AdviceService import AdviceService
 from backendLoanAssessment.services.SageMakerService import SageMakerService
+from backendLoanAssessment.models import ApplicationResultModel, UserModel as User, LoanApplicationModel
 from sqlalchemy.orm import Session
 
 class LoanApplicationService:
@@ -9,7 +10,10 @@ class LoanApplicationService:
         self.advice_service = AdviceService(sagemakerService)
         self.db = db
 
-    def processApplication(self, application: LoanApplication) -> ApplicationResult:
+    def processApplication(self, application: LoanApplication, user: User) -> ApplicationResult:
+        # Save the human readable LoanApplication to our db
+        dbApplication = self.saveLoanAppToDB(application, user)
+
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
         print(application)
         # age can be untouched
@@ -70,6 +74,9 @@ class LoanApplicationService:
         )
         print(result)
 
+        # Save the result to our db as well
+        self.saveAppResultsToDB(result, dbApplication.id)
+
         return result
     
     def processPrediction(self, prediction) -> LoanDecision:
@@ -87,4 +94,35 @@ class LoanApplicationService:
             return LoanDecision.confident_disapproval
     
     def getUserApplications(self, user):
-        return self.db.query(LoanApplication).filter(LoanApplication.user_id == user.id).all()
+        return self.db.query(LoanApplicationModel).filter(LoanApplicationModel.user_id == user.id).all()
+    
+    def saveLoanAppToDB(self, application: LoanApplication, user: User):
+        db_application = LoanApplicationModel(
+            user_id=user.id,
+            age=application.age,
+            sex=application.sex,
+            job=application.job,
+            housing=application.housing,
+            checking_acc=application.checkingAcc,
+            saving_acc=application.savingAcc,
+            credit_amount=application.creditAmount,
+            duration=application.duration,
+            purpose=application.purpose
+        )
+        self.db.add(db_application)
+        self.db.commit()
+        self.db.refresh(db_application)
+        return db_application
+
+    def saveAppResultsToDB(self, result: ApplicationResult, dbAppId: int):
+        db_result = ApplicationResultModel(
+            application_id=dbAppId,
+            prediction=result.prediction,
+            decision=result.decision,
+            user_advice=result.userAdvice,
+            explanations=result.explanations
+        )
+        self.db.add(db_result)
+        self.db.commit()
+
+        return db_result

@@ -22,5 +22,5 @@ class LoanApplicationModel(Base):
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="applications")
+    user = relationship("UserModel", back_populates="applications")
     result = relationship("ApplicationResultModel", back_populates="application", uselist=False)

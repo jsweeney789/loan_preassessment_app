@@ -16,4 +16,4 @@ class UserModel(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime, nullable=True)
 
-    applications = relationship("LoanApplication", back_populates="user")
+    applications = relationship("LoanApplicationModel", back_populates="user")

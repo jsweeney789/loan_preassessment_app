@@ -1,3 +1,3 @@
 from backendLoanAssessment.models.UserModel import UserModel
 from backendLoanAssessment.models.LoanApplicationModel import LoanApplicationModel
-from backendLoanAssessment.models.ApplicationResultsModel import ApplicationResultModel
+from backendLoanAssessment.models.ApplicationResultModel import ApplicationResultModel

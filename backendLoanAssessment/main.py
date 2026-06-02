@@ -5,7 +5,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backendLoanAssessment.routers.LoanApplicationRouter import router as loan_router
 from backendLoanAssessment.database import Base, engine
-from backendLoanAssessment.models import UserModel, LoanApplicationModel, ApplicationResultsModel
+from backendLoanAssessment.models.UserModel import UserModel
+from backendLoanAssessment.models.LoanApplicationModel import LoanApplicationModel
+from backendLoanAssessment.models.ApplicationResultModel import ApplicationResultModel
 from backendLoanAssessment.routers.AuthRouter import router as auth_router
 from backendLoanAssessment.routers.UserRouter import router as user_router
 from starlette.middleware.sessions import SessionMiddleware
