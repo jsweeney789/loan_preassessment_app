@@ -16,3 +16,13 @@ LOAN_RISK_POINTS = "Lowering your loan amount by 10% to ${tenOff} will increase 
 LOAN_RISK = "Consider lowering your loan amount to increase your loan score."
 LOAN_BIG_SAFE = "This loan amount is well within the safe amount for approval with borrowers with your profile and loan type."
 LOAN_SAFE = "This loan amount is within the safe amount for approval with borrowers with your profile and loan type."
+
+DURATION_RISK_POINTS = "Changing your loan duration to {adjusted} will increase your loan score by about {diff} points."
+DURATION_RISK = "Borrowers with your loan duration of {current} may face stricter requirements for similar loan approval."
+DURATION_BIG_SAFE = "Your loan duration of {current} is excellent for similar loan approval."
+DURATION_SAFE = "Your loan duration of {current} is great for similar loan approval."
+
+SEX_SAFE = "{sex} borrowers often face more lax requirements for similar loan approval."
+
+PURPOSE_RISK = "Loans with the same purpose may face stricter requirements for similar loan approval."
+PURPOSE_SAFE = "Loans with the same purpose often face more lax requirements for similar loan approval."
