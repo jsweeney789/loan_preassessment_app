@@ -73,6 +73,13 @@ module "app" {
 }
 
 
+module "eks" {
+  source = "../../modules/eks"
+  version = "~> 21.0"
+
+}
+
+
 
 module "database" {
   source = "../../modules/database"
