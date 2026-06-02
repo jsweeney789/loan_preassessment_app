@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backendLoanAssessment.routers.LoanApplicationRouter import router
+from backendLoanAssessment.routers.LoanApplicationRouter import router as loan_router
 from backendLoanAssessment.database import Base, engine
-from backendLoanAssessment import models
+from backendLoanAssessment.models import UserModel, LoanApplicationModel, ApplicationResultsModel
 from backendLoanAssessment.routers.AuthRouter import router as auth_router
 from backendLoanAssessment.routers.UserRouter import router as user_router
 from starlette.middleware.sessions import SessionMiddleware
@@ -30,7 +30,7 @@ app.add_middleware(
 
 
 
-app.include_router(router, prefix="/api", tags=["Applications"])
+app.include_router(loan_router, prefix="/api", tags=["Applications"])
 app.include_router(auth_router)
 app.include_router(user_router)
 

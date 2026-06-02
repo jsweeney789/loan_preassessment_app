@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from fastapi import Cookie
 from backendLoanAssessment.database import get_db
 from backendLoanAssessment.security.jwt import decodeJwtToken
-from backendLoanAssessment.models.User import User
+from backendLoanAssessment.models.UserModel import User
 
 '''
 More FastAPI Security notes:

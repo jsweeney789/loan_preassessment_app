@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from backendLoanAssessment.models.User import User
+from backendLoanAssessment.models.UserModel import UserModel as User
 from backendLoanAssessment.security.jwt import createJwtToken
 
 

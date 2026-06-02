@@ -1,11 +1,13 @@
-from backendLoanAssessment.schemas.LoanApplication import *
+from backendLoanAssessment.schemas.LoanApplicationSchema import *
 from backendLoanAssessment.services.AdviceService import AdviceService
 from backendLoanAssessment.services.SageMakerService import SageMakerService
+from sqlalchemy.orm import Session
 
 class LoanApplicationService:
-    def __init__(self, sagemakerService: SageMakerService):
+    def __init__(self, sagemakerService: SageMakerService, db: Session):
         self.sagemaker = sagemakerService
         self.advice_service = AdviceService(sagemakerService)
+        self.db = db
 
     def processApplication(self, application: LoanApplication) -> ApplicationResult:
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
@@ -83,3 +85,6 @@ class LoanApplicationService:
             return LoanDecision.likely_disapproval
         else:
             return LoanDecision.confident_disapproval
+    
+    def getUserApplications(self, user):
+        return self.db.query(LoanApplication).filter(LoanApplication.user_id == user.id).all()
