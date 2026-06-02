@@ -146,7 +146,7 @@ class AdviceService:
         '''
         CHECKING ACCOUNTS
         '''
-        checkingScore = explanations["Checking accounts"]
+        checkingScore = explanations["Checking account"]
         match checkingScore:
             case x if x >= RISK_THRESHOLD:
                 scoreDiff = 0
