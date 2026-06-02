@@ -187,10 +187,68 @@
   }
 }
 
+// ─── User Advice Panels ─────────────────────────────────────────────────────
+.advice-panels {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.advice-panel {
+  flex: 1;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+}
+
+.advice-good {
+  border-color: rgba(76, 201, 100, 0.3);
+  h3 {
+    color: rgba(76, 201, 100, 1);
+    margin-top: 0;
+  }
+}
+
+.advice-bad {
+  border-color: rgba(201, 76, 76, 0.3);
+  h3 {
+    color: var(--error);
+    margin-top: 0;
+  }
+}
+
+.advice-info {
+  width: 100%;
+  margin-top: 20px;
+  border-color: rgba(76, 150, 201, 0.3);
+  h3 {
+    color: rgba(76, 150, 201, 1);
+    margin-top: 0;
+  }
+}
+
+.advice-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.advice-text {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
 @media (max-width: 600px) {
   .result-section {
     padding-left: 24px;
     padding-right: 24px;
+  }
+  .advice-panels {
+    flex-direction: column;
   }
 }
 
