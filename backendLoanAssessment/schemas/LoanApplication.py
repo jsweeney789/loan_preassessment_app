@@ -62,6 +62,8 @@ sexNumericMap = {
     "male": 1,
     "female": 0
 }
+# Reverse stringmap
+sexStringMap = {v: k for k, v in sexNumericMap.items()}
 
 class CheckingAccountStatus(int, Enum):
     NA = 0

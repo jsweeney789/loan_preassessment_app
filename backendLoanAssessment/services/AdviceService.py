@@ -45,7 +45,7 @@ class AdviceService:
             case x if x >= RISK_THRESHOLD:
                 appendAdvice(userAdvice, "INFO", ageScore, AGE_RISK.format(age=mlApplication.age))
             case x if x <= SAFE_THRESHOLD:
-                appendAdvice(userAdvice, "GOOD", ageScore, AGE_SAFE.format(age=mlApplication.age))
+                appendAdvice(userAdvice, "INFO", ageScore, AGE_SAFE.format(age=mlApplication.age))
 
         '''
         JOB
@@ -188,7 +188,7 @@ class AdviceService:
         match amountScore:
             
             case x if x >= RISK_THRESHOLD:
-                    scoreDiff = 0 
+
                     scoreDiff = self.computeScoreDiffWithModification(
                         originalLoanApp=mlApplication,
                         prediction=prediction,
@@ -217,14 +217,78 @@ class AdviceService:
         '''
         DURATION
         '''
+        durationScore = explanations["Duration"]
+        match durationScore:
+            case x if x >= RISK_THRESHOLD:
+                shorterScoreDiff = self.computeScoreDiffWithModification(
+                    originalLoanApp=mlApplication,
+                    prediction=prediction,
+                    fieldToModify='duration',
+                    modificationOperation = lambda x: round(x / 1.5)
+                )
+                longerScoreDiff = self.computeScoreDiffWithModification(
+                    originalLoanApp=mlApplication,
+                    prediction=prediction,
+                    fieldToModify='duration',
+                    modificationOperation = lambda x: round(x * 1.5)
+                )
 
+                if shorterScoreDiff > longerScoreDiff:
+                    scoreDiff = shorterScoreDiff
+                    adjustedDuration = round(mlApplication.duration / 1.5)
+                else:
+                    scoreDiff = longerScoreDiff
+                    adjustedDuration = round(mlApplication.duration * 1.5)
+                
+                if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
+                    appendAdvice(userAdvice, "BAD", durationScore,
+                            DURATION_RISK_POINTS.format(
+                                adjusted=str(adjustedDuration) + " months",
+                                diff=scoreDiff
+                            ))
+                   
+                else:
+                    appendAdvice(userAdvice, "BAD", durationScore, DURATION_RISK.format(current=str(mlApplication.duration) + " months"))
+
+            case x if x <= BIG_SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", durationScore, DURATION_BIG_SAFE.format(current=str(mlApplication.duration) + " months"))
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "GOOD", durationScore, DURATION_SAFE.format(current=str(mlApplication.duration) + " months"))
         '''
         SEX
         '''
+        sexScore = explanations["Sex"]
+
+        # Only show something if it's a positive contributing factor
+        if sexScore <= SAFE_THRESHOLD:
+            if mlApplication.sex_male == 1:
+                sex = 'Male'
+            else:
+                sex = 'Female'
+            appendAdvice(userAdvice, "INFO", sexScore, SEX_SAFE.format(sex=sex))
 
         '''
         PURPOSE
         '''
+        purposeScore = explanations["Purpose"]
+        match purposeScore:
+            case x if x >= RISK_THRESHOLD:
+                appendAdvice(userAdvice, "INFO", purposeScore, PURPOSE_RISK)
+            case x if x <= SAFE_THRESHOLD:
+                appendAdvice(userAdvice, "INFO", purposeScore, PURPOSE_SAFE)
+
+        '''
+        Empty Array Fallback
+        '''
+        if userAdvice["GOOD"] == []:
+            appendAdvice(userAdvice, "GOOD", 0, "TODO: GOOD FALLBACK BASED ON SCORE")
+
+        if userAdvice["BAD"] == []:
+            appendAdvice(userAdvice, "BAD", 0, "TODO: BAD FALLBACK BASED ON SCORE")
+
+        if userAdvice["INFO"] == []:
+            appendAdvice(userAdvice, "INFO", 0, "TODO: INFO FALLBACK")
+
         return userAdvice
 
 

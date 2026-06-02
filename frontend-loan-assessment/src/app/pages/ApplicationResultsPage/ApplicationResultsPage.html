@@ -15,9 +15,6 @@
     <div class="result-section">
       <p class="score-label">Your Score Is...</p>
       <app-hexagon [score]="((1 - result.prediction) * 100).toFixed(1)" />
-      <p class="score-summary">
-        This means you are <span class="highlight">{{ ((1 - result.prediction) * 100).toFixed(1) }}%</span> likely to be approved for your loan.
-      </p>
     </div>
 
     <div class="section-divider"></div>
@@ -31,6 +28,46 @@
         Based on your profile, our model has returned a decision of
         <span class="highlight">{{ result.decision }}</span>.
       </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- User Advice Section -->
+    <div class="result-section">
+      <div class="section-label">
+        <span class="section-title">Personalized Advice</span>
+      </div>
+      <div class="advice-panels">
+        <!-- Top Left Half Panel: GOOD ADVICE -->
+        <div class="advice-panel advice-good">
+          <h3>Positives</h3>
+          @for (advice of result.userAdvice.GOOD; track advice[1]) {
+            <div class="advice-item">
+              <span class="advice-text">{{ advice[1] }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Top Right Half Panel: BAD ADVICE -->
+        <div class="advice-panel advice-bad">
+          <h3>Negatives</h3>
+          @for (advice of result.userAdvice.BAD; track advice[1]) {
+            <div class="advice-item">
+              <span class="advice-text">{{ advice[1] }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="advice-panel advice-info">
+        <h3>Info</h3>
+        @for (advice of result.userAdvice.INFO; track advice[1]) {
+          <div class="advice-item">
+            <span class="advice-text">{{ advice[1] }}</span>
+          </div>
+        }
+      </div>
     </div>
 
     <div class="section-divider"></div>
