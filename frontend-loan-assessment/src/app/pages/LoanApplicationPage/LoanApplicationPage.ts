@@ -8,8 +8,6 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 
 import { LoanApplication } from '../../types/LoanApplication';
 import * as LoanEnums from '../../types/LoanApplication.enums';
@@ -35,9 +33,8 @@ interface SelectOption {
     ButtonModule,
     CardModule,
     DividerModule,
-    ToastModule,
   ],
-  providers: [MessageService],
+  providers: [],
   templateUrl: './LoanApplicationPage.html',
   styleUrls: ['./LoanApplicationPage.scss'],
 })
@@ -67,7 +64,6 @@ export class LoanApplicationPage {
 
   constructor(
     private fb: FormBuilder, 
-    private messageService: MessageService, 
     private loanApplicationService: LoanApplicationService,
     private applicationResultService: ApplicationResultService,
     private router: Router,
@@ -103,11 +99,6 @@ export class LoanApplicationPage {
 
     } else {
       this.form.markAllAsTouched();
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Incomplete Form',
-        detail: 'Please fill in all required fields.',
-      });
     }
   }
 
@@ -123,11 +114,7 @@ export class LoanApplicationPage {
           this.applicationResultService.applicationResult = data;
           console.log("Response: ", data)
           this.router.navigate(['/results']);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Application Submitted',
-            detail: 'Your loan application has been received.',
-        });},
+        },
         error: (err) => {
           console.error('Failed to submit loan application.', err)
         }
