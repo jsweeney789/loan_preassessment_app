@@ -1,16 +1,16 @@
 
-AGE_RISK = "Borrowers with your age of {age} often face stricter requirements for loan approval."
-AGE_SAFE = "Borrowers with your age of {age} often face more lax requirements for loan approval."
+AGE_RISK = "Borrowers with your age of {age} may face stricter requirements for similar loan approval."
+AGE_SAFE = "Borrowers with your age of {age} often face more lax requirements for similar loan approval."
 
 RISK_POINTS = "Changing your {field} status to {plus1} will increase your loan score by about {diff} points."
-RISK = "Borrowers with your {field} status of {current} often face stricter requirements for loan approval."
-BIG_SAFE = "Your {field} status of {current} is excellent for loan approval."
-SAFE = "Your {field} status of {current} is great for loan approval."
+RISK = "Borrowers with your {field} status of {current} may face stricter requirements for similar loan approval."
+BIG_SAFE = "Your {field} status of {current} is excellent for similar loan approval."
+SAFE = "Your {field} status of {current} is great for similar loan approval."
 
 ACCOUNT_RISK_POINTS = "Changing the amount in your {field} to ${plus1} or greater will increase your loan score by about {diff} points."
-ACCOUNT_RISK = "Borrowers with a similar amount in your {field} often face stricter requirements for loan approval."
-ACCOUNT_BIG_SAFE = "The amount in your {field} is excellent for loan approval."
-ACCOUNT_SAFE = "The amount in your {field} is great for loan approval."
+ACCOUNT_RISK = "Borrowers with a similar amount in your {field} may face stricter requirements for similar loan approval."
+ACCOUNT_BIG_SAFE = "The amount in your {field} is excellent for similar loan approval."
+ACCOUNT_SAFE = "The amount in your {field} is great for similar loan approval."
 
 LOAN_RISK_POINTS = "Lowering your loan amount by 10% to ${tenOff} will increase your loan score by about {diff} points."
 LOAN_RISK = "Consider lowering your loan amount to increase your loan score."

@@ -197,9 +197,9 @@ class AdviceService:
                     )
                 
                     if scoreDiff >= SIGNIFICANT_SCORE_DIFF:
-                        # TODO: Convert back to USD to display to the user
-                        roundedAmount = round(mlApplication.creditAmount * 0.9)
-                        formattedAmount = "{:,}".format(roundedAmount)
+                        
+                        dmConvertedAmount = mlApplication.creditAmount/0.419786910198 * 0.9
+                        formattedAmount = "{:,}".format(int(dmConvertedAmount))
                         appendAdvice(userAdvice, "BAD", amountScore,
                                 LOAN_RISK_POINTS.format(
                                     tenOff=formattedAmount, 
