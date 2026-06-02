@@ -4,6 +4,9 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 
 
 def _db_url() -> str:
+    # for local dev
+    if url := os.getenv("DEV_DATABASE_URL"):
+        return url
     return (
         f"postgresql+psycopg2://{os.environ['DB_USERNAME']}:{os.environ['DB_PASSWORD']}"
         f"@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"

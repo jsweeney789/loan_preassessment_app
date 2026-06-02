@@ -1,6 +1,6 @@
+import os
 from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session
-
 from backendLoanAssessment.database import get_db
 from backendLoanAssessment.services.AuthService import loginOrCreateUser
 from backendLoanAssessment.services.GoogleOauthService import oauth
