@@ -281,13 +281,19 @@ class AdviceService:
         Empty Array Fallback
         '''
         if userAdvice["GOOD"] == []:
-            appendAdvice(userAdvice, "GOOD", 0, "TODO: GOOD FALLBACK BASED ON SCORE")
+            if prediction <= 0.4:
+                appendAdvice(userAdvice, "GOOD", 0, "Your loan application is solid all-around.")
+            else:
+                appendAdvice(userAdvice, "GOOD", 0, "Adjustments to your current loan application or financial situation may aid in getting it approved. Reach out to your financial advisor for personalized and professional guidance.")
 
         if userAdvice["BAD"] == []:
-            appendAdvice(userAdvice, "BAD", 0, "TODO: BAD FALLBACK BASED ON SCORE")
+            if prediction <= 0.4:
+                appendAdvice(userAdvice, "BAD", 0, "None")
+            else:
+                appendAdvice(userAdvice, "BAD", 0, "Your loan application does not have any clearly negative factors, so various adjustments to your current loan application or financial situation may aid in getting it approved. Reach out to your financial advisor for personalized and professional guidance.")
 
         if userAdvice["INFO"] == []:
-            appendAdvice(userAdvice, "INFO", 0, "TODO: INFO FALLBACK")
+            appendAdvice(userAdvice, "INFO", 0, "No additional insights found for your loan application. If you'd like, you can reach out to your financial advisor for personalized and professional guidance.")
 
         return userAdvice
 
