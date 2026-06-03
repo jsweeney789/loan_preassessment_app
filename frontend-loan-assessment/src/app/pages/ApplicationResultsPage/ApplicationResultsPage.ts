@@ -8,13 +8,12 @@ import { LoanApplicationService } from '../../services/LoanApplicationService';
 import { LoanApplication } from '../../types/LoanApplication';
 import { AccordionModule } from 'primeng/accordion';
 import { CommonModule } from '@angular/common'
-import { SummaryAccordion } from "../../components/summaryAccordion/summaryAccordion";
 import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
 import { effect } from '@angular/core';
 
 @Component({
   selector: 'application-results-page',
-  imports: [Hexagon, ButtonModule, AccordionModule, CommonModule, SummaryAccordion, ApplicationHistoryDrawer],
+  imports: [Hexagon, ButtonModule, AccordionModule, CommonModule, ApplicationHistoryDrawer],
   templateUrl: './ApplicationResultsPage.html',
   styleUrl: './ApplicationResultsPage.scss',
 })

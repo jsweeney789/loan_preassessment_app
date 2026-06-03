@@ -22,11 +22,6 @@
 
     <div class="section-divider"></div>
 
-    <!-- Application Summary Accordion -->
-    @if (application) {
-      <app-summary-accordion [application]="application" />
-    }
-
     <div class="section-divider"></div>
 
     <!-- Decision -->
@@ -82,6 +77,56 @@
 
     <div class="section-divider"></div>
 
+    @if (application) {
+      <div class="result-section">
+        <p-accordion>
+            <p-accordion-panel value="0">
+                <p-accordion-header>Your Application Details</p-accordion-header>
+                <p-accordion-content>
+                    <div class="field-grid">
+                        <div class="field-block">
+                            <span class="field-label">Age: </span>
+                            <span class="result-body">{{ application.age }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Gender: </span>
+                            <span class="result-body">{{ application.sex }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Employment: </span>
+                            <span class="result-body">{{ application.job }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Housing: </span>
+                            <span class="result-body">{{ application.housing }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Checking Account: </span>
+                            <span class="result-body">{{ application.checkingAcc | currency }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Savings Account: </span>
+                            <span class="result-body">{{ application.savingAcc | currency }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Loan Amount: </span>
+                            <span class="result-body">{{ application.creditAmount | currency }}</span>
+                        </div>
+                        <div class="field-block">
+                            <span class="field-label">Duration: </span>
+                            <span class="result-body">{{ application.duration }} months</span>
+                        </div>
+                        <div class="field-block field-block--full">
+                            <span class="field-label">Purpose: </span>
+                            <span class="result-body">{{ application.purpose }}</span>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+        </p-accordion>
+    </div>
+    }
+    
     <!-- Old SHAP Explanations-->
 
 <!--     

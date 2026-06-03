@@ -73,6 +73,7 @@ import { environment } from '../../../environments/environment';
 })
 export class WelcomePage {
     loginWithGoogle(): void {
-        window.location.href = `${environment.apiUrl}/auth/login`;
+        const redirect = encodeURIComponent(`${window.location.origin}/loanapplication`);
+        window.location.href = `${environment.apiUrl}/auth/login?redirect=${redirect}`;
     }
 }

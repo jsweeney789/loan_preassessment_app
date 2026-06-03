@@ -13,7 +13,8 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def login(request: Request):
     """Redirect the user to Google's OAuth consent screen."""
     redirect_uri = request.url_for("authCallback")
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    frontend_url = request.query_params.get("redirect", "http://localhost:4200")
+    return await oauth.google.authorize_redirect(request, redirect_uri, state=frontend_url)
 
 
 
@@ -32,8 +33,11 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
 
     jwt_token, user = loginOrCreateUser(db, google_user)
 
-    # TODO
-    response = RedirectResponse(url=os.getenv("FRONTEND_URL", "http://localhost:4200/loanapplication"))
+    frontend_url = request.query_params.get("state", "http://localhost:4200")
+    if not is_safe_redirect(frontend_url):
+        frontend_url = "http://localhost:4200"
+
+    response = RedirectResponse(url=frontend_url)
     response.set_cookie(
         key="access_token",
         value=jwt_token,
@@ -45,3 +49,14 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
 
     return response
     
+from urllib.parse import urlparse
+
+ALLOWED_HOSTS = {"localhost", "d1u5g6nu2nj7p1.cloudfront.net"}
+
+def is_safe_redirect(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        return parsed.hostname in ALLOWED_HOSTS
+    except Exception:
+        return False
+
