@@ -17,6 +17,17 @@
   --gold-400:   #d4b86a;
   --gold-300:   #e2cc97;
   --gold-glow:  rgba(201, 168, 76, 0.2);
+  --gold-dark:  #b8923e;
+
+  --green-500:  #4caf50;       // Confident Approval
+  --green-400:  #a5d6a7;       // Likely Approval (lighter and less saturated)
+  --green-glow: rgba(76, 175, 80, 0.2);
+  --green-dark: #388e3c;
+
+  --light-red-500: #ef9a9a;    // Likely Disapproval (lighter and less saturated)
+  --red-500:     #e05c5c;       // Confident Disapproval
+  --red-glow:    rgba(224, 92, 92, 0.2);
+  --red-dark:    #b71c1c;
 
   --text-primary:   #eef2f9;
   --text-secondary: #94aac8;
@@ -44,6 +55,39 @@
   color: var(--text-primary);
 }
 
+// Apply dynamic theming based on decision
+:host {
+  &[data-decision="Confident Approval"] {
+    --theme-color: var(--green-500);
+    --theme-glow: var(--green-glow);
+    --theme-color-dark: var(--green-dark);
+  }
+
+  &[data-decision="Likely Approval"] {
+    --theme-color: var(--green-400);
+    --theme-glow: var(--green-glow);
+    --theme-color-dark: var(--green-dark);
+  }
+
+  &[data-decision="Unsure"] {
+    --theme-color: var(--gold-500);
+    --theme-glow: var(--gold-glow);
+    --theme-color-dark: var(--gold-dark);
+  }
+
+  &[data-decision="Likely Disapproval"] {
+    --theme-color: var(--light-red-500);
+    --theme-glow: var(--red-glow);
+    --theme-color-dark: var(--red-dark);
+  }
+
+  &[data-decision="Confident Disapproval"] {
+    --theme-color: var(--red-500);
+    --theme-glow: var(--red-glow);
+    --theme-color-dark: var(--red-dark);
+  }
+}
+
 // ─── Header ───────────────────────────────────────────────────────────────────
 .form-header {
   position: relative;
@@ -66,7 +110,7 @@
     right: -80px;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--theme-glow) 0%, transparent 70%);
     z-index: 0;
   }
 }
@@ -76,7 +120,7 @@
   top: 0; left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(180deg, var(--gold-500), transparent);
+  background: linear-gradient(180deg, var(--theme-color), transparent);
   z-index: 1;
 }
 
@@ -88,7 +132,7 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold-400);
+  color: var(--theme-color);
   margin-bottom: 12px;
 }
 
@@ -121,7 +165,7 @@
   font-family: var(--font-display);
   font-size: 28px;
   font-weight: 600;
-  color: var(--gold-400);
+  color: var(--theme-color);
   margin: 0 0 24px;
 }
 
@@ -133,7 +177,7 @@
 }
 
 .highlight {
-  color: var(--gold-400);
+  color: var(--theme-color);
   font-weight: 600;
 }
 
@@ -187,10 +231,68 @@
   }
 }
 
+// ─── User Advice Panels ─────────────────────────────────────────────────────
+.advice-panels {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.advice-panel {
+  flex: 1;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+}
+
+.advice-good {
+  border-color: rgba(76, 201, 100, 0.3);
+  h3 {
+    color: rgba(76, 201, 100, 1);
+    margin-top: 0;
+  }
+}
+
+.advice-bad {
+  border-color: rgba(201, 76, 76, 0.3);
+  h3 {
+    color: var(--error);
+    margin-top: 0;
+  }
+}
+
+.advice-info {
+  width: 100%;
+  margin-top: 20px;
+  border-color: rgba(76, 150, 201, 0.3);
+  h3 {
+    color: rgba(76, 150, 201, 1);
+    margin-top: 0;
+  }
+}
+
+.advice-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.advice-text {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
 @media (max-width: 600px) {
   .result-section {
     padding-left: 24px;
     padding-right: 24px;
+  }
+  .advice-panels {
+    flex-direction: column;
   }
 }
 
@@ -221,3 +323,4 @@
   border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: 12px;
 }
+

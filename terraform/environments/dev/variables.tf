@@ -75,3 +75,13 @@ variable "terraform_version" {
   type        = string
   default     = "1.9.8"
 }
+
+variable "notification_email" {
+  description = "Email address for pipeline failure alerts"
+  type        = string
+}
+
+variable "cluster_admin_role_arn" {
+  description = "IAM role ARN granted kubectl cluster-admin access on the EKS cluster"
+  type        = string
+}
