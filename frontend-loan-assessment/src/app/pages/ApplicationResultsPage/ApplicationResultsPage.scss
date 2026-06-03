@@ -161,6 +161,21 @@
   text-align: center;
 }
 
+.section-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
 .score-label {
   font-family: var(--font-display);
   font-size: 28px;
@@ -274,10 +289,31 @@
 }
 
 .advice-item {
+  display: flex;
+  align-items: center;
   padding: 10px;
   margin-bottom: 8px;
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+}
+
+.advice-symbol {
+  font-weight: bold;
+  margin-right: 8px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.advice-good .advice-symbol {
+  color: rgba(76, 201, 100, 1);
+}
+
+.advice-bad .advice-symbol {
+  color: var(--error);
+}
+
+.advice-info .advice-symbol {
+  color: rgba(76, 150, 201, 1);
 }
 
 .advice-text {

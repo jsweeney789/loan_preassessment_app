@@ -48,6 +48,11 @@
           <h3>Positives</h3>
           @for (advice of result.userAdvice.GOOD; track advice[1]) {
             <div class="advice-item">
+              @if (advice[0] < -0.3) {
+                <span class="advice-symbol">++</span>
+              } @else {
+                <span class="advice-symbol">+</span>
+              }
               <span class="advice-text">{{ advice[1] }}</span>
             </div>
           }
@@ -58,6 +63,11 @@
           <h3>Negatives</h3>
           @for (advice of result.userAdvice.BAD; track advice[1]) {
             <div class="advice-item">
+              @if (advice[0] > 0.3) {
+                <span class="advice-symbol">--</span>
+              } @else {
+                <span class="advice-symbol">-</span>
+        }
               <span class="advice-text">{{ advice[1] }}</span>
             </div>
           }
@@ -69,6 +79,7 @@
         <h3>Info</h3>
         @for (advice of result.userAdvice.INFO; track advice[1]) {
           <div class="advice-item">
+            <span class="advice-symbol">•</span>
             <span class="advice-text">{{ advice[1] }}</span>
           </div>
         }
@@ -143,10 +154,10 @@
           <div class="shap-item" [class.shap-positive]="explanation.value < 0" [class.shap-negative]="explanation.value > 0">
             <span class="shap-feature">{{ explanation.key }}</span>
             <span class="shap-value">{{ explanation.value < 0 ? '+' : '' }}{{ (explanation.value * -1).toFixed(3) }}</span>
-          </div>
-        }
-      </div>
     </div> 
+  }
+    </div>
+</div>
     -->
 
   } @else {
@@ -169,3 +180,4 @@
     />
     </div>
 </div>
+
