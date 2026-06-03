@@ -51,3 +51,8 @@ variable "min_nodes" {
   type        = number
   default     = 1
 }
+
+variable "cluster_admin_role_arn" {
+  description = "IAM role ARN granted cluster-admin access via EKS access entries (e.g. your SSO role)"
+  type        = string
+}

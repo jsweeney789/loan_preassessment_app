@@ -89,6 +89,9 @@ module "eks" {
   desired_nodes      = 2
   min_nodes          = 1
   max_nodes          = 3
+
+  # Grant your SSO role kubectl cluster-admin access
+  cluster_admin_role_arn = var.cluster_admin_role_arn
 }
 
 

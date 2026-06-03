@@ -8,6 +8,10 @@ resource "aws_eks_cluster" "eks" {
     endpoint_public_access  = true  # allows kubectl from your laptop; lock down in prod
   }
 
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"
+  }
+
   # Capture control-plane logs in CloudWatch
   enabled_cluster_log_types = ["api", "audit", "authenticator"]
 

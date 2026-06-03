@@ -169,3 +169,27 @@ resource "aws_iam_openid_connect_provider" "eks" {
 
   tags = merge(var.tags, { Environment = var.environment })
 }
+
+# ── Cluster Admin Access Entry ─────────────────────────────────────────────────
+# Grants the specified IAM role kubectl cluster-admin access via EKS access entries
+# (requires authentication_mode = API_AND_CONFIG_MAP on the cluster)
+
+resource "aws_eks_access_entry" "admin" {
+  cluster_name  = aws_eks_cluster.eks.name
+  principal_arn = var.cluster_admin_role_arn
+  type          = "STANDARD"
+
+  tags = merge(var.tags, { Environment = var.environment })
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  cluster_name  = aws_eks_cluster.eks.name
+  principal_arn = var.cluster_admin_role_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.admin]
+}
