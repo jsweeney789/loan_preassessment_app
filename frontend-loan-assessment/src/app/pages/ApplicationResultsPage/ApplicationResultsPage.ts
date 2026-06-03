@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './ApplicationResultsPage.html',
   styleUrl: './ApplicationResultsPage.scss',
 })
-export class ApplicationResultsPage {
+export class ApplicationResultsPage implements OnInit {
   result: ApplicationResult | null = null;
 
   constructor(
@@ -23,6 +23,10 @@ export class ApplicationResultsPage {
     if (this.result) {
       this.sortUserAdvice();
     }
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0); // Scroll to the top when the component is initialized
   }
 
   sortUserAdvice(): void {
@@ -42,3 +46,4 @@ export class ApplicationResultsPage {
     this.router.navigate(['/loanapplication']);
   }
 }
+
