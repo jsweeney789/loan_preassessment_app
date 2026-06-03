@@ -5,6 +5,6 @@ import { WelcomePage } from './pages/WelcomePage/WelcomePage';
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'loanapplication', component: LoanApplicationPage},
-    { path: 'results', component: ApplicationResultsPage},
+    { path: 'results', component: ApplicationResultsPage, runGuardsAndResolvers: 'always' },
     { path: 'login', component: WelcomePage}
 ];

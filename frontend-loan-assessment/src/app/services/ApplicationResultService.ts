@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { ApplicationResult } from "../types/ApplicationResult";
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationResultService {
-  applicationResult: ApplicationResult | null = null;
+    applicationResult = signal<ApplicationResult | null>(null);
 }

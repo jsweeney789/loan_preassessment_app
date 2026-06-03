@@ -10,6 +10,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { CommonModule } from '@angular/common'
 import { SummaryAccordion } from "../../components/summaryAccordion/summaryAccordion";
 import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
+import { effect } from '@angular/core';
 
 @Component({
   selector: 'application-results-page',
@@ -24,23 +25,25 @@ export class ApplicationResultsPage implements OnInit {
   private animationDuration: number = 1500; // 1.5 seconds
 
   constructor(
-    private router: Router,
-    private resultService: ApplicationResultService,
-    private loanService: LoanApplicationService,
-    private el: ElementRef,
-    private cdr: ChangeDetectorRef
+      private router: Router,
+      private resultService: ApplicationResultService,
+      private loanService: LoanApplicationService,
+      private el: ElementRef,
+      private cdr: ChangeDetectorRef
   ) {
-    this.result = this.resultService.applicationResult;
-    this.application = this.loanService.getLoanApplicationData();
-    if (this.result) {
-      this.sortUserAdvice();
-    }
+      effect(() => {
+          this.result = this.resultService.applicationResult();
+          this.application = this.loanService.getLoanApplicationData();
+          if (this.result) {
+              this.sortUserAdvice();
+              this.updateThemeBasedOnDecision();
+              setTimeout(() => this.animateScore(), 0);
+          }
+      });
   }
 
   ngOnInit(): void {
     window.scrollTo(0, 0); // Scroll to the top when the component is initialized
-    this.updateThemeBasedOnDecision();
-    this.animateScore();
   }
 
   updateThemeBasedOnDecision(): void {

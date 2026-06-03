@@ -171,7 +171,7 @@ class ApplicationResultSchema(BaseModel):
     
     prediction: float
     decision: str
-    user_advice: dict[str, list[tuple[float, str]]]
+    userAdvice: dict[str, list[tuple[float, str]]] = Field(alias="user_advice")
     explanations: dict[str, float]
 
 class LoanApplicationHistory(BaseModel):

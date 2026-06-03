@@ -34,6 +34,10 @@ export class LoanApplicationService {
         this.loanApplicationData = null;
     }
 
+    setLoanApplicationData(data: LoanApplication): void {
+        this.loanApplicationData = data;
+    }
+
     private readonly historyUrl = `${environment.apiUrl}/api/my-applications`
 
     getApplicationHistory(): Observable<LoanApplicationHistory[]> {

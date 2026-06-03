@@ -129,7 +129,7 @@ export class LoanApplicationPage implements OnInit {
     this.loanApplicationService.submitLoanApplication(loanApp).subscribe({
         next: (data: ApplicationResult) => {
           console.log("Payload sent: ", loanApp)
-          this.applicationResultService.applicationResult = data;
+          this.applicationResultService.applicationResult.set(data);
           console.log("Response: ", data)
           this.router.navigate(['/results']);
         },
