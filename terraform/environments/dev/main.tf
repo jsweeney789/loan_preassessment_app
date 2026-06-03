@@ -73,6 +73,25 @@ module "app" {
 }
 
 
+module "eks" {
+  source = "../../modules/eks"
+
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.tags
+
+  # Networking — same VPC and private subnets as ECS
+  vpc_id             = module.networking.vpc_id
+  private_subnet_ids = module.networking.private_subnet_ids
+
+  # Node sizing — t3.medium gives 2 vCPU / 4 GiB, enough for dev workloads
+  node_instance_type = "t3.medium"
+  desired_nodes      = 2
+  min_nodes          = 1
+  max_nodes          = 3
+}
+
+
 
 module "database" {
   source = "../../modules/database"
