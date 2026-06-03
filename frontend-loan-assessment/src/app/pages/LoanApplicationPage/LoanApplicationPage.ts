@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -38,7 +38,7 @@ interface SelectOption {
   templateUrl: './LoanApplicationPage.html',
   styleUrls: ['./LoanApplicationPage.scss'],
 })
-export class LoanApplicationPage {
+export class LoanApplicationPage implements OnInit {
   form: FormGroup;
   submitted = false;
 
@@ -82,6 +82,20 @@ export class LoanApplicationPage {
       duration:     [null, [Validators.required, Validators.min(1)]],
       purpose:      [null, Validators.required],
     });
+
+    // Restore form data if available
+    this.restoreFormData();
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0); // Scroll to the top when the component is initialized
+  }
+
+  restoreFormData(): void {
+    const savedData = this.loanApplicationService.getLoanApplicationData();
+    if (savedData) {
+      this.form.patchValue(savedData);
+    }
   }
 
   isInvalid(field: string): boolean {
@@ -105,6 +119,8 @@ export class LoanApplicationPage {
   onReset(): void {
     this.submitted = false;
     this.form.reset();
+    // Clear the stored data when the form is reset
+    this.loanApplicationService.clearLoanApplicationData();
   }
 
   handleSubmitLoanApplication(loanApp: LoanApplication) {

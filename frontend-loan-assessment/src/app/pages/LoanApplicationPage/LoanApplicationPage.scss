@@ -329,6 +329,7 @@
     border-radius: var(--radius) !important;
     transition: all 0.2s !important;
     box-shadow: none !important;
+    min-width: 207px !important;
 
     &:hover {
       background: linear-gradient(135deg, var(--gold-400), var(--gold-500)) !important;

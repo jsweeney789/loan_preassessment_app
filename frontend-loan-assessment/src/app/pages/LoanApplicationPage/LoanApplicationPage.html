@@ -198,11 +198,12 @@
         styleClass="btn-reset"
       />
       <p-button
-        label="Submit Application"
+        [label]="submitted ? '' : 'Submit Application'"
         type="submit"
         styleClass="btn-submit"
-        icon="pi pi-arrow-right"
+        [icon]="submitted ? 'pi pi-spin pi-spinner' : 'pi pi-arrow-right'"
         iconPos="right"
+        [loading]="submitted"
       />
     </div>
 
