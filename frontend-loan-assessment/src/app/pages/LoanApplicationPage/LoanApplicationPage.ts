@@ -82,6 +82,16 @@ export class LoanApplicationPage {
       duration:     [null, [Validators.required, Validators.min(1)]],
       purpose:      [null, Validators.required],
     });
+
+    // Restore form data if available
+    this.restoreFormData();
+  }
+
+  restoreFormData(): void {
+    const savedData = this.loanApplicationService.getLoanApplicationData();
+    if (savedData) {
+      this.form.patchValue(savedData);
+    }
   }
 
   isInvalid(field: string): boolean {
@@ -105,6 +115,8 @@ export class LoanApplicationPage {
   onReset(): void {
     this.submitted = false;
     this.form.reset();
+    // Clear the stored data when the form is reset
+    this.loanApplicationService.clearLoanApplicationData();
   }
 
   handleSubmitLoanApplication(loanApp: LoanApplication) {
