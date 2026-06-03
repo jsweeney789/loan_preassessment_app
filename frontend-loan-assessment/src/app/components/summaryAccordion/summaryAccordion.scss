@@ -1,0 +1,29 @@
+// ─── Accordion ───────────────────────────────────────────────────────────────
+:host ::ng-deep .p-accordionpanel {
+  border: none !important;
+}
+
+:host ::ng-deep .p-accordionheader {
+  background: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1.5px solid var(--input-border) !important;
+  border-radius: var(--radius) !important;
+  padding: 10px 24px !important;
+}
+
+:host ::ng-deep .p-accordioncontent {
+  border: 1.5px solid var(--input-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 var(--radius) var(--radius) !important;
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .p-accordioncontent-content {
+  background: var(--navy-800) !important;
+  border: none !important;
+  padding: 24px !important;
+}
+
+:host ::ng-deep .p-accordionpanel:not(.p-accordionpanel-active) .p-accordioncontent {
+  display: none !important;
+}

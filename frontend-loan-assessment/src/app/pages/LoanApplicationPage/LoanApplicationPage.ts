@@ -15,6 +15,7 @@ import { LoanApplicationService } from '../../services/LoanApplicationService';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
+import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
 
 
 interface SelectOption {
@@ -33,6 +34,7 @@ interface SelectOption {
     ButtonModule,
     CardModule,
     DividerModule,
+    ApplicationHistoryDrawer
   ],
   providers: [],
   templateUrl: './LoanApplicationPage.html',

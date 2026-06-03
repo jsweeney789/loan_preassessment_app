@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from backendLoanAssessment.database import get_db
 from backendLoanAssessment.services.AuthService import loginOrCreateUser
 from backendLoanAssessment.services.GoogleOauthService import oauth
+from fastapi.responses import RedirectResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -31,6 +32,8 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
 
     jwt_token, user = loginOrCreateUser(db, google_user)
 
+    # TODO
+    response = RedirectResponse(url=os.getenv("FRONTEND_URL", "http://localhost:4200/loanapplication"))
     response.set_cookie(
         key="access_token",
         value=jwt_token,
@@ -40,10 +43,5 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
         max_age=3600        # matches your 1 hour token expiry
     )
 
-    return {
-        "user": {
-            "id": user.id,
-            "email": user.email,
-            "name": user.name,
-        }
-    }
+    return response
+    

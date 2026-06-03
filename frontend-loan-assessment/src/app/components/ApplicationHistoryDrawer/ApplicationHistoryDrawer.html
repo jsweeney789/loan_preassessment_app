@@ -1,0 +1,32 @@
+<p-drawer [(visible)]="visible" header="Application History" position="right">
+  @if (loading) {
+    <p class="loading-text">Loading...</p>
+  } @else if (history.length === 0) {
+    <p class="empty-text">No past applications found.</p>
+  } @else {
+    <div class="history-list">
+      @for (item of history; track item.id) {
+        <div class="history-card" (click)="selectApplication(item)">
+          <div class="history-card-header">
+            <span class="history-purpose">{{ item.purpose }}</span>
+            <span class="history-date">{{ item.created_at | date:'MMM d, y' }}</span>
+          </div>
+          <div class="history-card-body">
+            <span class="history-amount">{{ item.credit_amount | currency }}</span>
+            <span class="history-duration">{{ item.duration }} months</span>
+          </div>
+          @if (item.result) {
+            <div class="history-decision" [class]="getDecisionClass(item.result.decision)">
+              {{ item.result.decision }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</p-drawer>
+
+<!-- Trigger button -->
+<button class="history-trigger" (click)="open()">
+  <i class="pi pi-history"></i>
+</button>

@@ -1,3 +1,5 @@
+<app-history-drawer />
+
 <div class="page-wrapper">
   @if (result) {
 
@@ -16,6 +18,13 @@
       <p class="score-label">Your Score Is...</p>
       <app-hexagon [score]="displayedScore" />
     </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Application Summary Accordion -->
+    @if (application) {
+      <app-summary-accordion [application]="application" />
+    }
 
     <div class="section-divider"></div>
 
@@ -72,7 +81,7 @@
 
     <div class="section-divider"></div>
 
-    <!-- SHAP Explanations-->
+    <!-- Old SHAP Explanations-->
 
 <!--     
     <div class="result-section">

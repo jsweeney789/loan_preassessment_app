@@ -71,7 +71,7 @@ import { environment } from '../../../environments/environment';
         </div>
     `
 })
-export class Glass {
+export class WelcomePage {
     loginWithGoogle(): void {
         window.location.href = `${environment.apiUrl}/auth/login`;
     }

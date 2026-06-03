@@ -3,6 +3,7 @@ from backendLoanAssessment.services.AdviceService import AdviceService
 from backendLoanAssessment.services.SageMakerService import SageMakerService
 from backendLoanAssessment.models import ApplicationResultModel, UserModel as User, LoanApplicationModel
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import joinedload
 
 class LoanApplicationService:
     def __init__(self, sagemakerService: SageMakerService, db: Session):
@@ -11,9 +12,10 @@ class LoanApplicationService:
         self.db = db
 
     def processApplication(self, application: LoanApplication, user: User) -> ApplicationResult:
+        print("At start of processApplication in service")
         # Save the human readable LoanApplication to our db
         dbApplication = self.saveLoanAppToDB(application, user)
-
+        print("Saved loan to db")
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
         print(application)
         # age can be untouched
@@ -45,7 +47,7 @@ class LoanApplicationService:
 
         # Purpose - make sure it's mapped exactly to the categorical strings in the ML
         mlPurpose = LoanPurpose.encodePurpose(application.purpose)
-
+        print("Finished ml computations")
 
         mlApplication = MLLoanApplication(
             age=mlAge,
@@ -94,7 +96,12 @@ class LoanApplicationService:
             return LoanDecision.confident_disapproval
     
     def getUserApplications(self, user):
-        return self.db.query(LoanApplicationModel).filter(LoanApplicationModel.user_id == user.id).all()
+        return (
+            self.db.query(LoanApplicationModel)
+            .filter(LoanApplicationModel.user_id == user.id)
+            .options(joinedload(LoanApplicationModel.result))
+            .all()
+        )
     
     def saveLoanAppToDB(self, application: LoanApplication, user: User):
         db_application = LoanApplicationModel(

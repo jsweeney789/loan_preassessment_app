@@ -2,28 +2,36 @@ import { Component, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core'
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
-import { Hexagon } from '../../componenets/hexagon/hexagon';
-import { KeyValuePipe } from '@angular/common';
+import { Hexagon } from '../../components/Hexagon/Hexagon';
 import { ButtonModule } from 'primeng/button';
+import { LoanApplicationService } from '../../services/LoanApplicationService';
+import { LoanApplication } from '../../types/LoanApplication';
+import { AccordionModule } from 'primeng/accordion';
+import { CommonModule } from '@angular/common'
+import { SummaryAccordion } from "../../components/summaryAccordion/summaryAccordion";
+import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
 
 @Component({
   selector: 'application-results-page',
-  imports: [ Hexagon, KeyValuePipe, ButtonModule ],
+  imports: [Hexagon, ButtonModule, AccordionModule, CommonModule, SummaryAccordion, ApplicationHistoryDrawer],
   templateUrl: './ApplicationResultsPage.html',
   styleUrl: './ApplicationResultsPage.scss',
 })
 export class ApplicationResultsPage implements OnInit {
   result: ApplicationResult | null = null;
+  application: LoanApplication | null = null;
   displayedScore: string = '0.0';
   private animationDuration: number = 1500; // 1.5 seconds
 
   constructor(
     private router: Router,
     private resultService: ApplicationResultService,
+    private loanService: LoanApplicationService,
     private el: ElementRef,
     private cdr: ChangeDetectorRef
   ) {
     this.result = this.resultService.applicationResult;
+    this.application = this.loanService.getLoanApplicationData();
     if (this.result) {
       this.sortUserAdvice();
     }
