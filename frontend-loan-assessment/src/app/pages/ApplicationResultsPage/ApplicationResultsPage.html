@@ -14,7 +14,7 @@
     <!-- Score Section -->
     <div class="result-section">
       <p class="score-label">Your Score Is...</p>
-      <app-hexagon [score]="((1 - result.prediction) * 100).toFixed(1)" />
+      <app-hexagon [score]="displayedScore" />
     </div>
 
     <div class="section-divider"></div>

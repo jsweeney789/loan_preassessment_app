@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
@@ -14,11 +14,14 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ApplicationResultsPage implements OnInit {
   result: ApplicationResult | null = null;
+  displayedScore: string = '0.0';
+  private animationDuration: number = 1500; // 1.5 seconds
 
   constructor(
     private router: Router,
     private resultService: ApplicationResultService,
-    private el: ElementRef
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.result = this.resultService.applicationResult;
     if (this.result) {
@@ -29,6 +32,7 @@ export class ApplicationResultsPage implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0); // Scroll to the top when the component is initialized
     this.updateThemeBasedOnDecision();
+    this.animateScore();
   }
 
   updateThemeBasedOnDecision(): void {
@@ -51,7 +55,37 @@ export class ApplicationResultsPage implements OnInit {
     this.result.userAdvice.INFO.sort((a: [number, string], b: [number, string]) => Math.abs(b[0]) - Math.abs(a[0]));
   }
 
+  animateScore(): void {
+    if (!this.result) return;
+
+    const targetScore = (1 - this.result.prediction) * 100;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / this.animationDuration, 1);
+
+      // Stronger ease-out function to start fast and slow to a crawl
+      const easedProgress = 1 - Math.pow(1 - progress, 15);
+      const currentScore = targetScore * easedProgress;
+
+      this.displayedScore = currentScore.toFixed(1);
+      this.cdr.detectChanges(); // Manually trigger change detection
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Ensure the final value is exact
+        this.displayedScore = targetScore.toFixed(1);
+        this.cdr.detectChanges(); // Manually trigger change detection
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }
+
   goBack(): void {
     this.router.navigate(['/loanapplication']);
   }
 }
+
