@@ -7,14 +7,14 @@ import { Component, Input } from '@angular/core';
     <div class="hex-wrapper">
       <svg width="160" height="184" viewBox="0 0 160 184">
         <defs>
-          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#c9a84c"/>
-            <stop offset="100%" stop-color="#b8923e"/>
+          <linearGradient id="themeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--theme-color)"/>
+            <stop offset="100%" stop-color="var(--theme-color-dark)"/>
           </linearGradient>
         </defs>
         <polygon
           points="80,4 156,44 156,140 80,180 4,140 4,44"
-          fill="url(#goldGrad)"
+          fill="url(#themeGrad)"
         />
         <polygon
           points="80,18 144,54 144,130 80,166 16,130 16,54"
@@ -33,13 +33,13 @@ import { Component, Input } from '@angular/core';
       </svg>
     </div>
   `,
-  styles: [`
-    .hex-wrapper {
+  styles: [
+    `.hex-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-  `]
+    }`
+  ]
 })
 export class Hexagon {
   @Input() score: number | string = 0;

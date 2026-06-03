@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
@@ -17,7 +17,8 @@ export class ApplicationResultsPage implements OnInit {
 
   constructor(
     private router: Router,
-    private resultService: ApplicationResultService
+    private resultService: ApplicationResultService,
+    private el: ElementRef
   ) {
     this.result = this.resultService.applicationResult;
     if (this.result) {
@@ -27,6 +28,14 @@ export class ApplicationResultsPage implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0); // Scroll to the top when the component is initialized
+    this.updateThemeBasedOnDecision();
+  }
+
+  updateThemeBasedOnDecision(): void {
+    if (!this.result?.decision) return;
+    
+    const hostElement = this.el.nativeElement;
+    hostElement.setAttribute('data-decision', this.result.decision);
   }
 
   sortUserAdvice(): void {
@@ -46,4 +55,3 @@ export class ApplicationResultsPage implements OnInit {
     this.router.navigate(['/loanapplication']);
   }
 }
-
