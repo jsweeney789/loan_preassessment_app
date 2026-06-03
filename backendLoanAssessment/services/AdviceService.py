@@ -290,7 +290,7 @@ class AdviceService:
             if prediction <= 0.4:
                 appendAdvice(userAdvice, "BAD", 0, "None")
             else:
-                appendAdvice(userAdvice, "BAD", 0, "Your loan application does not have any clearly negative factors, so various adjustments to your current loan application or financial situation may aid in getting it approved. Reach out to your financial advisor for personalized and professional guidance.")
+                appendAdvice(userAdvice, "BAD", 0, "Your loan application does not have any obviously negative factors. For next steps, we reccomend reaching out to your financial advisor for personalized and professional guidance.")
 
         if userAdvice["INFO"] == []:
             appendAdvice(userAdvice, "INFO", 0, "No additional insights found for your loan application. If you'd like, you can reach out to your financial advisor for personalized and professional guidance.")
