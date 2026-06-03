@@ -1,4 +1,4 @@
-<p-drawer [(visible)]="visible" (onHide)="onDrawerHidden()" header="Application History" position="right">
+<p-drawer #drawer [(visible)]="visible" (visibleChange)="clearMask()" header="Application History" position="right">
   @if (loading) {
     <p class="loading-text">Loading...</p>
   } @else if (history.length === 0) {

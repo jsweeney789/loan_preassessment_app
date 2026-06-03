@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { DrawerModule } from 'primeng/drawer';
+import { DrawerModule, Drawer } from 'primeng/drawer';
 import { ButtonModule } from 'primeng/button';
 import { LoanApplicationService } from '../../services/LoanApplicationService';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
@@ -17,11 +17,12 @@ import { ApplicationResult } from '../../types/ApplicationResult';
   templateUrl: './ApplicationHistoryDrawer.html',
   styleUrl: './ApplicationHistoryDrawer.scss'
 })
-export class ApplicationHistoryDrawer implements OnInit, OnDestroy {
+export class ApplicationHistoryDrawer implements OnInit {
+  @ViewChild('drawer') drawer!: Drawer;
+  
   visible = false;
   history: LoanApplicationHistory[] = [];
   loading = false;
-  private pendingNavigation = false;
 
   constructor(
     private loanService: LoanApplicationService,
@@ -31,12 +32,6 @@ export class ApplicationHistoryDrawer implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    // Force remove any orphaned PrimeNG overlay masks on the body
-    document.querySelectorAll('.p-drawer-mask, .p-overlay-mask').forEach(el => el.remove());
-    document.body.classList.remove('p-overflow-hidden');
-  }
 
   open(): void {
     this.visible = true;
@@ -54,34 +49,40 @@ export class ApplicationHistoryDrawer implements OnInit, OnDestroy {
     });
   }
 
+  clearMask(): void {
+    if (!this.visible) {
+      this.drawer.destroyModal();
+    }
+  }
+
   selectApplication(item: LoanApplicationHistory): void {
-      if (!item.result) return;
+    if (!item.result) return;
 
-      const rawResult = item.result as any;
-      const mappedResult: ApplicationResult = {
-          prediction: rawResult.prediction,
-          decision: rawResult.decision,
-          userAdvice: rawResult.user_advice,
-          explanations: rawResult.explanations
-      };
-      this.resultService.applicationResult.set(mappedResult)
+    const rawResult = item.result as any;
+    const mappedResult: ApplicationResult = {
+      prediction: rawResult.prediction,
+      decision: rawResult.decision,
+      userAdvice: rawResult.user_advice,
+      explanations: rawResult.explanations
+    };
+    this.resultService.applicationResult.set(mappedResult);
 
-      const loanApp: LoanApplication = {
-          age: item.age,
-          sex: item.sex as any,
-          job: item.job as any,
-          housing: item.housing as any,
-          checkingAcc: item.checking_acc,
-          savingAcc: item.saving_acc,
-          creditAmount: item.credit_amount,
-          duration: item.duration,
-          purpose: item.purpose as any
-      };
+    const loanApp: LoanApplication = {
+      age: item.age,
+      sex: item.sex as any,
+      job: item.job as any,
+      housing: item.housing as any,
+      checkingAcc: item.checking_acc,
+      savingAcc: item.saving_acc,
+      creditAmount: item.credit_amount,
+      duration: item.duration,
+      purpose: item.purpose as any
+    };
 
-      this.loanService.setLoanApplicationData(loanApp);
-      this.pendingNavigation = true;
-      this.visible = false;
-      setTimeout(() => this.router.navigate(['/results']));
+    this.loanService.setLoanApplicationData(loanApp);
+    this.visible = false;
+    this.clearMask();
+    this.router.navigate(['/results']);
   }
 
   getDecisionClass(decision: string): string {
@@ -91,12 +92,4 @@ export class ApplicationHistoryDrawer implements OnInit, OnDestroy {
     if (decision.includes('Likely Disapproval')) return 'decision-likely-disapproval';
     return 'decision-confident-disapproval';
   }
-
-  onDrawerHidden(): void {
-    if (this.pendingNavigation) {
-        this.pendingNavigation = false;
-        this.router.navigate(['/results']);
-    }
-  }
 }
-
