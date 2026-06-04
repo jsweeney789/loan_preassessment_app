@@ -10,22 +10,24 @@
         <span class="header-eyebrow">Loan Assessment Portal</span>
         <h1 class="header-title">Loan Application</h1>
         <p class="header-subtitle">Complete all fields to receive your preliminary assessment.</p>
+      </div>
+      <div class="header-actions">
         @if (!authService.isAuthenticated()) {
-          <!-- <div class="google-signin-row">
-            <img 
-              src="assets/neutral-google-signin.svg" 
-              alt="Sign in with Google" 
-              class="google-signin-img"
-              (click)="loginWithGoogle()"
-            />
-            <span class="google-signin-label">Sign in to save your application history</span>
-          </div> -->
           <button class="signin-trigger" (click)="showAuthModal = true">
             Sign in to save your application history
           </button>
+          <!-- <div class="google-signin-row">
+            <span class="google-signin-label">Sign in to save your application history</span>
+            <img
+              src="assets/neutral-google-signin.svg"
+              alt="Sign in with Google"
+              class="google-signin-img"
+              (click)="loginWithGoogle()"
+            />
+          </div> -->
         } @else {
           <span class="signed-in-badge">
-            <i class="pi pi-check-circle"></i> Signed in — your results will be saved
+            <span><i class="pi pi-check-circle"></i> Signed in — your results will be saved</span>
             <button class="signout-btn" (click)="authService.logout()">Sign out</button>
           </span>
         }
@@ -99,14 +101,14 @@
                 inputId="job"
                 formControlName="job"
                 [options]="employmentOptions"
-                optionLabel="label"
-                optionValue="value"
+            optionLabel="label"
+            optionValue="value"
                 placeholder="Select employment status"
                 [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('job') }"
               />
               <small class="field-error" *ngIf="isInvalid('job')">Please select your employment status.</small>
-            </div>
-            
+        </div>
+
             <div class="field-block">
               <label class="field-label" for="housing">
                 Housing Situation <span class="required">*</span>
@@ -125,8 +127,8 @@
                 [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('housing') }"
               />
               <small class="field-error" *ngIf="isInvalid('housing')">Please select your housing situation.</small>
-            </div>
           </div>
+</div>
         </div>
 
       </div>
