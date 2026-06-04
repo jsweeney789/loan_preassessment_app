@@ -17,7 +17,7 @@ async def login(request: Request):
     """Redirect the user to Google's OAuth consent screen."""
     redirect_uri = request.url_for("authCallback")
     print("REDIRECT URI:", redirect_uri)
-    
+
     frontend_url = request.query_params.get("redirect", "http://localhost:4200")
     request.session["frontend_redirect"] = frontend_url
     return await oauth.google.authorize_redirect(request, redirect_uri)
@@ -31,6 +31,16 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
     Exchange the code for a token, fetch the user info,
     then log in or create the user and return a JWT.
     """
+
+    print("\n===== OAUTH CALLBACK DEBUG =====")
+    print("HEADERS COOKIE:", request.headers.get("cookie"))
+    print("SESSION BEFORE:", dict(request.session))
+    print("QUERY PARAMS:", dict(request.query_params))
+    print("CLIENT HOST:", request.client.host)
+    print("URL:", str(request.url))
+    print("================================\n")
+
+    
     google_token = await oauth.google.authorize_access_token(request)
     google_user = google_token.get("userinfo")
 
