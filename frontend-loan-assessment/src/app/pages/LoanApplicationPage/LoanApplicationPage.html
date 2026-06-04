@@ -78,7 +78,13 @@
         <div class="field-block field-block--full">
           <div class="field-grid field-grid--nested">
             <div class="field-block">
-              <label class="field-label" for="job">Employment Status <span class="required">*</span></label>
+              <label class="field-label" for="job">
+                Employment Status <span class="required">*</span>
+                <i class="pi pi-info-circle field-info-icon" 
+                  pTooltip="Unemployed: no current work or income.&#10;&#10;Unskilled employee: role requiring no degree.&#10;&#10;Skilled employee/official: role requiring a degree.&#10;&#10;Management/self-employed/highly qualified: manages others, owns a business, or holds a well-paid stable position."
+                  tooltipPosition="top">
+                </i>
+              </label>
               <p-select
                 inputId="job"
                 formControlName="job"
@@ -92,7 +98,13 @@
             </div>
             
             <div class="field-block">
-              <label class="field-label" for="housing">Housing Situation <span class="required">*</span></label>
+              <label class="field-label" for="housing">
+                Housing Situation <span class="required">*</span>
+                <i class="pi pi-info-circle field-info-icon"
+                  pTooltip="Free: government subsidized or assisted housing.&#10;&#10;Renting: paying a lease that does not contribute to ownership.&#10;&#10;Own: fully owned or currently paying off a mortgage."
+                  tooltipPosition="top">
+                </i>
+              </label>
               <p-select
                 inputId="housing"
                 formControlName="housing"

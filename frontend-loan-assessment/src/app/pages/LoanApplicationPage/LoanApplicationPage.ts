@@ -8,7 +8,7 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
-
+import { TooltipModule } from 'primeng/tooltip';
 import { LoanApplication } from '../../types/LoanApplication';
 import * as LoanEnums from '../../types/LoanApplication.enums';
 import { LoanApplicationService } from '../../services/LoanApplicationService';
@@ -36,7 +36,8 @@ interface SelectOption {
     ButtonModule,
     CardModule,
     DividerModule,
-    ApplicationHistoryDrawer
+    ApplicationHistoryDrawer,
+    TooltipModule
   ],
   providers: [],
   templateUrl: './LoanApplicationPage.html',

@@ -465,3 +465,16 @@
     color: var(--text-secondary);
   }
 }
+
+.field-info-icon {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 6px;
+  cursor: pointer;
+  transition: color 0.2s;
+  vertical-align: middle;
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}
