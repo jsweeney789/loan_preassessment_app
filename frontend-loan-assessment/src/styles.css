@@ -2,3 +2,19 @@
 
 @import 'tailwindcss';
 @import 'primeicons/primeicons.css';
+
+.p-tooltip .p-tooltip-text {
+  background: #111d35 !important;
+  color: #eef2f9 !important;
+  border: 1px solid #2e4878 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  max-width: 280px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.p-tooltip .p-tooltip-arrow {
+  display: none !important;
+}
