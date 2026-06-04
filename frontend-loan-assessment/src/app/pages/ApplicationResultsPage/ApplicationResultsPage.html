@@ -1,5 +1,3 @@
-
-
 <div class="page-wrapper">
   @if (authService.isAuthenticated()) {
     <app-history-drawer />
@@ -21,6 +19,7 @@
     <div class="result-section">
       <p class="score-label">Your Score Is...</p>
       <app-hexagon [score]="displayedScore" />
+      <p class="score-subtitle">(out of 100)</p>
     </div>
 
     <div class="section-divider"></div>
