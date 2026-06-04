@@ -39,10 +39,17 @@
   font-family: var(--font-body);
   background: var(--navy-900);
   min-height: 100vh;
-  max-width: 1024px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 0 60px;
   color: var(--text-primary);
+}
+
+// ─── Form Container ──────────────────────────────────────────────────────────
+.form-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 // ─── Header ───────────────────────────────────────────────────────────────────
@@ -339,7 +346,7 @@
     border-radius: var(--radius) !important;
     transition: all 0.2s !important;
     box-shadow: none !important;
-    min-width: 207px !important;
+    min-width: 242px !important;
 
     &:hover {
       background: linear-gradient(135deg, var(--gold-400), var(--gold-500)) !important;
