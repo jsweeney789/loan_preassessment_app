@@ -58,7 +58,6 @@
   padding: 40px 64px 32px;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
-
   &::before {
     content: '';
     position: absolute;
@@ -88,7 +87,17 @@
   z-index: 1;
 }
 
-.header-content { position: relative; z-index: 1; }
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.header-actions {
+  position: absolute;
+  top: 20px;
+  right: 64px;
+  z-index: 1;
+}
 
 .header-eyebrow {
   display: block;
@@ -387,6 +396,13 @@
   .field-grid--nested {
     grid-template-columns: 1fr;
   }
+
+  .header-actions {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-top: 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -411,13 +427,21 @@
       justify-content: center !important;
     }
   }
+
+  .header-actions {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-top: 20px;
+  }
 }
 
 
 .google-signin-row {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
   margin-top: 16px;
 }
 
@@ -434,34 +458,10 @@
 }
 
 .google-signin-label {
-  font-size: 13px;
-  color: var(--text-muted);
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  text-align: right;
 }
 
-.signed-in-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--green-400);
-
-  i {
-    font-size: 14px;
-  }
-}
-
-.signout-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 12px;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 8px;
-  text-decoration: underline;
-
-  &:hover {
-    color: var(--text-secondary);
-  }
-}
