@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan-preassessment
+  namespace: loan-preassessment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loan-preassessment
+  template:
+    metadata:
+      labels:
+        app: loan-preassessment
+    spec:
+      containers:
+        - name: loan-preassessment
+          # ECR_PLACEHOLDER is substituted at deploy time by the pipeline:
+          #   sed "s|ECR_PLACEHOLDER|$ECR_REPO_URL:$CODEBUILD_RESOLVED_SOURCE_VERSION|g"
+          image: ECR_PLACEHOLDER
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: loan-preassessment-secrets
+            - configMapRef:
+                name: loan-preassessment-config
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "256m"
+              memory: "512Mi"
+            limits:
+              cpu: "512m"
+              memory: "1Gi"

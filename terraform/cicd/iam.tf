@@ -124,6 +124,22 @@ resource "aws_iam_role_policy" "codebuild_backend" {
         Effect   = "Allow"
         Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
         Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/codebuild/*"
+      },
+      {
+        Sid      = "EKSDescribe"
+        Effect   = "Allow"
+        Action   = ["eks:DescribeCluster"]
+        Resource = "arn:aws:eks:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster/${var.environment}-*"
+      },
+      {
+        Sid    = "SecretsManagerRead"
+        Effect = "Allow"
+        Action = ["secretsmanager:GetSecretValue"]
+        Resource = [
+          var.db_secret_arn,
+          var.google_oauth_secret_arn,
+          var.auth_secret_arn
+        ]
       }
     ]
   })

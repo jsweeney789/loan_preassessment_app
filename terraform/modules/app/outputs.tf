@@ -32,3 +32,13 @@ output "cloudwatch_log_group" {
   description = "CloudWatch log group name for the application"
   value       = aws_cloudwatch_log_group.app.name
 }
+
+output "google_oauth_secret_arn" {
+  description = "ARN of the Google OAuth secret in Secrets Manager"
+  value       = aws_secretsmanager_secret.google_oauth.arn
+}
+
+output "auth_secret_arn" {
+  description = "ARN of the JWT/session auth secret in Secrets Manager"
+  value       = aws_secretsmanager_secret.auth.arn
+}

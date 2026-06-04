@@ -26,6 +26,38 @@ resource "aws_codebuild_project" "backend" {
       name  = "ECS_SERVICE"
       value = var.ecs_service_name
     }
+    environment_variable {
+      name  = "EKS_CLUSTER"
+      value = var.eks_cluster_name
+    }
+    environment_variable {
+      name  = "EKS_NAMESPACE"
+      value = var.eks_namespace
+    }
+    environment_variable {
+      name  = "DB_SECRET_ARN"
+      value = var.db_secret_arn
+    }
+    environment_variable {
+      name  = "GOOGLE_OAUTH_SECRET_ARN"
+      value = var.google_oauth_secret_arn
+    }
+    environment_variable {
+      name  = "AUTH_SECRET_ARN"
+      value = var.auth_secret_arn
+    }
+    environment_variable {
+      name  = "CORS_ORIGIN"
+      value = var.cors_origin
+    }
+    environment_variable {
+      name  = "GOOGLE_CLIENT_ID"
+      value = var.google_client_id
+    }
+    environment_variable {
+      name  = "GOOGLE_REDIRECT_URI"
+      value = var.google_redirect_uri
+    }
   }
 
   source {
@@ -45,6 +77,36 @@ resource "aws_codebuild_project" "backend" {
             - docker push $ECR_REPO_URL:$CODEBUILD_RESOLVED_SOURCE_VERSION
             - docker push $ECR_REPO_URL:latest
             - aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --region $AWS_DEFAULT_REGION
+            - aws eks update-kubeconfig --name $EKS_CLUSTER --region $AWS_DEFAULT_REGION
+            - kubectl create namespace $EKS_NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+            - |
+              DB=$(aws secretsmanager get-secret-value --secret-id $DB_SECRET_ARN --query SecretString --output text)
+              GO=$(aws secretsmanager get-secret-value --secret-id $GOOGLE_OAUTH_SECRET_ARN --query SecretString --output text)
+              AU=$(aws secretsmanager get-secret-value --secret-id $AUTH_SECRET_ARN --query SecretString --output text)
+              kubectl create secret generic loan-preassessment-secrets \
+                --namespace=$EKS_NAMESPACE \
+                --from-literal=DB_HOST=$(echo $DB | python3 -c "import sys,json; print(json.load(sys.stdin)['host'])") \
+                --from-literal=DB_PORT=$(echo $DB | python3 -c "import sys,json; print(json.load(sys.stdin)['port'])") \
+                --from-literal=DB_NAME=$(echo $DB | python3 -c "import sys,json; print(json.load(sys.stdin)['dbname'])") \
+                --from-literal=DB_USERNAME=$(echo $DB | python3 -c "import sys,json; print(json.load(sys.stdin)['username'])") \
+                --from-literal=DB_PASSWORD=$(echo $DB | python3 -c "import sys,json; print(json.load(sys.stdin)['password'])") \
+                --from-literal=GOOGLE_CLIENT_SECRET=$(echo $GO | python3 -c "import sys,json; print(json.load(sys.stdin)['client_secret'])") \
+                --from-literal=JWT_SECRET=$(echo $AU | python3 -c "import sys,json; print(json.load(sys.stdin)['jwt_secret'])") \
+                --from-literal=SESSION_SECRET=$(echo $AU | python3 -c "import sys,json; print(json.load(sys.stdin)['session_secret'])") \
+                --dry-run=client -o yaml | kubectl apply -f -
+            - |
+              kubectl create configmap loan-preassessment-config \
+                --namespace=$EKS_NAMESPACE \
+                --from-literal=ENVIRONMENT=$ENVIRONMENT \
+                --from-literal=PORT=8000 \
+                --from-literal=CORS_ORIGIN=$CORS_ORIGIN \
+                --from-literal=GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
+                --from-literal=GOOGLE_REDIRECT_URI=$GOOGLE_REDIRECT_URI \
+                --dry-run=client -o yaml | kubectl apply -f -
+            - kubectl apply -f k8s/namespace.yaml
+            - kubectl apply -f k8s/service.yaml
+            - kubectl apply -f k8s/ingress.yaml
+            - sed "s|ECR_PLACEHOLDER|$ECR_REPO_URL:$CODEBUILD_RESOLVED_SOURCE_VERSION|g" k8s/deployment.yaml | kubectl apply -f -
     YAML
   }
 

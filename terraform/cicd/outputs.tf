@@ -19,3 +19,8 @@ output "frontend_pipeline_name" {
 output "terraform_pipeline_name" {
   value = aws_codepipeline.terraform.name
 }
+
+output "codebuild_backend_role_arn" {
+  description = "ARN of the CodeBuild backend role — used to grant it EKS cluster access"
+  value       = aws_iam_role.codebuild_backend.arn
+}

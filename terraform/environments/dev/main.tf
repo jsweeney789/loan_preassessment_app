@@ -130,6 +130,26 @@ module "frontend" {
 }
 
 
+# Grant the CodeBuild backend role kubectl access so the pipeline can deploy to EKS
+resource "aws_eks_access_entry" "codebuild_backend" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = module.cicd.codebuild_backend_role_arn
+  type          = "STANDARD"
+  tags          = local.tags
+}
+
+resource "aws_eks_access_policy_association" "codebuild_backend" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = module.cicd.codebuild_backend_role_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.codebuild_backend]
+}
+
 data "aws_s3_bucket" "training_data" {
   bucket = var.training_data_s3
 }
@@ -161,10 +181,19 @@ module "cicd" {
   codecommit_repo_name = var.codecommit_repo_name
   deploy_branch        = "main"
 
-  # Backend pipeline — from app module outputs
+  # Backend pipeline — ECS
   ecr_repository_url = module.app.ecr_repository_url
   ecs_cluster_name   = module.app.ecs_cluster_name
   ecs_service_name   = module.app.ecs_service_name
+
+  # Backend pipeline — EKS (parallel deploy)
+  eks_cluster_name        = module.eks.cluster_name
+  db_secret_arn           = module.database.db_secret_arn
+  google_oauth_secret_arn = module.app.google_oauth_secret_arn
+  auth_secret_arn         = module.app.auth_secret_arn
+  cors_origin             = module.frontend.cloudfront_domain_name
+  google_client_id        = var.google_client_id
+  google_redirect_uri     = var.google_redirect_uri
 
   # Frontend pipeline — from frontend module outputs
   frontend_bucket_name       = module.frontend.s3_bucket_name
