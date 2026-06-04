@@ -14,7 +14,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Loan Risk Portal")
 

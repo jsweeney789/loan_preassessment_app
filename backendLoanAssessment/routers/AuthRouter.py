@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session
 from backendLoanAssessment.database import get_db
-from backendLoanAssessment.services.AuthService import loginOrCreateUser
+from backendLoanAssessment.services.AuthService import loginOrCreateUser, loginWithPassword, registerUser
 from backendLoanAssessment.services.GoogleOauthService import oauth
 from fastapi.responses import RedirectResponse
 from typing import Optional
@@ -88,3 +88,32 @@ async def logout():
         samesite="lax"
     )
     return response
+
+# For manual user handling
+from pydantic import BaseModel, EmailStr
+
+class AuthRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+@router.post("/register")
+async def register(body: AuthRequest, response: Response, db: Session = Depends(get_db)):
+    jwt_token = registerUser(db, body.email, body.password)
+    response.set_cookie(
+        key="access_token", value=jwt_token,
+        httponly=True,
+        secure=os.getenv("ENVIRONMENT") != "development",
+        samesite="lax", max_age=3600
+    )
+    return {"authenticated": True}
+
+@router.post("/login/password")
+async def loginPassword(body: AuthRequest, response: Response, db: Session = Depends(get_db)):
+    jwt_token = loginWithPassword(db, body.email, body.password)
+    response.set_cookie(
+        key="access_token", value=jwt_token,
+        httponly=True,
+        secure=os.getenv("ENVIRONMENT") != "development",
+        samesite="lax", max_age=3600
+    )
+    return {"authenticated": True}

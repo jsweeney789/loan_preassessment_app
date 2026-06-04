@@ -11,7 +11,7 @@
         <h1 class="header-title">Loan Application</h1>
         <p class="header-subtitle">Complete all fields to receive your preliminary assessment.</p>
         @if (!authService.isAuthenticated()) {
-          <div class="google-signin-row">
+          <!-- <div class="google-signin-row">
             <img 
               src="assets/neutral-google-signin.svg" 
               alt="Sign in with Google" 
@@ -19,7 +19,10 @@
               (click)="loginWithGoogle()"
             />
             <span class="google-signin-label">Sign in to save your application history</span>
-          </div>
+          </div> -->
+          <button class="signin-trigger" (click)="showAuthModal = true">
+            Sign in to save your application history
+          </button>
         } @else {
           <span class="signed-in-badge">
             <i class="pi pi-check-circle"></i> Signed in — your results will be saved
@@ -28,6 +31,13 @@
         }
       </div>
   </div>
+  @if (showAuthModal) {
+    <app-auth-modal
+      (closed)="showAuthModal = false"
+      (authenticated)="onAuthenticated()"
+    />
+
+  }
 
   <div class="form-container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>

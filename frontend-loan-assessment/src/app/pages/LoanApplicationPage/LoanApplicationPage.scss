@@ -478,3 +478,23 @@
     color: var(--text-secondary);
   }
 }
+
+.signin-trigger {
+  background: transparent;
+  border: 1.5px solid var(--input-border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--input-bg);
+    border-color: var(--input-border-hover);
+    color: var(--text-primary);
+  }
+}

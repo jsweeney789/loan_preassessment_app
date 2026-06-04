@@ -19,6 +19,27 @@ export class AuthService {
         );
     }
 
+      login(email: string, password: string): Observable<void> {
+      return this.http.post<void>(
+        `${environment.apiUrl}/auth/login/password`,
+        { email, password },
+        { withCredentials: true }
+      ).pipe(tap(() => this.isAuthenticated.set(true)));
+    }
+
+    register(email: string, password: string): Observable<void> {
+      return this.http.post<void>(
+        `${environment.apiUrl}/auth/register`,
+        { email, password },
+        { withCredentials: true }
+      ).pipe(tap(() => this.isAuthenticated.set(true)));
+    }
+
+      loginWithGoogle(): void {
+          const redirect = encodeURIComponent(`${window.location.origin}/loanapplication`);
+          window.location.href = `${environment.apiUrl}/auth/login?redirect=${redirect}`;
+      }
+
     logout(): void {
         this.http.get(`${environment.apiUrl}/auth/logout`, { withCredentials: true }).subscribe({
             next: () => {

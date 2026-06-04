@@ -18,7 +18,7 @@ import { ApplicationResult } from '../../types/ApplicationResult';
 import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
 import { AuthService } from '../../services/AuthService';
 import { environment } from '../../../environments/environment';
-
+import { AuthModalComponent } from '../../components/auth-modal/auth-modal';
 
 interface SelectOption {
   label: string;
@@ -37,7 +37,8 @@ interface SelectOption {
     CardModule,
     DividerModule,
     ApplicationHistoryDrawer,
-    TooltipModule
+    TooltipModule,
+    AuthModalComponent
   ],
   providers: [],
   templateUrl: './LoanApplicationPage.html',
@@ -46,6 +47,7 @@ interface SelectOption {
 export class LoanApplicationPage implements OnInit {
   form: FormGroup;
   submitted = false;
+  showAuthModal = false;
 
   purposeOptions: SelectOption[] = Object.values(LoanEnums.LoanPurpose).map(value => ({
     label: LoanEnums.LoanPurposeLabels[value],
@@ -108,6 +110,11 @@ export class LoanApplicationPage implements OnInit {
   isInvalid(field: string): boolean {
     const ctrl = this.form.get(field);
     return !!ctrl && ctrl.invalid && (ctrl.dirty || ctrl.touched || this.submitted);
+  }
+
+  onAuthenticated() {
+    // re-fetch auth status, update your user state, etc.
+    this.authService.checkAuth();
   }
 
   onSubmit(): void {
