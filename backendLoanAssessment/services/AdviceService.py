@@ -304,6 +304,3 @@ def calculateScoreDiff(prediction, newPrediction):
 
 def appendAdvice(userAdvice, adviceType, score, displayStr):
     userAdvice[adviceType].append((score, displayStr))
-
-def calculate():
-    return 1+1
