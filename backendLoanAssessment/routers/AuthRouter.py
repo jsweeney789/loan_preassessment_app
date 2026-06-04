@@ -117,3 +117,4 @@ async def loginPassword(body: AuthRequest, response: Response, db: Session = Dep
         samesite="lax", max_age=3600
     )
     return {"authenticated": True}
+
