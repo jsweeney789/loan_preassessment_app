@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoanApplication } from '../types/LoanApplication';
 import { ApplicationResult } from '../types/ApplicationResult';
+import { LoanApplicationHistory } from '../types/LoanApplicationHistory';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class LoanApplicationService {
         // Store the loan application data before submitting
         this.loanApplicationData = loanApp;
         return this.http
-            .post<ApplicationResult>(this.url, loanApp)
+            .post<ApplicationResult>(this.url, loanApp, { withCredentials: true })
             .pipe( catchError(() => throwError(() => new Error('Failed to submit loan application for assessment.'))),
         );
     }
@@ -31,5 +32,17 @@ export class LoanApplicationService {
     // Method to clear the stored loan application data
     clearLoanApplicationData(): void {
         this.loanApplicationData = null;
+    }
+
+    setLoanApplicationData(data: LoanApplication): void {
+        this.loanApplicationData = data;
+    }
+
+    private readonly historyUrl = `${environment.apiUrl}/api/my-applications`
+
+    getApplicationHistory(): Observable<LoanApplicationHistory[]> {
+        return this.http
+            .get<LoanApplicationHistory[]>(this.historyUrl, { withCredentials: true })
+            .pipe(catchError(() => throwError(() => new Error('Failed to fetch application history.'))));
     }
 }

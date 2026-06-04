@@ -96,17 +96,22 @@ resource "aws_ecs_task_definition" "app" {
       ]
 
       environment = [
-        { name = "ENVIRONMENT", value = var.environment },
-        { name = "PORT",        value = tostring(var.app_port) },
-        { name = "CORS_ORIGIN", value = var.cors_origin }
+        { name = "ENVIRONMENT",        value = var.environment },
+        { name = "PORT",               value = tostring(var.app_port) },
+        { name = "CORS_ORIGIN",        value = var.cors_origin },
+        { name = "GOOGLE_CLIENT_ID",   value = var.google_client_id },
+        { name = "GOOGLE_REDIRECT_URI", value = var.google_redirect_uri }
       ]
 
       secrets = [
-        { name = "DB_HOST",     valueFrom = "${var.db_secret_arn}:host::" },
-        { name = "DB_PORT",     valueFrom = "${var.db_secret_arn}:port::" },
-        { name = "DB_NAME",     valueFrom = "${var.db_secret_arn}:dbname::" },
-        { name = "DB_USERNAME", valueFrom = "${var.db_secret_arn}:username::" },
-        { name = "DB_PASSWORD", valueFrom = "${var.db_secret_arn}:password::" }
+        { name = "DB_HOST",            valueFrom = "${var.db_secret_arn}:host::" },
+        { name = "DB_PORT",            valueFrom = "${var.db_secret_arn}:port::" },
+        { name = "DB_NAME",            valueFrom = "${var.db_secret_arn}:dbname::" },
+        { name = "DB_USERNAME",        valueFrom = "${var.db_secret_arn}:username::" },
+        { name = "DB_PASSWORD",        valueFrom = "${var.db_secret_arn}:password::" },
+        { name = "GOOGLE_CLIENT_SECRET", valueFrom = "${aws_secretsmanager_secret.google_oauth.arn}:client_secret::" },
+        { name = "JWT_SECRET",         valueFrom = "${aws_secretsmanager_secret.auth.arn}:jwt_secret::" },
+        { name = "SESSION_SECRET",     valueFrom = "${aws_secretsmanager_secret.auth.arn}:session_secret::" }
       ]
 
       logConfiguration = {

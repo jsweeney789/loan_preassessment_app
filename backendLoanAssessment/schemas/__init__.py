@@ -1,4 +1,4 @@
-from .LoanApplication import (
+from .LoanApplicationSchema import (
     LoanPurpose,
     EmploymentStatus,
     HomeOwnership,

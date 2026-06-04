@@ -78,3 +78,15 @@ variable "cors_origin" {
   type        = string
   default     = "http://localhost:4200"
 }
+
+variable "google_client_id" {
+  description = "Google OAuth client ID — not sensitive, injected as a plain env var"
+  type        = string
+  default     = ""
+}
+
+variable "google_redirect_uri" {
+  description = "Google OAuth redirect URI — should point to the CloudFront domain in prod"
+  type        = string
+  default     = ""
+}

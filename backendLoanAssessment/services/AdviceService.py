@@ -1,4 +1,4 @@
-from backendLoanAssessment.schemas.LoanApplication import *
+from backendLoanAssessment.schemas.LoanApplicationSchema import *
 from backendLoanAssessment.services import SageMakerService
 from backendLoanAssessment.constants.AdviceStrings import *
 from copy import deepcopy

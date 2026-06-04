@@ -15,6 +15,9 @@ import { LoanApplicationService } from '../../services/LoanApplicationService';
 import { ApplicationResultService } from '../../services/ApplicationResultService';
 import { Router } from '@angular/router';
 import { ApplicationResult } from '../../types/ApplicationResult';
+import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
+import { AuthService } from '../../services/AuthService';
+import { environment } from '../../../environments/environment';
 
 
 interface SelectOption {
@@ -33,6 +36,7 @@ interface SelectOption {
     ButtonModule,
     CardModule,
     DividerModule,
+    ApplicationHistoryDrawer
   ],
   providers: [],
   templateUrl: './LoanApplicationPage.html',
@@ -67,6 +71,7 @@ export class LoanApplicationPage implements OnInit {
     private loanApplicationService: LoanApplicationService,
     private applicationResultService: ApplicationResultService,
     private router: Router,
+    public authService: AuthService
   ) {
     this.form = this.fb.group({
       // Personal
@@ -89,6 +94,7 @@ export class LoanApplicationPage implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0); // Scroll to the top when the component is initialized
+    this.authService.checkAuth().subscribe();
   }
 
   restoreFormData(): void {
@@ -127,7 +133,7 @@ export class LoanApplicationPage implements OnInit {
     this.loanApplicationService.submitLoanApplication(loanApp).subscribe({
         next: (data: ApplicationResult) => {
           console.log("Payload sent: ", loanApp)
-          this.applicationResultService.applicationResult = data;
+          this.applicationResultService.applicationResult.set(data);
           console.log("Response: ", data)
           this.router.navigate(['/results']);
         },
@@ -135,5 +141,10 @@ export class LoanApplicationPage implements OnInit {
           console.error('Failed to submit loan application.', err)
         }
       })
+  }
+
+  loginWithGoogle(): void {
+      const redirect = encodeURIComponent(`${window.location.origin}/loanapplication`);
+      window.location.href = `${environment.apiUrl}/auth/login?redirect=${redirect}`;
   }
 }

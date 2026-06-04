@@ -1,21 +1,33 @@
 from fastapi import APIRouter, Depends
-from backendLoanAssessment.schemas import LoanApplication, ApplicationResult
+from backendLoanAssessment.schemas.LoanApplicationSchema import LoanApplication, LoanApplicationHistory
 from backendLoanAssessment.services.LoanApplicationService import LoanApplicationService
 from backendLoanAssessment.services import SageMakerService
+from backendLoanAssessment.security.dependencies import getCurrentUser, getOptionalUser
+from sqlalchemy.orm import Session
+from backendLoanAssessment.database import get_db
 
 
-router = APIRouter()
+router = APIRouter(tags=["loans"])
 
 def getSageMakerService():
     return SageMakerService()
 
-def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerService)):
-    return LoanApplicationService(sagemaker_service)
+def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerService), 
+                   db: Session = Depends(get_db)):
+    return LoanApplicationService(sagemaker_service, db)
 
 @router.post("/loan-application",  status_code=201)
-def submit_application(
+def submitApplication(
     application: LoanApplication,
-    service: LoanApplicationService = Depends(getLoanService)
-) -> ApplicationResult:
-    result = service.processApplication(application)
+    service: LoanApplicationService = Depends(getLoanService),
+    user = Depends(getOptionalUser)
+):
+    result = service.processApplication(application, user)
     return result
+
+@router.get("/my-applications", status_code=200)
+def getUserApplications(
+    user=Depends(getCurrentUser),
+    service: LoanApplicationService = Depends(getLoanService)
+) -> list[LoanApplicationHistory]:
+    return service.getUserApplications(user)

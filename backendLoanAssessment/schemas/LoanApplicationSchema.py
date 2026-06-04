@@ -1,6 +1,7 @@
 from __future__ import annotations
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 from enum import Enum
+from datetime import datetime
 
 class LoanPurpose(str, Enum):
     auto = "car"
@@ -164,3 +165,27 @@ class ApplicationResult(BaseModel):
     decision: str
     userAdvice: dict[str, list[tuple[float, str]]]
     explanations: dict[str, float]
+
+class ApplicationResultSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
+    prediction: float
+    decision: str
+    userAdvice: dict[str, list[tuple[float, str]]] = Field(alias="user_advice")
+    explanations: dict[str, float]
+
+class LoanApplicationHistory(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    age: int
+    sex: str
+    job: str
+    housing: str
+    checking_acc: int
+    saving_acc: int
+    credit_amount: int
+    duration: int
+    purpose: str
+    created_at: datetime
+    result: ApplicationResultSchema | None = None

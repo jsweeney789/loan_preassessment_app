@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-welcome-page',
@@ -59,10 +60,20 @@ import { InputTextModule } from 'primeng/inputtext';
                     <button pButton class="w-full! rounded-3xl! bg-surface-950! border! border-surface-950! text-white! hover:bg-surface-950/80!">
                         <span pButtonLabel>Sign In</span>
                     </button>
+
+                    <!-- Google button -->
+                    <button id="google-btn" (click)="loginWithGoogle()">
+                        <img src="assets/neutral-google-signin.svg">
+                    </button>
                 </div>
                 <a class="text-white/80 cursor-pointer hover:text-white/90">Forgot Password?</a>
             </div>
         </div>
     `
 })
-export class Glass {}
+export class WelcomePage {
+    loginWithGoogle(): void {
+        const redirect = encodeURIComponent(`${window.location.origin}/loanapplication`);
+        window.location.href = `${environment.apiUrl}/auth/login?redirect=${redirect}`;
+    }
+}
