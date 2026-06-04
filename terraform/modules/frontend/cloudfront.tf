@@ -41,9 +41,22 @@ resource "aws_cloudfront_distribution" "frontend" {
     }
   }
 
-  # ── /api/* → ALB (proxied over HTTPS from browser, HTTP to ALB internally) ──
+  # ── /api/* → ALB ─────────────────────────────────────────────────────────────
   ordered_cache_behavior {
     path_pattern           = "/api/*"
+    target_origin_id       = "ALB-${var.alb_dns_name}"
+    viewer_protocol_policy = "https-only"
+    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # CachingDisabled
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac" # AllViewerExceptHostHeader
+  }
+
+  # ── /auth/* → ALB ────────────────────────────────────────────────────────────
+  ordered_cache_behavior {
+    path_pattern           = "/auth/*"
     target_origin_id       = "ALB-${var.alb_dns_name}"
     viewer_protocol_policy = "https-only"
     allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
