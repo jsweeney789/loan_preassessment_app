@@ -16,8 +16,11 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def login(request: Request):
     """Redirect the user to Google's OAuth consent screen."""
     redirect_uri = request.url_for("authCallback")
+    print("REDIRECT URI:", redirect_uri)
+    
     frontend_url = request.query_params.get("redirect", "http://localhost:4200")
-    return await oauth.google.authorize_redirect(request, redirect_uri, state=frontend_url)
+    request.session["frontend_redirect"] = frontend_url
+    return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
 
@@ -36,7 +39,10 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
 
     jwt_token, user = loginOrCreateUser(db, google_user)
 
-    frontend_url = request.query_params.get("state", "http://localhost:4200")
+    frontend_url = request.session.pop(
+        "frontend_redirect",
+        "http://localhost:4200"
+    )
     if not is_safe_redirect(frontend_url):
         frontend_url = "http://localhost:4200"
 
