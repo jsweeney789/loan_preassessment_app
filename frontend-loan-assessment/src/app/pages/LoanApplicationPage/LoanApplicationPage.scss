@@ -85,7 +85,7 @@
 
 .header-eyebrow {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -103,7 +103,7 @@
 }
 
 .header-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
@@ -121,14 +121,14 @@
 
 .section-number {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--gold-500);
   letter-spacing: 0.1em;
 }
 
 .section-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -167,7 +167,7 @@
 }
 
 .field-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -177,7 +177,7 @@
 .required { color: var(--gold-500); margin-left: 2px; }
 
 .field-error {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--error);
   margin-top: 2px;
 }
@@ -311,7 +311,7 @@
     border: 1.5px solid var(--input-border) !important;
     color: var(--text-secondary) !important;
     font-family: var(--font-body) !important;
-    font-size: 13px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     letter-spacing: 0.04em !important;
     padding: 10px 22px !important;
@@ -331,7 +331,7 @@
     border: none !important;
     color: var(--navy-950) !important;
     font-family: var(--font-body) !important;
-    font-size: 13px !important;
+    font-size: 16px !important;
     font-weight: 700 !important;
     letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
@@ -349,7 +349,7 @@
 
     &:active { transform: translateY(0) !important; }
 
-    .p-button-icon { font-size: 12px !important; }
+    .p-button-icon { font-size: 16px !important; }
   }
 }
 

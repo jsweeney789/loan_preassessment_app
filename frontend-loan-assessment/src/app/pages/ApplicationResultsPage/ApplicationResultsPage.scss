@@ -128,7 +128,7 @@
 
 .header-eyebrow {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -146,7 +146,7 @@
 }
 
 .header-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
@@ -170,7 +170,7 @@
 }
 
 .section-title {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   text-align: center;
@@ -197,10 +197,10 @@
 }
 
 .result-body {
-  font-size: 14px;
+  font-size: 20px;
   color: var(--text-secondary);
   line-height: 1.6;
-  max-width: 560px;
+  max-width: 1120px;
   margin: 0;
 }
 
@@ -223,7 +223,7 @@
   border: 1.5px solid var(--input-border);
 
   .shap-feature {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--text-secondary);
@@ -344,7 +344,7 @@
   background: transparent !important;
   border: 1.5px solid #2e4878 !important;
   color: #94aac8 !important;
-  font-size: 13px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   letter-spacing: 0.04em !important;
   padding: 10px 22px !important;
