@@ -32,15 +32,7 @@ async def authCallback(request: Request, response: Response, db: Session = Depen
     then log in or create the user and return a JWT.
     """
 
-    print("\n===== OAUTH CALLBACK DEBUG =====")
-    print("HEADERS COOKIE:", request.headers.get("cookie"))
-    print("SESSION BEFORE:", dict(request.session))
-    print("QUERY PARAMS:", dict(request.query_params))
-    print("CLIENT HOST:", request.client.host)
-    print("URL:", str(request.url))
-    print("================================\n")
 
-    
     google_token = await oauth.google.authorize_access_token(request)
     google_user = google_token.get("userinfo")
 
