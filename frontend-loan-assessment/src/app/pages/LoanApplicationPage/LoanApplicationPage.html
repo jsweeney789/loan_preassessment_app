@@ -29,7 +29,8 @@
       </div>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div class="form-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
     <!-- Section: Personal Information -->
     <div class="form-section">
@@ -40,64 +41,70 @@
 
       <div class="field-grid">
 
-        <!-- Age -->
-        <div class="field-block">
-          <label class="field-label" for="age">Age <span class="required">*</span></label>
-          <p-inputNumber
-            inputId="age"
-            formControlName="age"
-            [min]="1"
-            [max]="120"
-            [showButtons]="false"
-            placeholder="Your age"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('age') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('age')">Please enter a valid age.</small>
-        </div>
-
-        <!-- Sex -->
-        <div class="field-block">
-          <label class="field-label" for="sex">Gender <span class="required">*</span></label>
-          <p-select
-            inputId="sex"
-            formControlName="sex"
-            [options]="sexOptions"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select gender"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('sex') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('sex')">Please select a gender.</small>
-        </div>
-
-        <!-- Employment -->
+        <!-- Age and Gender (Full Width) -->
         <div class="field-block field-block--full">
-          <label class="field-label" for="job">Employment Status <span class="required">*</span></label>
-          <p-select
-            inputId="job"
-            formControlName="job"
-            [options]="employmentOptions"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select employment status"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('job') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('job')">Please select your employment status.</small>
+          <div class="field-grid field-grid--nested">
+            <div class="field-block">
+              <label class="field-label" for="age">Age <span class="required">*</span></label>
+              <p-inputNumber
+                inputId="age"
+                formControlName="age"
+                [min]="1"
+                [max]="120"
+                [showButtons]="false"
+                placeholder="Your age"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('age') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('age')">Please enter a valid age.</small>
+            </div>
+            
+            <div class="field-block">
+              <label class="field-label" for="sex">Gender <span class="required">*</span></label>
+              <p-select
+                inputId="sex"
+                formControlName="sex"
+                [options]="sexOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select gender"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('sex') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('sex')">Please select a gender.</small>
+            </div>
+          </div>
         </div>
 
-        <!-- Housing -->
+        <!-- Employment and Housing (Side by Side) -->
         <div class="field-block field-block--full">
-          <label class="field-label" for="housing">Housing Situation <span class="required">*</span></label>
-          <p-select
-            inputId="housing"
-            formControlName="housing"
-            [options]="housingOptions"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select housing type"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('housing') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('housing')">Please select your housing situation.</small>
+          <div class="field-grid field-grid--nested">
+            <div class="field-block">
+              <label class="field-label" for="job">Employment Status <span class="required">*</span></label>
+              <p-select
+                inputId="job"
+                formControlName="job"
+                [options]="employmentOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select employment status"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('job') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('job')">Please select your employment status.</small>
+            </div>
+            
+            <div class="field-block">
+              <label class="field-label" for="housing">Housing Situation <span class="required">*</span></label>
+              <p-select
+                inputId="housing"
+                formControlName="housing"
+                [options]="housingOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select housing type"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('housing') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('housing')">Please select your housing situation.</small>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -158,35 +165,38 @@
 
       <div class="field-grid">
 
-        <!-- Credit Amount -->
-        <div class="field-block">
-          <label class="field-label" for="creditAmount">Loan Amount <span class="required">*</span></label>
-          <p-inputNumber
-            inputId="creditAmount"
-            formControlName="creditAmount"
-            mode="currency"
-            currency="USD"
-            locale="en-US"
-            [min]="1"
-            placeholder="$0"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('creditAmount') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('creditAmount')">Please enter a valid loan amount.</small>
-        </div>
-
-        <!-- Duration -->
-        <div class="field-block">
-          <label class="field-label" for="duration">Duration (months) <span class="required">*</span></label>
-          <p-inputNumber
-            inputId="duration"
-            formControlName="duration"
-            [min]="1"
-            [max]="360"
-            placeholder="e.g. 24"
-            suffix=" months"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('duration') }"
-          />
-          <small class="field-error" *ngIf="isInvalid('duration')">Please enter a valid duration.</small>
+        <!-- Loan Amount and Duration (Full Width) -->
+        <div class="field-block field-block--full">
+          <div class="field-grid field-grid--nested">
+            <div class="field-block">
+              <label class="field-label" for="creditAmount">Loan Amount <span class="required">*</span></label>
+              <p-inputNumber
+                inputId="creditAmount"
+                formControlName="creditAmount"
+                mode="currency"
+                currency="USD"
+                locale="en-US"
+                [min]="1"
+                placeholder="$0"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('creditAmount') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('creditAmount')">Please enter a valid loan amount.</small>
+            </div>
+            
+            <div class="field-block">
+              <label class="field-label" for="duration">Duration (months) <span class="required">*</span></label>
+              <p-inputNumber
+                inputId="duration"
+                formControlName="duration"
+                [min]="1"
+                [max]="360"
+                placeholder="e.g. 24"
+                suffix=" months"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('duration') }"
+              />
+              <small class="field-error" *ngIf="isInvalid('duration')">Please enter a valid duration.</small>
+            </div>
+          </div>
         </div>
 
         <!-- Purpose -->

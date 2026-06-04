@@ -49,7 +49,7 @@
   font-family: var(--font-body);
   background: var(--navy-900);
   min-height: 100vh;
-  max-width: 760px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 0 60px;
   color: var(--text-primary);
@@ -91,7 +91,7 @@
 // ─── Header ───────────────────────────────────────────────────────────────────
 .form-header {
   position: relative;
-  padding: 52px 48px 40px;
+  padding: 40px 64px 32px;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
 
@@ -128,7 +128,7 @@
 
 .header-eyebrow {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -138,15 +138,15 @@
 
 .header-title {
   font-family: var(--font-display);
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 600;
   color: var(--text-primary);
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   line-height: 1.1;
 }
 
 .header-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
@@ -154,7 +154,7 @@
 
 // ─── Body ───────────────────────────────────────────────────────────────────
 .result-section {
-  padding: 36px 48px 24px;
+  padding: 28px 64px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,11 +166,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   text-align: center;
@@ -178,10 +178,10 @@
 
 .score-label {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
   color: var(--theme-color);
-  margin: 0 0 24px;
+  margin: 0 0 20px;
 }
 
 .score-summary {
@@ -197,10 +197,10 @@
 }
 
 .result-body {
-  font-size: 15px;
+  font-size: 20px;
   color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 560px;
+  line-height: 1.6;
+  max-width: 1120px;
   margin: 0;
 }
 
@@ -223,7 +223,7 @@
   border: 1.5px solid var(--input-border);
 
   .shap-feature {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--text-secondary);
@@ -251,12 +251,12 @@
   display: flex;
   gap: 20px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .advice-panel {
   flex: 1;
-  padding: 16px;
+  padding: 12px;
   border-radius: var(--radius);
   background: var(--input-bg);
   border: 1.5px solid var(--input-border);
@@ -267,6 +267,7 @@
   h3 {
     color: rgba(76, 201, 100, 1);
     margin-top: 0;
+    font-size: 19.5px;
   }
 }
 
@@ -275,6 +276,7 @@
   h3 {
     color: var(--error);
     margin-top: 0;
+    font-size: 19.5px;
   }
 }
 
@@ -285,14 +287,15 @@
   h3 {
     color: rgba(76, 150, 201, 1);
     margin-top: 0;
+    font-size: 19.5px;
   }
 }
 
 .advice-item {
   display: flex;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
@@ -317,9 +320,16 @@
 }
 
 .advice-text {
-  font-size: 14px;
+  font-size: 17.5px;
   color: var(--text-primary);
   line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .result-section {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -337,7 +347,7 @@
   background: transparent !important;
   border: 1.5px solid #2e4878 !important;
   color: #94aac8 !important;
-  font-size: 13px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   letter-spacing: 0.04em !important;
   padding: 10px 22px !important;
@@ -355,9 +365,9 @@
 .form-actions {
   display: flex;
   justify-content: center;
-  padding: 32px 48px 0;
+  padding: 28px 64px 0;
   border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 
@@ -388,4 +398,14 @@
 
 :host ::ng-deep .p-accordionpanel:not(.p-accordionpanel-active) .p-accordioncontent {
   display: none !important;
+}
+
+.decision-display {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--theme-color);
+  margin: 12px 0 0;
+  line-height: 1.2;
+  text-align: center;
 }

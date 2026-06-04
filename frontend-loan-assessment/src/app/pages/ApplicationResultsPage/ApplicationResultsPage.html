@@ -12,8 +12,8 @@
       <div class="header-accent"></div>
       <div class="header-content">
         <span class="header-eyebrow">Loan Assessment Portal</span>
-        <h1 class="header-title">Congratulations!</h1>
-        <p class="header-subtitle">Your application has been assessed. Here's what we found.</p>
+        <h1 class="header-title">We have processed your application.</h1>
+        <p class="header-subtitle"> Here's what we found.</p>
       </div>
     </div>
 
@@ -30,12 +30,10 @@
     <!-- Decision -->
     <div class="result-section">
       <div class="section-label">
-        <span class="section-title">Prediction</span>
+        <!-- <span class="section-title">Prediction</span> -->
       </div>
-      <p class="result-body">
-        Based on your profile, we predict a decision of
-        <span class="highlight">{{ result.decision }}</span>.
-      </p>
+      <p class="result-body">Based on your profile, we predict a decision of</p>
+      <p class="decision-display">{{ result.decision }}</p>
     </div>
 
     <div class="section-divider"></div>
