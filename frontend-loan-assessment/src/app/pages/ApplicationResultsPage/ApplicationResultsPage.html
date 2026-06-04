@@ -1,7 +1,10 @@
 
 
 <div class="page-wrapper">
-  <app-history-drawer />
+  @if (authService.isAuthenticated()) {
+    <app-history-drawer />
+  }
+  
   @if (result) {
 
     <!-- Header -->

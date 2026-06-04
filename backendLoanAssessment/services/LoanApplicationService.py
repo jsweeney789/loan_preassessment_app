@@ -12,10 +12,10 @@ class LoanApplicationService:
         self.db = db
 
     def processApplication(self, application: LoanApplication, user: User) -> ApplicationResult:
-        print("At start of processApplication in service")
         # Save the human readable LoanApplication to our db
-        dbApplication = self.saveLoanAppToDB(application, user)
-        print("Saved loan to db")
+        if user is not None:
+            dbApplication = self.saveLoanAppToDB(application, user)
+        
         # the general purpose of this service is to process each LoanApplication from our frontend into something the ML can predict on
         print(application)
         # age can be untouched
@@ -77,7 +77,8 @@ class LoanApplicationService:
         print(result)
 
         # Save the result to our db as well
-        self.saveAppResultsToDB(result, dbApplication.id)
+        if user is not None:
+            self.saveAppResultsToDB(result, dbApplication.id)
 
         return result
     
@@ -100,6 +101,7 @@ class LoanApplicationService:
             self.db.query(LoanApplicationModel)
             .filter(LoanApplicationModel.user_id == user.id)
             .options(joinedload(LoanApplicationModel.result))
+            .order_by(LoanApplicationModel.created_at.desc())
             .all()
         )
     

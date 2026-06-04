@@ -2,9 +2,10 @@ from fastapi import APIRouter, Depends
 from backendLoanAssessment.schemas.LoanApplicationSchema import LoanApplication, LoanApplicationHistory
 from backendLoanAssessment.services.LoanApplicationService import LoanApplicationService
 from backendLoanAssessment.services import SageMakerService
-from backendLoanAssessment.security.dependencies import getCurrentUser
+from backendLoanAssessment.security.dependencies import getCurrentUser, getOptionalUser
 from sqlalchemy.orm import Session
 from backendLoanAssessment.database import get_db
+
 
 router = APIRouter(tags=["loans"])
 
@@ -19,7 +20,7 @@ def getLoanService(sagemaker_service: SageMakerService = Depends(getSageMakerSer
 def submitApplication(
     application: LoanApplication,
     service: LoanApplicationService = Depends(getLoanService),
-    user = Depends(getCurrentUser)
+    user = Depends(getOptionalUser)
 ):
     result = service.processApplication(application, user)
     return result

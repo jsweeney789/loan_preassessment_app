@@ -10,6 +10,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { CommonModule } from '@angular/common'
 import { ApplicationHistoryDrawer } from '../../components/ApplicationHistoryDrawer/ApplicationHistoryDrawer';
 import { effect } from '@angular/core';
+import { AuthService } from '../../services/AuthService';
 
 @Component({
   selector: 'application-results-page',
@@ -28,7 +29,8 @@ export class ApplicationResultsPage implements OnInit {
       private resultService: ApplicationResultService,
       private loanService: LoanApplicationService,
       private el: ElementRef,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      public authService: AuthService
   ) {
       effect(() => {
           this.result = this.resultService.applicationResult();
@@ -43,6 +45,7 @@ export class ApplicationResultsPage implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0); // Scroll to the top when the component is initialized
+    this.authService.checkAuth().subscribe();
   }
 
   updateThemeBasedOnDecision(): void {

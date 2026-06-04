@@ -24,3 +24,4 @@ def loginOrCreateUser(db: Session, google_user: dict):
     )
 
     return token, user
+

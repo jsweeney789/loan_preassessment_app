@@ -5,6 +5,9 @@ from backendLoanAssessment.database import get_db
 from backendLoanAssessment.services.AuthService import loginOrCreateUser
 from backendLoanAssessment.services.GoogleOauthService import oauth
 from fastapi.responses import RedirectResponse
+from typing import Optional
+from backendLoanAssessment.models.UserModel import UserModel as User
+from backendLoanAssessment.security.dependencies import getOptionalUser
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -59,4 +62,21 @@ def is_safe_redirect(url: str) -> bool:
         return parsed.hostname in ALLOWED_HOSTS
     except Exception:
         return False
+    
+@router.get("/status")
+async def authStatus(user: Optional[User] = Depends(getOptionalUser)):
 
+    if not user:
+        return {"authenticated": False}
+    return {"authenticated": True, "email": user.email}
+
+@router.get("/logout")
+async def logout():
+    response = Response(status_code=200)
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=os.getenv("ENVIRONMENT") != "development",
+        samesite="lax"
+    )
+    return response

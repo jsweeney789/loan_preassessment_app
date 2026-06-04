@@ -3,7 +3,7 @@ import { LoanApplicationPage } from './pages/LoanApplicationPage/LoanApplication
 import { ApplicationResultsPage } from './pages/ApplicationResultsPage/ApplicationResultsPage'
 import { WelcomePage } from './pages/WelcomePage/WelcomePage';
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full'},
+    { path: '', redirectTo: 'loanapplication', pathMatch: 'full'},
     { path: 'loanapplication', component: LoanApplicationPage},
     { path: 'results', component: ApplicationResultsPage, runGuardsAndResolvers: 'always' },
     { path: 'login', component: WelcomePage}

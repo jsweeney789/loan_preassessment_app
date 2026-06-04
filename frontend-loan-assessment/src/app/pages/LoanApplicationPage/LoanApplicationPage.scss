@@ -377,3 +377,56 @@
     }
   }
 }
+
+
+.google-signin-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.google-signin-img {
+  height: 36px;
+  width: auto;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.google-signin-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.signed-in-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--green-400);
+
+  i {
+    font-size: 14px;
+  }
+}
+
+.signout-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}

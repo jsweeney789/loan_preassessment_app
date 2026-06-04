@@ -40,11 +40,11 @@ export class ApplicationHistoryDrawer implements OnInit {
       next: (data) => {
         this.history = data;
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }

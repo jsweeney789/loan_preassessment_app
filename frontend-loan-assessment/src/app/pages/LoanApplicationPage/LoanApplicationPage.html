@@ -1,14 +1,32 @@
 <div class="page-wrapper">
-  <app-history-drawer />
+  @if (authService.isAuthenticated()) {
+    <app-history-drawer />
+  }
 
   <!-- Header -->
   <div class="form-header">
-    <div class="header-accent"></div>
-    <div class="header-content">
-      <span class="header-eyebrow">Loan Assessment Portal</span>
-      <h1 class="header-title">Loan Application</h1>
-      <p class="header-subtitle">Complete all fields to receive your preliminary assessment.</p>
-    </div>
+      <div class="header-accent"></div>
+      <div class="header-content">
+        <span class="header-eyebrow">Loan Assessment Portal</span>
+        <h1 class="header-title">Loan Application</h1>
+        <p class="header-subtitle">Complete all fields to receive your preliminary assessment.</p>
+        @if (!authService.isAuthenticated()) {
+          <div class="google-signin-row">
+            <img 
+              src="assets/neutral-google-signin.svg" 
+              alt="Sign in with Google" 
+              class="google-signin-img"
+              (click)="loginWithGoogle()"
+            />
+            <span class="google-signin-label">Sign in to save your application history</span>
+          </div>
+        } @else {
+          <span class="signed-in-badge">
+            <i class="pi pi-check-circle"></i> Signed in — your results will be saved
+            <button class="signout-btn" (click)="authService.logout()">Sign out</button>
+          </span>
+        }
+      </div>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
