@@ -70,6 +70,10 @@ module "app" {
 
   # CORS — allow the CloudFront distribution to call the backend
   cors_origin = module.frontend.cloudfront_domain_name
+
+  # Google OAuth (non-sensitive — values go in tfvars)
+  google_client_id    = var.google_client_id
+  google_redirect_uri = var.google_redirect_uri
 }
 
 

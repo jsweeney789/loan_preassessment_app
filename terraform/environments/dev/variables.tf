@@ -62,6 +62,20 @@ variable "training_data_s3" {
   type        = string
 }
 
+# ── Google OAuth ──────────────────────────────────────────────────────────────
+
+variable "google_client_id" {
+  description = "Google OAuth client ID"
+  type        = string
+  default     = ""
+}
+
+variable "google_redirect_uri" {
+  description = "Google OAuth redirect URI"
+  type        = string
+  default     = "https://d1u5g6nu2nj7p1.cloudfront.net/auth/google/callback"
+}
+
 # ── CI/CD ─────────────────────────────────────────────────────────────────────
 
 variable "codecommit_repo_name" {

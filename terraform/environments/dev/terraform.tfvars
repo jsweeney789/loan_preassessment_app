@@ -8,4 +8,5 @@ model_artifact_s3_uri = "s3://minh-loan-preassessment/output/loan-xgboost-job-00
 codecommit_repo_name  = "loan-preassessment"
 notification_email     = "asanroman@skillstorm.com"
 cluster_admin_role_arn = "arn:aws:iam::397345411365:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_Java-Full-Stack_e0f866b1d7c0e5cc"
+google_client_id       = "760954712766-8pgptgvvris8t7us9fg2p9u2f2n2b6us.apps.googleusercontent.com"
 
