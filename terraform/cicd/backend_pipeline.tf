@@ -44,7 +44,7 @@ resource "aws_codebuild_project" "backend" {
           commands:
             - docker push $ECR_REPO_URL:$CODEBUILD_RESOLVED_SOURCE_VERSION
             - docker push $ECR_REPO_URL:latest
-            - aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --task-definition $ECS_SERVICE --force-new-deployment --region $AWS_DEFAULT_REGION
+            - aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --region $AWS_DEFAULT_REGION
     YAML
   }
 
